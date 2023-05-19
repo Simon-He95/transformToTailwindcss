@@ -9,11 +9,11 @@ import {
   isEmptyStyle,
   isNot,
   joinWithUnderLine,
-  transformUnocssBack,
+  // transformUnocssBack,
   trim,
 } from './utils'
 import { tail } from './tail'
-import { transformStyleToUnocss } from './transformStyleToUnocss'
+import { transformStyleToTailwindcss } from './transformStyleToTailwindcss'
 import { transformVue } from './transformVue'
 import { wrapperVueTemplate } from './wrapperVueTemplate'
 import { compilerCss } from './compilerCss'
@@ -59,7 +59,7 @@ export async function transformCss(
 
       const originClassName = name
       const before = trim(value.replace(/\n\s*/g, ''))
-      const transfer = transformStyleToUnocss(before)[0]
+      const transfer = transformStyleToTailwindcss(before)[0]
       const tailMatcher = name.match(tailReg)
 
       const prefix = tailMatcher
@@ -559,15 +559,16 @@ async function getConflictClass(
 
     // map如果已存在内联转换的unocss且为相同属性的判断是否需要删除
     if (attr) {
-      const res = (await transformUnocssBack(
-        attr.map((i) => {
-          if (prefix)
-            return `${prefix}="${i}"`
-          if (media)
-            return `${media}:${i}`
-          return i
-        }),
-      )) as any[]
+      // const res = (await transformUnocssBack(
+      //   attr.map((i) => {
+      //     if (prefix)
+      //       return `${prefix}="${i}"`
+      //     if (media)
+      //       return `${media}:${i}`
+      //     return i
+      //   }),
+      // )) as any[]
+      const res: any[] = []
       Object.keys(map).forEach((i) => {
         const index = res.findIndex(r => r === i)
         if (index !== -1) {
@@ -592,7 +593,7 @@ async function getConflictClass(
       .reduce((result, key) => {
         const keys = key.split('|')
         const prefix = keys.length > 1 ? keys[0] : ''
-        let transferCss = transformStyleToUnocss(`${key}:${map[key][1]}`)[0]
+        let transferCss = transformStyleToTailwindcss(`${key}:${map[key][1]}`)[0]
         const match = transferCss.match(/(.*)="\[(.*)\]"/)
         if (match)
           transferCss = `${match[1]}-${joinWithUnderLine(match[2])}`

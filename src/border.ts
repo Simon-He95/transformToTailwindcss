@@ -17,14 +17,14 @@ export function border(key: string, val: string) {
   let [value, important] = transformImportant(val)
 
   if (key === 'border-spacing')
-    return `${key}="[${joinWithUnderLine(value)}]${important}"`
+    return `${important}${key}-[${joinWithUnderLine(value)}]`
   if (key === 'border-color')
-    return `border${getVal(value)}${important}`
+    return `${important}border${getVal(value)}`
 
   if (key === 'border-radius') {
     return isCalc(value)
       ? `border-rd${getVal(value)}${important}`
-      : `border-rd="[${joinWithUnderLine(value)}]${important}"`
+      : `${important}border-rd-[${joinWithUnderLine(value)}]`
   }
 
   if (borderSize.some(b => key.startsWith(b)))
@@ -37,5 +37,5 @@ export function border(key: string, val: string) {
     )
   }
 
-  return `border="[${joinWithUnderLine(value)}]${important}"`
+  return `${important}border-[${joinWithUnderLine(value)}]`
 }

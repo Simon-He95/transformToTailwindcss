@@ -1,16 +1,16 @@
 import { transfromCode } from './transformCode'
 import {
-  esbuildTransformToUnocss,
-  rollupTransformToUnocss,
-  viteTransformToUnocss,
-  webpackTransformToUnocss,
+  esbuildTransformToTailwindcss,
+  rollupTransformToTailwindcss,
+  viteTransformToTailwindcss,
+  webpackTransformToTailwindcss,
 } from './unplugin'
 import { transformVue } from './transformVue'
 import { transformSvelte } from './transformSvelte'
 import { transformHtml } from './transformHtml'
 import { transformAstro } from './transformAstro'
 import { transformJsx } from './transformJsx'
-import { toUnocss } from './toUnocss'
+import { toTailwindcss } from './toTailwindcss'
 
 export {
   transfromCode,
@@ -19,9 +19,9 @@ export {
   transformHtml,
   transformAstro,
   transformSvelte,
-  viteTransformToUnocss,
-  rollupTransformToUnocss,
-  webpackTransformToUnocss,
-  esbuildTransformToUnocss,
-  toUnocss,
+  viteTransformToTailwindcss,
+  rollupTransformToTailwindcss,
+  webpackTransformToTailwindcss,
+  esbuildTransformToTailwindcss,
+  toTailwindcss,
 }

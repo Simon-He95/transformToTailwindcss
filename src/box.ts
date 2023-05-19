@@ -11,8 +11,8 @@ export function box(key: string, val: string) {
   value = value
     .replace(rgb, (r, v) => r.replace(v, trim(v, 'all')))
     .replace(/\s*,\s*/g, ',')
-  return `shadow="[${value
+  return `${important}shadow-[${value
     .replace(/\s+/, ' ')
     .split(' ')
-    .join('_')}]${important}"`
+    .join('_')}]`
 }

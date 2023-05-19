@@ -9,13 +9,13 @@ const messages = {
     issue: `<h2>The current value is wrong, or the matching error</h2>
     If you enter a legal value, you can add your example here.
     <a
-          href="https://github.com/Simon-He95/transformToUnocss/issues"
+          href="https://github.com/Simon-He95/transformToTailwindcss/issues"
           target="_blank"
         >issues</a>`,
     find: `You can view the currently supported properties in <a
-      href="https://github.com/Simon-He95/transformToUnocss"
+      href="https://github.com/Simon-He95/transformToTailwindcss"
       target="_blank"
-    ><b>transform-to-unocss</b></a> and experience it.
+    ><b>transform-to-tailwindcss</b></a> and experience it.
 <div>Already have vite plugin and cli version~</div>`,
     inputs: 'inputs:',
     outputs: 'outputs:',
@@ -27,13 +27,13 @@ const messages = {
     issue: `<h2>当前值不对，或匹配错误！</h2>
     如果你输入的是一个合法的值，你可以再这里添加你的例子。
     <a
-          href="https://github.com/Simon-He95/transformToUnocss/issues"
+          href="https://github.com/Simon-He95/transformToTailwindcss/issues"
           target="_blank"
         >issues</a>`,
     find: ` 你可以在<a
-      href="https://github.com/Simon-He95/transformToUnocss"
+      href="https://github.com/Simon-He95/transformToTailwindcss"
       target="_blank"
-    ><b>transform-to-unocss</b></a>查看现在支持的属性，进行体验。
+    ><b>transform-to-tailwindcss</b></a>查看现在支持的属性，进行体验。
     <div>已有vite插件和cli版本~</div>`,
     inputs: '输入:',
     outputs: '输出:',

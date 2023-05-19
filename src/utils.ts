@@ -1,6 +1,6 @@
-import { createGenerator } from '@unocss/core'
+// import { createGenerator } from '@unocss/core'
 import type { FilterPattern } from '@rollup/pluginutils'
-import presetUno from '@unocss/preset-uno'
+// import presetUno from '@unocss/preset-uno'
 
 export type CssType = 'less' | 'scss' | 'css' | 'stylus'
 export const flag = '.__unocss_transfer__'
@@ -39,7 +39,7 @@ export function isRgb(s: string) {
 
 export function getVal(val: string, transform?: Function) {
   if (isCalc(val) || isUrl(val) || isHex(val) || isRgb(val) || isPercent(val))
-    return `="[${trim(val, 'all').replace(/['"]/g, '')}]"`
+    return `-[${trim(val, 'all').replace(/['"]/g, '')}]`
   return `-${transform ? transform(val) : val}`
 }
 
@@ -81,37 +81,37 @@ export function transformImportant(v: string) {
   return [v.trim(), '']
 }
 
-export function transformUnocssBack(code: string[]) {
-  const result: string[] = []
-  return new Promise((resolve) => {
-    createGenerator(
-      {},
-      {
-        presets: [presetUno()],
-      },
-    )
-      .generate(code || '')
-      .then((res: any) => {
-        const css = res.getLayers()
-        code.forEach((item) => {
-          const reg = new RegExp(`${item.replace(/!/g, '\\\\!')}{(.*)}`)
-          const match = css.match(reg)
-          if (!match)
-            return
-          const matcher = match[1]
+// export function transformUnocssBack(code: string[]) {
+//   const result: string[] = []
+//   return new Promise((resolve) => {
+//     createGenerator(
+//       {},
+//       {
+//         presets: [presetUno()],
+//       },
+//     )
+//       .generate(code || '')
+//       .then((res: any) => {
+//         const css = res.getLayers()
+//         code.forEach((item) => {
+//           const reg = new RegExp(`${item.replace(/!/g, '\\\\!')}{(.*)}`)
+//           const match = css.match(reg)
+//           if (!match)
+//             return
+//           const matcher = match[1]
 
-          result.push(
-            matcher
-              .split(';')
-              .filter((i: any) => /^\w+[\w\-]*:/.test(i))[0]
-              .split(':')[0],
-          )
-        })
+//           result.push(
+//             matcher
+//               .split(';')
+//               .filter((i: any) => /^\w+[\w\-]*:/.test(i))[0]
+//               .split(':')[0],
+//           )
+//         })
 
-        resolve(result)
-      })
-  })
-}
+//         resolve(result)
+//       })
+//   })
+// }
 
 export function diffTemplateStyle(before: string, after: string) {
   const s1 = before.match(/<style scoped>.*<\/style>/s)!

@@ -5,5 +5,5 @@ export function aspect(key: string, val: string) {
 
   if (value === 'auto')
     return `${getFirstName(key)}-${value}`
-  return `${getFirstName(key)}="[${trim(value, 'all')}]${important}"`
+  return `${important}${getFirstName(key)}-[${trim(value, 'all')}"`
 }

@@ -1,4 +1,4 @@
-import { transformStyleToUnocss } from './transformStyleToUnocss'
+import { transformStyleToTailwindcss } from './transformStyleToTailwindcss'
 
 const styleReg = /<([\w\-_]+)[^>]*[^:]style="([^"]+)"[^>]*>/g
 
@@ -21,7 +21,7 @@ export function transformInlineStyle(code: string, isJsx?: boolean): string {
   })
 
   templateMatch.replace(styleReg, (target, tag, inlineStyle) => {
-    const [after, noMap] = transformStyleToUnocss(inlineStyle)
+    const [after, noMap] = transformStyleToTailwindcss(inlineStyle)
 
     // transform inline-style
 

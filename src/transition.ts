@@ -7,7 +7,7 @@ export function transition(key: string, val: string) {
   if (key === 'transition-timing-function') {
     if (value === 'linear')
       return `ease-${value}${important}`
-    return `ease="[${trim(value, 'all')}]${important}"`
+    return `${important}ease-[${trim(value, 'all')}]`
   }
   if (key === 'transition')
     return `transition="${transformTransition(value)}"`

@@ -120,7 +120,7 @@ const typeMap: any = {
 }
 const splitReg = /([\w-]+)\s*:\s*([.\w\(\)-\s%+'",#\/!]+)/
 
-export function toUnocss(css: String) {
+export function toTailwindcss(css: String) {
   const match = css.match(splitReg)
   if (!match)
     return

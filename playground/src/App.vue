@@ -7,7 +7,7 @@ import { copy, useAnimationFrame, useFocus } from 'lazy-js-utils'
 import gitForkVue from '@simon_he/git-fork-vue'
 import { useI18n } from 'vue-i18n'
 import { transformVue } from '../../src/transformVue'
-import { toUnocss } from '../../src/toUnocss'
+import { toTailwindcss } from '../../src/toTailwindcss'
 import { isDark, toggleDark } from '~/composables'
 
 const { t, locale } = useI18n()
@@ -16,7 +16,7 @@ const input = ref('')
 let pre: any
   = '<template>\n  <button>button</button>\n</template>\n\n<style scoped>\n  button {\n    height: 32px;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    font-size: 14px;\n    cursor: pointer;\n    user-select: none;\n    padding: 8px 15px;\n    border-radius: 4px;\n    border: none;\n    box-sizing: border-box;\n    color: #fff;\n    background-color: #409eff;\n    margin: auto;\n  }\n  button:hover{\n    background-color: #67c23a ;\n  }\n</style>\n'
 
-const transform = computed(() => toUnocss(input.value))
+const transform = computed(() => toTailwindcss(input.value))
 let editorComponent: any = null
 const editor = ref(null)
 const editorResult = ref<HTMLElement>()

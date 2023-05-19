@@ -14,7 +14,7 @@ export function flex(key: string, val: string) {
     return `${getLastName(key)}-${value}${important}`
   const firstVal = trim(value)[0]
   if (key === 'flex' && (firstVal === '0' || firstVal === '1'))
-    return `flex="[${joinWithUnderLine(value)}]${important}"`
+    return `${important}flex-[${joinWithUnderLine(value)}]`
 
-  return `${getFirstName(key)}-${value.replace('column', 'col')}${important}`
+  return `${important}${getFirstName(key)}-${value.replace('column', 'col')}`
 }
