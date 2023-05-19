@@ -1,0 +1,6 @@
+[build.environment]
+  NODE_VERSION = "16"
+[build]
+  publish = "./playground/dist"
+  command = "npm run play:build"
+ functions="./playground/functions/server.zip"
