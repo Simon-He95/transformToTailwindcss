@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest'
-import { transformStyleToUnocss } from '../src/transformStyleToUnocss'
+import { transformStyleToTailwindcss } from '../src/transformStyleToTailwindcss'
 
-describe.skip('transformStyleToUnocss', () => {
-  it('transformStyleToUnocss', () => {
+describe.skip('transformStyleToTailwindcss', () => {
+  it('transformStyleToTailwindcss', () => {
     expect(
-      transformStyleToUnocss(
+      transformStyleToTailwindcss(
         'transform-origin: center;background:red;width:100%;height:30px',
       )[0],
-    ).toBe('origin-center bg="red" w="[100%]" h-30px')
+    ).toBe('origin-center bg-red w-[100%] h-30px')
   })
 })

@@ -537,7 +537,7 @@ async function getConflictClass(
   const map: Record<string, Array<number | string>> = {}
   let transform = (code: string) => code
   for await (const item of allChange) {
-    const { before, name, source, attr, after, prefix, media } = item
+    const { before, name, source, attr, after, prefix } = item
     const pre = prefix ? `${prefix}|` : ''
     const beforeArr = before.split(';').filter(Boolean)
     const data = beforeArr.map((item) => {
@@ -593,7 +593,9 @@ async function getConflictClass(
       .reduce((result, key) => {
         const keys = key.split('|')
         const prefix = keys.length > 1 ? keys[0] : ''
-        let transferCss = transformStyleToTailwindcss(`${key}:${map[key][1]}`)[0]
+        let transferCss = transformStyleToTailwindcss(
+          `${key}:${map[key][1]}`,
+        )[0]
         const match = transferCss.match(/(.*)="\[(.*)\]"/)
         if (match)
           transferCss = `${match[1]}-${joinWithUnderLine(match[2])}`

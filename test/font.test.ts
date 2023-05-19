@@ -14,7 +14,9 @@ describe('font-size', () => {
 
 describe('font', () => {
   it('rem', () => {
-    expect(toTailwindcss('font: bold 16px/20px;')).toBe('font="bold text-16px/20px"')
+    expect(toTailwindcss('font: bold 16px/20px;')).toBe(
+      'font-bold text-[16px/20px]',
+    )
   })
 })
 
@@ -56,9 +58,7 @@ describe('font-family', () => {
 
 describe('font-variant-numeric', () => {
   it('normal', () => {
-    expect(toTailwindcss('font-variant-numeric: normal;')).toBe(
-      'normal-nums',
-    )
+    expect(toTailwindcss('font-variant-numeric: normal;')).toBe('normal-nums')
   })
 
   it('ordinal', () => {
