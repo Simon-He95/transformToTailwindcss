@@ -44,10 +44,10 @@ export function transform(key: string, val: string) {
           return `${namePrefix}-${getHundred(value)}${important}`
         }
 
-        return `${namePrefix}="${transformVal(value).replace(
+        return `${important}${namePrefix}-${transformVal(value).replace(
           /,/g,
           ' ',
-        )}${important}"`
+        )}`
       }
     })
     .filter(Boolean)
