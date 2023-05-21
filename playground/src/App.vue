@@ -112,7 +112,7 @@ useAnimationFrame(async () => {
       }).then(res => res.text())
     }
     catch (error) {
-      code = await transformVue(newInput)
+      code = await transformVue(newInput, true)
     }
 
     editorResult.value!.innerHTML = ''
