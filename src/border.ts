@@ -23,9 +23,11 @@ export function border(key: string, val: string) {
 
   if (key === 'border-radius') {
     return isCalc(value)
-      ? `border-rd${getVal(value)}${important}`
-      : `${important}border-rd-[${joinWithUnderLine(value)}]`
+      ? `rounded${getVal(value)}${important}`
+      : `${important}rounded-[${joinWithUnderLine(value)}]`
   }
+  if (key === 'border-style')
+    return `border-${value}`
 
   if (borderSize.some(b => key.startsWith(b)))
     return `border-${key.split('-')[1][0]}${getVal(value)}`

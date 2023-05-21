@@ -6,13 +6,13 @@ describe('border', () => {
   })
 
   it('border;', () => {
-    expect(toTailwindcss('border: 2px solid rgba(255, 62, 0, 0);')).toBe('border-[2px_solid_rgba(255,62,0,0)]')
+    expect(toTailwindcss('border: 2px solid rgba(255, 62, 0, 0);')).toBe(
+      'border-[2px_solid_rgba(255,62,0,0)]',
+    )
   })
 
   it('radius', () => {
-    expect(toTailwindcss('border-radius: 0.25rem;')).toBe(
-      'rounded-[0.25rem]',
-    )
+    expect(toTailwindcss('border-radius: 0.25rem;')).toBe('rounded-[0.25rem]')
   })
 
   it('border-width', () => {
@@ -32,7 +32,7 @@ describe('border', () => {
   })
 
   it('style', () => {
-    expect(toTailwindcss('border-style: inset;')).toBe('border-inset"')
+    expect(toTailwindcss('border-style: inset;')).toBe('border-inset')
   })
 
   it('collapse', () => {
@@ -48,9 +48,7 @@ describe('border', () => {
   })
 
   it('border-bottom-width: 1px;', () => {
-    expect(toTailwindcss('border-bottom-width: 1px;')).toBe(
-      'border-b-1px',
-    )
+    expect(toTailwindcss('border-bottom-width: 1px;')).toBe('border-b-1px')
   })
 
   it('border-bottom-style: dashed;', () => {
@@ -60,8 +58,6 @@ describe('border', () => {
   })
 
   it('border-left-color: #333;', () => {
-    expect(toTailwindcss('border-left-color: #333;')).toBe(
-      'border-l-[#333]',
-    )
+    expect(toTailwindcss('border-left-color: #333;')).toBe('border-l-[#333]')
   })
 })
