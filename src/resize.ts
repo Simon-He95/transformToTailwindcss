@@ -8,6 +8,6 @@ export function resize(key: string, val: string) {
   const [value, important] = transformImportant(val)
 
   if (value === 'both')
-    return `${key}${important}`
-  return `${key}-${map[value] || value}${important}`
+    return `${important}${key}`
+  return `${important}${key}-${map[value] || value}`
 }
