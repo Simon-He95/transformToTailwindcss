@@ -1,3 +1,7 @@
+import { transformImportant } from './utils'
+
 export function content(key: string, val: string) {
-  return `content-[${val}]`
+  const [value, important] = transformImportant(val)
+
+  return `${important}content-[${value}]`
 }
