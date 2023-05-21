@@ -6,6 +6,6 @@ export function overscroll(key: string, val: string) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [prefix, _, suffix] = key.split('-')
   if (suffix)
-    return `${prefix}-${suffix}-${value}${important}`
-  return `${prefix}-${value}${important}`
+    return `${important}${prefix}-${suffix}-${value}`
+  return `${important}${prefix}-${value}`
 }
