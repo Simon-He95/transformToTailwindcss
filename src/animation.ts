@@ -1,9 +1,11 @@
-import { getVal } from './utils'
+import { getVal, transformImportant } from './utils'
 
 export function animation(key: string, val: string) {
+  const [value, important] = transformImportant(val)
+
   if (key === 'animation-delay')
-    return `animate${getVal(val)}`
+    return `${important}animate${getVal(value)}`
   if (key === 'animation')
-    return `animate-${val.split(' ')[0]}`
-  return `animate-${val}`
+    return `${important}animate-${value.split(' ')[0]}`
+  return `${important}animate-${value}`
 }
