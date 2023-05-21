@@ -35,6 +35,10 @@ function transformTransition(v: string, important = '') {
       }
       if (item.startsWith('background'))
         return `${important}transition-colors`
+      if (item === 'linear')
+        return `${important}ease-linear`
+      if (/^(cubic-bezier)|(ease)/.test(item))
+        return `${important}${item}`
       return `${important}transition-${item}`
     })
     .join(' ')

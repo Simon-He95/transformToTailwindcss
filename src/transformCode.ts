@@ -18,5 +18,5 @@ export async function transfromCode(
   if (type === 'svelte')
     return transformSvelte(code)
 
-  return transformVue(code, false, filepath)
+  return transformVue(code, true, filepath)
 }

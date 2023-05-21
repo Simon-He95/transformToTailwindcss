@@ -68,7 +68,7 @@ export async function transformCss(
 
       const after
         = prefix && transfer
-          ? `${prefix}="${transfer.replace(/="\[(.*)\]"/g, (_, v) => `-${v}`)}"`
+          ? `${prefix}:${transfer.replace(/="\[(.*)\]"/g, (_, v) => `-${v}`)}`
           : transfer ?? before
       // 未被转换跳过
       if (before === after)
@@ -599,17 +599,16 @@ async function getConflictClass(
         const match = transferCss.match(/(.*)="\[(.*)\]"/)
         if (match)
           transferCss = `${match[1]}-${joinWithUnderLine(match[2])}`
-
         const _transferCss = prefix
           ? isNot(prefix)
             ? `class="${prefix}${transferCss.replace(
                 /="\[(.*)\]"/g,
                 (_, v) => `-${v}`,
               )}"`
-            : `${prefix}="${transferCss.replace(
+            : `${prefix}:${transferCss.replace(
                 /="\[(.*)\]"/g,
                 (_, v) => `-${v}`,
-              )}"`
+              )}`
           : transferCss
         // 如果存在相同的prefix, 进行合并
         if (prefix && result.includes(prefix)) {
