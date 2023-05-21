@@ -4,6 +4,6 @@ export function isolation(key: string, val: string) {
   const [value, important] = transformImportant(val)
 
   if (val === 'isolate')
-    return `${value}${important}`
-  return `${key}-${value}${important}`
+    return `${important}${value}`
+  return `${important}${key}-${value}`
 }
