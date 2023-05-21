@@ -22,7 +22,7 @@
     "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
     "@iconify-json/carbon": "^1.1.2",
     "@iconify/json": "^2.2.31",
-    "@simon_he/git-fork-vue": "^0.0.11",
+    "@simon_he/git-fork-vue": "^0.0.12",
     "@types/node": "^18.0.0",
     "@unocss/reset": "^0.47.0",
     "@vitejs/plugin-vue": "^3.2.0",
