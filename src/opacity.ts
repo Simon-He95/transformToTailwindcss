@@ -4,7 +4,7 @@ export function opacity(key: string, val: string) {
   const [value, important] = transformImportant(val)
 
   if (isPercent(val))
-    return `op-${value.replace('%', '')}${important}`
+    return `${important}op-${value.replace('%', '')}`
 
-  return `op-${+value * 100}${important}`
+  return `${important}op-${+value * 100}`
 }
