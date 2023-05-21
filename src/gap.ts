@@ -4,6 +4,6 @@ export function transformGap(key: string, val: string) {
   const [value, important] = transformImportant(val)
 
   if (key.startsWith('column'))
-    return `gap-x-${value}${important}`
-  return `gap-y-${value}${important}`
+    return `${important}gap-x-${value}`
+  return `${important}gap-y-${value}`
 }
