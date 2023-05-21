@@ -6,6 +6,7 @@ import App from './App.vue'
 import './styles/main.css'
 import 'uno.css'
 import i18n from './locales'
+import 'vivid-typing/style.css'
 
 const app = createApp(App)
 const router = createRouter({

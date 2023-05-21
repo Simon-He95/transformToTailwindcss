@@ -84,7 +84,7 @@ onMounted(() => {
   })
   monaco.editor.create(editorResult.value!, {
     value: `<template>
-  <button h-32px flex justify-center items-center text-14px cursor-pointer select-none px-15px py-8px border-rd-4px border-none box-border text-#fff bg-#409eff m-auto hover="bg-#67c23a">button</button>
+  <button class="h-32px flex justify-center items-center text-14px cursor-pointer select-none px-15px py-8px border-rd-4px border-none box-border text-#fff bg-#409eff m-auto hover:bg-#67c23a">button</button>
 </template>
 <style scoped></style>
 `,
@@ -186,7 +186,7 @@ const changelanguage = () => {
     color="pink"
   />
   <VividTyping
-    content="Css To Unocss"
+    content="Css To Tailwindcss"
     animate-bounce-alt
     animate-delay-1500
     animate-count-infinite
@@ -197,7 +197,7 @@ const changelanguage = () => {
     text-center
     spilt-class="textshadow"
     class="typing"
-    data-text="Css To Unocss"
+    data-text="Css To Tailwindcss"
   />
   <div h="100%" flex justify-center items-center flex-col p="y10">
     <input

@@ -1,6 +1,6 @@
 {
   "name": "transform-to-tailwindcss",
-  "version": "0.0.60",
+  "version": "0.0.0",
   "packageManager": "pnpm@8.0.0",
   "description": "",
   "author": "Simon He",
@@ -55,6 +55,7 @@
   },
   "dependencies": {
     "fast-glob": "^3.2.12",
+    "vivid-typing": "^1.1.37",
     "vue": "^3.2.31"
   },
   "devDependencies": {
@@ -88,6 +89,7 @@
     "sass": "^1.59.2",
     "simple-git-hooks": "^2.8.1",
     "stylus": "^0.59.0",
+    "transform-to-tailwindcss": "workspace:^0.0.0",
     "tsup": "^6.5.0",
     "tsx": "^3.12.1",
     "typescript": "^4.7.4",
