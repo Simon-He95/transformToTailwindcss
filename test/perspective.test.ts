@@ -3,9 +3,7 @@ import { toTailwindcss } from '../src/toTailwindcss'
 
 describe('perspective', () => {
   it('px;', () => {
-    expect(toTailwindcss('perspective: 300px')).toBe(
-      'perspective-300px',
-    )
+    expect(toTailwindcss('perspective: 300px')).toBe('perspective-300px')
   })
 
   it('rem', () => {
@@ -13,6 +11,8 @@ describe('perspective', () => {
   })
 
   it('important', () => {
-    expect(toTailwindcss('perspective: 2em !important')).toBe('perspective-2em!')
+    expect(toTailwindcss('perspective: 2em !important')).toBe(
+      '!perspective-2em',
+    )
   })
 })
