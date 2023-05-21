@@ -1,5 +1,6 @@
 import {
   getHundred,
+  getVal,
   joinEmpty,
   joinWithLine,
   transformImportant,
@@ -9,45 +10,44 @@ import {
 export function transform(key: string, val: string) {
   const [v, important] = transformImportant(val)
   if (key === 'transform-origin')
-    return `origin-${joinWithLine(v)}${important}`
+    return `${important}origin-${joinWithLine(v)}`
   if (key === 'transform-style')
-    return `transform-${v}`
+    return `${important}transform-${v}`
 
   return joinEmpty(v)
     .split(' ')
     .map((v) => {
       const matcher = v.match(/([a-z]+)([A-Z])?\((.*)\)/)
-
       if (!matcher)
         return undefined
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const [_, namePrefix, nameSuffix, value] = matcher
+
       if (nameSuffix) {
         if (namePrefix === 'scale') {
           if (value.includes(',')) {
-            return `${namePrefix}-${nameSuffix.toLowerCase()}="${value
+            return `${important}${namePrefix}-[${nameSuffix.toLowerCase()}-${value
               .split(',')
-              .join(' ')}${important}"`
+              .join('_')}]`
           }
-          return `${namePrefix}-${nameSuffix.toLowerCase()}-${getHundred(
-            value,
-          )}${important}`
+          return `${important}${namePrefix}-${nameSuffix.toLowerCase()}${getVal(
+            getHundred(value).toString(),
+          )}`
         }
-        return `${namePrefix}-${nameSuffix.toLowerCase()}="${transformVal(
-          value,
-        )}${important}"`
+        return `${important}${namePrefix}-${nameSuffix.toLowerCase()}${getVal(
+          transformVal(value),
+        )}`
       }
       else {
         if (namePrefix === 'scale') {
           if (value.includes(','))
-            return `${namePrefix}="${value.split(',').join(' ')}${important}"`
-          return `${namePrefix}-${getHundred(value)}${important}`
+            return `${important}${namePrefix}-[${value.split(',').join('_')}]`
+          return `${important}${namePrefix}-${getHundred(value)}`
         }
-
-        return `${important}${namePrefix}-${transformVal(value).replace(
-          /,/g,
-          ' ',
-        )}`
+        const [x, y] = value.split(',')
+        return `${important}${namePrefix}-x${getVal(
+          x,
+        )} ${important}${namePrefix}-y${getVal(y ?? x)}`
       }
     })
     .filter(Boolean)
