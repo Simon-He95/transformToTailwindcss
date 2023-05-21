@@ -25,12 +25,16 @@ export function font(key: string, val: string) {
       return `normal-nums${important}`
     return `${value}${important}`
   }
-  return `font="${transformFont(value)}${important}"`
+  return transformFont(value, important)
 }
 
-function transformFont(v: string) {
+function transformFont(v: string, important: string) {
   return v
     .split(' ')
-    .map(item => (/^[0-9]/.test(item) ? `text-${item}` : item))
+    .map(item =>
+      /^[0-9]/.test(item)
+        ? `${important}text-[${item}]`
+        : `${important}font-${item}`,
+    )
     .join(' ')
 }
