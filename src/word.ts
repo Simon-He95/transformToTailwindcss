@@ -3,8 +3,8 @@ import { getLastName, getVal, transformImportant } from './utils'
 export function word(key: string, val: string) {
   const [value, important] = transformImportant(val)
   if (key.startsWith('word-spacing'))
-    return `word-spacing${getVal(val)}`
+    return `${important}word-spacing${getVal(val)}`
   if (value === 'keep-all')
-    return `break-keep${important}`
-  return `break-${getLastName(value)}${important}`
+    return `${important}break-keep`
+  return `${important}break-${getLastName(value)}`
 }
