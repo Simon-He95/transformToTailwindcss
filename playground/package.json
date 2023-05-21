@@ -11,11 +11,6 @@
     "test": "vitest",
     "serve": "node ./server/index.js"
   },
-  "dependencies": {
-    "@vueuse/core": "^9.0.0",
-    "vue": "^3.2.31",
-    "vue-router": "^4.0.14"
-  },
   "devDependencies": {
     "@antfu/eslint-config": "^0.34.0",
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
@@ -27,6 +22,7 @@
     "@unocss/reset": "^0.47.0",
     "@vitejs/plugin-vue": "^3.2.0",
     "@vue/test-utils": "^2.0.0-rc.18",
+    "@vueuse/core": "^9.0.0",
     "eslint": "^8.11.0",
     "jsdom": "^19.0.0",
     "lazy-js-utils": "^0.0.39",
@@ -39,7 +35,9 @@
     "vite-plugin-pages": "^0.28.0",
     "vitest": "^0.7.0",
     "vivid-typing": "^1.1.37",
+    "vue": "^3.2.31",
     "vue-i18n": "^9.2.2",
+    "vue-router": "^4.0.14",
     "vue-tsc": "^1.0.0"
   }
 }
