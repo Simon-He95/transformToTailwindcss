@@ -13,7 +13,8 @@ const linearGradientReg
 const otherGradientReg
   = /(radial|conic)-gradient\(([\w\(\)#%\s\.]+)?,([\w\(\)#%\s\.]+)?,?([\w#%\s\.]+)?\)$/
 export function background(key: string, val: string) {
-  const [value, important] = transformImportant(val)
+  // eslint-disable-next-line prefer-const
+  let [value, important] = transformImportant(val)
 
   if (backgroundMap.includes(key))
     return `bg${getVal(value, transformSpaceToLine)}${important}`
@@ -49,12 +50,12 @@ export function background(key: string, val: string) {
           )
           .split(' ')
         if (fromPosition) {
-          result += ` from="${
+          result += ` from-${
             isRgb(fromColor) ? `[${fromColor}]` : fromColor
-          } ${fromPosition}"`
+          } from-${fromPosition}`
         }
         else if (fromColor) {
-          result += ` from="${isRgb(fromColor) ? `[${fromColor}]` : fromColor}"`
+          result += ` from-${isRgb(fromColor) ? `[${fromColor}]` : fromColor}`
         }
       }
 
@@ -66,12 +67,12 @@ export function background(key: string, val: string) {
           )
           .split(' ')
         if (viaPosition) {
-          result += ` via="${
+          result += ` via-${
             isRgb(viaColor) ? `[${viaColor}]` : viaColor
-          } ${viaPosition}"`
+          } via-${viaPosition}`
         }
         else if (viaColor) {
-          result += ` via="${isRgb(viaColor) ? `[${viaColor}]` : viaColor}"`
+          result += ` via-${isRgb(viaColor) ? `[${viaColor}]` : viaColor}`
         }
       }
 
@@ -83,12 +84,12 @@ export function background(key: string, val: string) {
           )
           .split(' ')
         if (toPosition) {
-          result += ` to="${
+          result += ` to-${
             isRgb(toColor) ? `[${toColor}]` : toColor
-          } ${toPosition}"`
+          } to-${toPosition}`
         }
         else if (toColor) {
-          result += ` to="${isRgb(toColor) ? `[${toColor}]` : toColor}"`
+          result += ` to-${isRgb(toColor) ? `[${toColor}]` : toColor}`
         }
       }
       if (direction)
@@ -124,12 +125,12 @@ export function background(key: string, val: string) {
           )
           .split(' ')
         if (fromPosition) {
-          result += ` from="${
+          result += ` from-${
             isRgb(fromColor) ? `[${fromColor}]` : fromColor
-          } ${fromPosition}"`
+          } from-${fromPosition}`
         }
         else if (fromColor) {
-          result += ` from="${isRgb(fromColor) ? `[${fromColor}]` : fromColor}"`
+          result += ` from-${isRgb(fromColor) ? `[${fromColor}]` : fromColor}`
         }
       }
 
@@ -141,12 +142,12 @@ export function background(key: string, val: string) {
           )
           .split(' ')
         if (viaPosition) {
-          result += ` via="${
+          result += ` via-${
             isRgb(viaColor) ? `[${viaColor}]` : viaColor
-          } ${viaPosition}"`
+          } via-${viaPosition}`
         }
         else if (viaColor) {
-          result += ` via="${isRgb(viaColor) ? `[${viaColor}]` : viaColor}"`
+          result += ` via-${isRgb(viaColor) ? `[${viaColor}]` : viaColor}`
         }
       }
 
@@ -158,12 +159,12 @@ export function background(key: string, val: string) {
           )
           .split(' ')
         if (toPosition) {
-          result += ` to="${
+          result += ` to-${
             isRgb(toColor) ? `[${toColor}]` : toColor
-          } ${toPosition}"`
+          } to-${toPosition}`
         }
         else if (toColor) {
-          result += ` to="${isRgb(toColor) ? `[${toColor}]` : toColor}"`
+          result += ` to-${isRgb(toColor) ? `[${toColor}]` : toColor}`
         }
       }
       result = `bg-gradient-${name}${result}`
@@ -173,24 +174,27 @@ export function background(key: string, val: string) {
     const match = value.match(/rgba?\([\w,\s]+\)/)
     if (match) {
       const rgb = match[0]
-      return `bg="${value.replace(rgb, `[${trim(rgb, 'all')}]`)}${important}"`
+      value = value.replace(rgb, `[${trim(rgb, 'all')}]`)
     }
     const urlMatch = value.match(/url\(["'\s\.\-_\w\/]*\)/)
 
     if (urlMatch) {
-      return `bg="${value.replace(
+      value = value.replace(
         urlMatch[0],
-        `[${urlMatch[0].replace(/['"]/g, '')}]${important}`,
-      )}"`
+        `[${urlMatch[0].replace(/['"]/g, '')}]`,
+      )
     }
 
-    return `bg="${value}${important}"`
+    return value
+      .split(' ')
+      .map(v => `${important}bg-${v}`)
+      .join(' ')
+  }
+  else if (key === 'background-blend-mode') {
+    return `${important}bg-blend-${value}`
   }
 
-  if (key === 'background-blend-mode')
-    return `bg-blend-${value}${important}`
-
-  return `${replaceBackground(key, value)}-${transformBox(value)}${important}`
+  return `${important}${replaceBackground(key, value)}-${transformBox(value)}`
 }
 
 function replaceBackground(s: string, val: string) {

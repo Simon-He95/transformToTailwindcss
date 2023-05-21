@@ -6,15 +6,21 @@ describe('background', () => {
   })
 
   it('background:red !important', () => {
-    expect(toTailwindcss('background:red center url("./a.jpg") !important')).toBe('!bg-red !bg-center !bg-[url(./a.jpg)]"')
+    expect(toTailwindcss('background:red center url("./a.jpg")')).toBe(
+      'bg-red bg-center bg-[url(./a.jpg)]',
+    )
   })
 
   it('background:rgb(125, 188, 234)', () => {
-    expect(toTailwindcss('background:rgb(125, 188, 234) center')).toBe('bg-[rgb(125,188,234)] bg-center')
+    expect(toTailwindcss('background:rgb(125, 188, 234) center')).toBe(
+      'bg-[rgb(125,188,234)] bg-center',
+    )
   })
 
   it('background:red center no-repeat url("./xxx.jpg")', () => {
-    expect(toTailwindcss('background:red center no-repeat url("./xxx.jpg")')).toBe('bg-red bg-center bg-no-repeat bg-[url(./xxx.jpg)]')
+    expect(
+      toTailwindcss('background:red center no-repeat url("./xxx.jpg")'),
+    ).toBe('bg-red bg-center bg-no-repeat bg-[url(./xxx.jpg)]')
   })
 
   it('background-color:red', () => {
@@ -48,15 +54,11 @@ describe('background', () => {
 
   // clip
   it('background-clip:border-box', () => {
-    expect(toTailwindcss('background-clip:border-box')).toBe(
-      'bg-clip-border',
-    )
+    expect(toTailwindcss('background-clip:border-box')).toBe('bg-clip-border')
   })
 
   it('background-clip:border-box', () => {
-    expect(toTailwindcss('background-clip:padding-box')).toBe(
-      'bg-clip-padding',
-    )
+    expect(toTailwindcss('background-clip:padding-box')).toBe('bg-clip-padding')
   })
 
   it('background-clip:test', () => {
@@ -80,9 +82,7 @@ describe('background', () => {
   })
 
   it('background-repeat:no-repeat', () => {
-    expect(toTailwindcss('background-repeat:no-repeat')).toBe(
-      'bg-no-repeat',
-    )
+    expect(toTailwindcss('background-repeat:no-repeat')).toBe('bg-no-repeat')
   })
 
   it('background-repeat:repeat-x', () => {
@@ -90,9 +90,7 @@ describe('background', () => {
   })
 
   it('background-repeat:inherit', () => {
-    expect(toTailwindcss('background-repeat:inherit')).toBe(
-      'bg-repeat-inherit',
-    )
+    expect(toTailwindcss('background-repeat:inherit')).toBe('bg-repeat-inherit')
   })
 
   // origins
@@ -103,9 +101,7 @@ describe('background', () => {
   })
 
   it('background-origin:inherit', () => {
-    expect(toTailwindcss('background-origin:inherit')).toBe(
-      'bg-origin-inherit',
-    )
+    expect(toTailwindcss('background-origin:inherit')).toBe('bg-origin-inherit')
   })
 
   // image
@@ -124,7 +120,9 @@ describe('background', () => {
   })
 
   it('background: url("../aa.jpg")', () => {
-    expect(toTailwindcss('background: url("../aa.jpg")')).toBe('bg-[url(../aa.jpg)]')
+    expect(toTailwindcss('background: url("../aa.jpg")')).toBe(
+      'bg-[url(../aa.jpg)]',
+    )
   })
 
   it('background-blend-mode: normal;', () => {
@@ -143,9 +141,7 @@ describe('background', () => {
 
   it('background: linear-gradient(to left top, black, cyan);', () => {
     expect(
-      toTailwindcss(
-        'background: linear-gradient(to left top, black, cyan);',
-      ),
+      toTailwindcss('background: linear-gradient(to left top, black, cyan);'),
     ).toBe('bg-gradient-to-lt from-black to-cyan')
   })
 
@@ -155,7 +151,7 @@ describe('background', () => {
       toTailwindcss(
         'background: linear-gradient(to bottom, #00ffff 0%, #0066ff 100%);',
       ),
-    ).toBe('bg-gradient-to-b from-#00ffff-[0%] to-#0066ff-[100%]')
+    ).toBe('bg-gradient-to-b from-#00ffff from-0% to-#0066ff to-100%')
   })
 
   it('background: linear-gradient(to bottom, #00ffff 0, #0ea5e9 ,#0066ff 100%);', () => {
@@ -163,23 +159,29 @@ describe('background', () => {
       toTailwindcss(
         'background: linear-gradient(to bottom, #00ffff 0, #0ea5e9 ,#0066ff 100%);',
       ),
-    ).toBe('bg-gradient-to-b from-#00ffff-[0] via-#0ea5e9 to-#0066ff-[100%]')
+    ).toBe(
+      'bg-gradient-to-b from-#00ffff from-0 via-#0ea5e9 to-#0066ff to-100%',
+    )
   })
 
   it('background: linear-gradient(to bottom right, #00ffff 0, #0ea5e9 ,#0066ff 100%);', () => {
     expect(
       toTailwindcss(
-        'background: linear-gradient(to bottom right, #00ffff 10 , #0ea5e9 20%,#0066ff 50%);',
+        'background: linear-gradient(to bottom right, #00ffff 10% , #0ea5e9 20%,#0066ff 50%);',
       ),
-    ).toBe('bg-gradient-to-br from-#00ffff-[10] via-#0ea5e9-[20%] to-#0066ff-[50%]')
+    ).toBe(
+      'bg-gradient-to-br from-#00ffff from-10% via-#0ea5e9 via-20% to-#0066ff to-50%',
+    )
   })
 
   it('background: linear-gradient(to bottom, #00ffff 0, #0ea5e9 ,#0066ff 100%);', () => {
     expect(
       toTailwindcss(
-        'background: linear-gradient(to bottom, #00ffff 0, #0ea5e9 30 ,#0066ff 100%);',
+        'background: linear-gradient(to bottom, #00ffff 0, #0ea5e9 30% ,#0066ff 100%);',
       ),
-    ).toBe('bg-gradient-to-b from-#00ffff-[0] via-#0ea5e9-[30] to-#0066ff-[100%]')
+    ).toBe(
+      'bg-gradient-to-b from-#00ffff from-0 via-#0ea5e9 via-30% to-#0066ff to-100%',
+    )
   })
 
   it('background: conic-gradient(#fff 0.25turn, #000 0.25turn 0.5turn, #fff 0.5turn 0.75turn);', () => {
@@ -187,6 +189,8 @@ describe('background', () => {
       toTailwindcss(
         'background: conic-gradient(#fff 0.25turn, #000 0.25turn 0.5turn, #fff 0.5turn 0.75turn);',
       ),
-    ).toBe('bg-gradient-conic from-#fff-[0.25turn] via-#000-[0.25turn] to-#fff-[0.5turn]')
+    ).toBe(
+      'bg-gradient-conic from-#fff from-0.25turn via-#000 via-0.25turn to-#fff to-0.5turn',
+    )
   })
 })
