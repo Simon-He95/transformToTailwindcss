@@ -9,7 +9,7 @@ export function transition(key: string, val: string) {
     return `${important}ease-[${trim(value, 'all')}]`
   }
   if (key === 'transition')
-    return `transition-${transformTransition(value)}`
+    return transformTransition(value, important)
 
   if (key === 'transition-property') {
     if (value.includes('color'))
@@ -22,20 +22,20 @@ export function transition(key: string, val: string) {
     return `${key.split('-')[1]}-${value.slice(0, -2)}`
 }
 
-function transformTransition(v: string) {
+function transformTransition(v: string, important = '') {
   let hasDuration = false
   return v
     .split(' ')
     .map((item) => {
       if (/^[0-9]/.test(item)) {
         if (hasDuration)
-          return `delay-${item}`
+          return `${important}delay-${item}`
         hasDuration = true
-        return `duration-${item}`
+        return `${important}duration-${item}`
       }
       if (item.startsWith('background'))
-        return 'colors'
-      return item
+        return `${important}transition-colors`
+      return `${important}transition-${item}`
     })
     .join(' ')
 }
