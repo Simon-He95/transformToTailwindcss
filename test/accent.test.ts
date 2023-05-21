@@ -4,7 +4,7 @@ import { toTailwindcss } from '../src/toTailwindcss'
 describe('accent', () => {
   it('accent-color: inherit;', () => {
     expect(toTailwindcss('accent-color: inherit !important;')).toBe(
-      'accent-inherit!',
+      '!accent-inherit',
     )
   })
 
