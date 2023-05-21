@@ -12,7 +12,10 @@
     "url": "git+https://github.com/Simon-He95/transformToTailwindcss.git"
   },
   "bugs": "https://github.com/Simon-He95/transformToTailwindcss/issues",
-  "keywords": [],
+  "keywords": [
+    "transform-to-tailwindcss",
+    "tailwindcss"
+  ],
   "sideEffects": false,
   "exports": {
     ".": {
