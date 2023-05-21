@@ -4,6 +4,6 @@ export function outline(key: string, val: string) {
   const [value, important] = transformImportant(val)
 
   if (key === 'outline-offset')
-    return `${key}-${value}${important}`
-  return `${getFirstName(key)}-${value}${important}`
+    return `${important}${key}-${value}`
+  return `${important}${getFirstName(key)}-${value}`
 }
