@@ -9,7 +9,7 @@ describe('box-shadow', () => {
 
   it('box-sizing: border-box;', () => {
     expect(toTailwindcss('box-sizing: border-box  !important;')).toBe(
-      'box-border!',
+      '!box-border',
     )
   })
 

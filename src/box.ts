@@ -6,7 +6,7 @@ export function box(key: string, val: string) {
   if (key.startsWith('box-decoration'))
     return `box-decoration-${value}${important}`
   if (key === 'box-sizing')
-    return `box-${getFirstName(value)}${important}`
+    return `${important}box-${getFirstName(value)}`
   const rgb = /rgba?(\([\w,\s.]+\))/g
   value = value
     .replace(rgb, (r, v) => r.replace(v, trim(v, 'all')))
