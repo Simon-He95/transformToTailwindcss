@@ -5,18 +5,18 @@ export function text(key: string, val: string) {
 
   if (key === 'text-decoration-line') {
     if (value === 'none')
-      return `no-underline${important}`
-    return `${value}${important}`
+      return `${important}no-underline`
+    return `${important}${value}`
   }
   if (key === 'text-transform') {
     if (value === 'none')
-      return `normal-case${important}`
-    return `${value}${important}`
+      return `${important}normal-case`
+    return `${important}${value}`
   }
   if (key.startsWith('text-decoration') || key === 'text-indent')
-    return `${key.split('-')[1]}-${value}${important}`
+    return `${important}${key.split('-')[1]}-${value}`
 
   if (key === 'text-underline-offset')
-    return `underline-offset-${value}${important}`
-  return `text-${value}${important}`
+    return `${important}underline-offset-${value}`
+  return `${important}text-${value}`
 }
