@@ -1,14 +1,20 @@
+<script setup lang="ts"></script>
+
 <template>
-  <button text-red w="[100%]">
-    button
-  </button>
+  <div style="background: red; width: 100%; line-height: 20px">
+    <div />
+    <div />
+  </div>
 </template>
 
 <style scoped>
-  button {
-    height: 32px;
-  }
-  button:hover{
-    background-color:#67c23a ;
-  }
+.container {
+  width: 100%;
+  display: flex;
+}
+.container > div {
+  flex: 1;
+  height: 100px;
+  background-color: red;
+}
 </style>
