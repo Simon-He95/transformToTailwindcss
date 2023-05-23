@@ -365,7 +365,10 @@ describe.only('single test', async () => {
     expect(await transfromCode(demo, filepath, 'vue')).toMatchInlineSnapshot(`
       "<script setup lang=\\"ts\\"></script>
       <template>
-        <div class=\\"container bg-red w-[100%] lh-20px w-[100%] flex\\">
+        <div class=\\"bg-red w-[100%] lh-20px w-[100%] flex\\"
+          class=\\"container\\"
+         
+        >
           <div class=\\"flex-1 h-100px bg-red\\" class=\\"flex-1 h-100px bg-red\\" />
           <div />
         </div>

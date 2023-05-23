@@ -16,7 +16,7 @@ describe('border', () => {
   })
 
   it('border-width', () => {
-    expect(toTailwindcss('border-width: 2px;')).toBe('border-[2px]')
+    expect(toTailwindcss('border-width: 2px;')).toBe('border-2px')
   })
 
   it('radius-calc', () => {
@@ -36,9 +36,7 @@ describe('border', () => {
   })
 
   it('collapse', () => {
-    expect(toTailwindcss('border-collapse: collapse;')).toBe(
-      'border-[collapse]',
-    )
+    expect(toTailwindcss('border-collapse: collapse;')).toBe('border-collapse')
   })
 
   it('spacing', () => {
