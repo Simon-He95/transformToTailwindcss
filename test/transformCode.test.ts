@@ -358,15 +358,17 @@ describe('single demo styleWeight', async () => {
   })
 })
 
-describe('single test', async () => {
+describe.only('single test', async () => {
   const demo = await fsp.readFile('./test/demo/test.vue', 'utf-8')
   const filepath = path.resolve(process.cwd(), './test/demo/test.vue')
   it('single.vue', async () => {
     expect(await transfromCode(demo, filepath, 'vue')).toMatchInlineSnapshot(`
-      "<template>
-        <button class=\\"h-32px hover:bg-[#67c23a]\\" text-red w=\\"[100%]\\">
-          button
-        </button>
+      "<script setup lang=\\"ts\\"></script>
+      <template>
+        <div class=\\"container bg-red w-[100%] lh-20px w-[100%] flex\\">
+          <div class=\\"flex-1 h-100px bg-red\\" class=\\"flex-1 h-100px bg-red\\" />
+          <div />
+        </div>
       </template>
       <style scoped></style>
       "

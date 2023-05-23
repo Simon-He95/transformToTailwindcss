@@ -56,7 +56,6 @@ export async function transformCss(
     /(.*){([#\\n\s\w\-.:;,%\(\)\+'"!]*)}/g,
     (all: any, name: any, value: any = '') => {
       name = trim(name.replace(/\s+/g, ' '))
-
       const originClassName = name
       const before = trim(value.replace(/\n\s*/g, ''))
       const transfer = transformStyleToTailwindcss(before)[0]

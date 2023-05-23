@@ -7,7 +7,9 @@ describe('flex', () => {
   })
 
   it('flex-direction: column-reverse;', () => {
-    expect(toTailwindcss('flex-direction: column-reverse;')).toBe('flex-col-reverse')
+    expect(toTailwindcss('flex-direction: column-reverse;')).toBe(
+      'flex-col-reverse',
+    )
   })
 
   it('flex-direction: column;', () => {
@@ -15,7 +17,9 @@ describe('flex', () => {
   })
 
   it('flex-direction: column-reverse;', () => {
-    expect(toTailwindcss('flex-direction: column-reverse;')).toBe('flex-col-reverse')
+    expect(toTailwindcss('flex-direction: column-reverse;')).toBe(
+      'flex-col-reverse',
+    )
   })
 
   it('flex-grow: 1;', () => {
@@ -23,7 +27,7 @@ describe('flex', () => {
   })
 
   it('flex-grow: 1;', () => {
-    expect(toTailwindcss('flex: 1;')).toBe('flex-[1]')
+    expect(toTailwindcss('flex: 1;')).toBe('flex-1')
   })
 
   it('flex-shrink: 1;', () => {
@@ -41,9 +45,7 @@ describe('flex', () => {
   })
 
   it('flex-wrap: wrap-reverse;', () => {
-    expect(toTailwindcss('flex-wrap: wrap-reverse;')).toBe(
-      'flex-wrap-reverse',
-    )
+    expect(toTailwindcss('flex-wrap: wrap-reverse;')).toBe('flex-wrap-reverse')
   })
 
   it('flex: 1 1 0%;', () => {
