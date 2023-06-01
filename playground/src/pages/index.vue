@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div bg="red" w="[100%]" lh-20px>
+  <div bg="red" w="[100%]" leading20px>
     <div
       flex
       flex-1

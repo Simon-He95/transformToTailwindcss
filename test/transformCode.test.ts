@@ -34,7 +34,7 @@ describe('transformCode', () => {
 
       <script setup lang=\\"ts\\"></script>
       <template>
-        <div class=\\"red bg-red w-[100%] lh-[20px]\\">
+        <div class=\\"red bg-red w-[100%] leading-[20px]\\">
           nihao
         </div>
         <div class=\\"yellow !bg-yellow w-[100%]_h-[100%]\\">
@@ -70,7 +70,7 @@ describe('transformCode', () => {
 
       <script setup lang=\\"ts\\"></script>
       <template>
-        <div class=\\"red bg-red w-[100%] lh-[20px]\\">
+        <div class=\\"red bg-red w-[100%] leading-[20px]\\">
           <div class=\\"yellow bg-red w-[100%]\\">
             hi
           </div>
@@ -84,7 +84,7 @@ describe('transformCode', () => {
 
       <script setup lang=\\"ts\\"></script>
       <template>
-        <div class=\\"bg-red w-[100%] lh-[20px]\\">
+        <div class=\\"bg-red w-[100%] leading-[20px]\\">
           <div class=\\"red yellow bg-red w-[100%]\\">
             hi
           </div>
@@ -98,7 +98,7 @@ describe('transformCode', () => {
 
       <script setup lang=\\"ts\\"></script>
       <template>
-        <div class=\\"red bg-red w-[100%] lh-[20px]\\">
+        <div class=\\"red bg-red w-[100%] leading-[20px]\\">
           <div class=\\"yellow !bg-red w-[100%]\\">
             hi
           </div>
@@ -113,7 +113,7 @@ describe('transformCode', () => {
       <script setup lang=\\"ts\\"></script>
       <template>
         <div class=\\"container focus-within:bg-red\\">
-          <div class=\\"red bg-red w-[100%] lh-[20px]\\">
+          <div class=\\"red bg-red w-[100%] leading-[20px]\\">
             nihao
           </div>
           <div class=\\"yellow\\">
@@ -142,7 +142,7 @@ describe('transformCode', () => {
 
       <script setup lang=\\"ts\\"></script>
       <template>
-        <div class=\\"bg-red w-[100%] lh-[20px]\\">
+        <div class=\\"bg-red w-[100%] leading-[20px]\\">
           <div class=\\"red hover:text-yellow\\">
             hi
           </div>
@@ -191,7 +191,7 @@ describe('transformCode', () => {
 
       <script setup lang=\\"ts\\"></script>
       <template>
-        <div class=\\"bg-red w-[100%] lh-[20px] w-[100%] flex\\"
+        <div class=\\"bg-red w-[100%] leading-[20px] w-[100%] flex\\"
           class=\\"container\\"
          
         >
@@ -265,7 +265,7 @@ describe('single demo classCombine', async () => {
     expect(await transfromCode(demo, filepath, 'vue')).toMatchInlineSnapshot(`
       "<script setup lang=\\"ts\\"></script>
       <template>
-        <div class=\\"bg-red w-[100%] lh-[20px]\\">
+        <div class=\\"bg-red w-[100%] leading-[20px]\\">
           <div class=\\"red yellow bg-red w-[100%]\\">
             hi
           </div>
@@ -285,7 +285,7 @@ describe('single demo classTail', async () => {
       "<script setup lang=\\"ts\\"></script>
       <template>
         <div class=\\"container focus-within:bg-red\\">
-          <div class=\\"red bg-red w-[100%] lh-[20px]\\">
+          <div class=\\"red bg-red w-[100%] leading-[20px]\\">
             nihao
           </div>
           <div class=\\"yellow\\">
@@ -331,7 +331,7 @@ describe('classSpace.vue', async () => {
     expect(await transfromCode(demo, filepath, 'vue')).toMatchInlineSnapshot(`
       "<script setup lang=\\"ts\\"></script>
       <template>
-        <div class=\\"red bg-red w-[100%] lh-[20px]\\">
+        <div class=\\"red bg-red w-[100%] leading-[20px]\\">
           <div class=\\"yellow !bg-red w-[100%]\\">
             hi
           </div>
@@ -370,7 +370,7 @@ describe('single test', async () => {
     expect(await transfromCode(demo, filepath, 'vue')).toMatchInlineSnapshot(`
       "<script setup lang=\\"ts\\"></script>
       <template>
-        <div class=\\"bg-red w-[100%] lh-[20px] w-[100%] flex\\"
+        <div class=\\"bg-red w-[100%] leading-[20px] w-[100%] flex\\"
           class=\\"container\\"
          
         >
