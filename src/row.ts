@@ -1,7 +1,7 @@
-import { transformImportant } from './utils'
+import { getVal, transformImportant } from './utils'
 
 export function row(key: string, val: string) {
   const [value, important] = transformImportant(val)
 
-  return `gap-y-${value}${important}`
+  return `${important}gap-y${getVal(value)}`
 }

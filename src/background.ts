@@ -20,7 +20,7 @@ export function background(key: string, val: string) {
   let [value, important] = transformImportant(val)
 
   if (backgroundMap.includes(key))
-    return `bg${getVal(value, transformSpaceToLine)}${important}`
+    return `${important}bg${getVal(value, transformSpaceToLine)}`
 
   if (key === 'background') {
     if (/(linear)-gradient/.test(value)) {

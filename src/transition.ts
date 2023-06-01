@@ -5,7 +5,7 @@ export function transition(key: string, val: string) {
   const [value, important] = transformImportant(val)
   if (key === 'transition-timing-function') {
     if (value === 'linear')
-      return `ease-${value}${important}`
+      return `${important}ease-${value}`
     return `${important}ease-[${trim(value, 'all')}]`
   }
   if (key === 'transition')
@@ -13,10 +13,10 @@ export function transition(key: string, val: string) {
 
   if (key === 'transition-property') {
     if (value.includes('color'))
-      return `transition-color${important}`
+      return `${important}transition-color`
     if (value === 'box-shadow')
-      return `transition-shadow${important}`
-    return `transition-${value}${important}`
+      return `${important}transition-shadow`
+    return `${important}transition-${value}`
   }
   if (times.includes(key))
     return `${key.split('-')[1]}-${value.slice(0, -2)}`

@@ -11,10 +11,10 @@ describe('column', () => {
   })
 
   it('columns: 20rem;', () => {
-    expect(toTailwindcss('columns: 20rem;')).toBe('columns-20rem')
+    expect(toTailwindcss('columns: 20rem;')).toBe('columns-[20rem]')
   })
 
   it('column-gap: 0px;', () => {
-    expect(toTailwindcss('column-gap: 0px;')).toBe('gap-x-0px')
+    expect(toTailwindcss('column-gap: 0px;')).toBe('gap-x-[0px]')
   })
 })

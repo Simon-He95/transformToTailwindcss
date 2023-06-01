@@ -16,7 +16,7 @@ describe('border', () => {
   })
 
   it('border-width', () => {
-    expect(toTailwindcss('border-width: 2px;')).toBe('border-2px')
+    expect(toTailwindcss('border-width: 2px;')).toBe('border-[2px]')
   })
 
   it('radius-calc', () => {
@@ -46,7 +46,7 @@ describe('border', () => {
   })
 
   it('border-bottom-width: 1px;', () => {
-    expect(toTailwindcss('border-bottom-width: 1px;')).toBe('border-b-1px')
+    expect(toTailwindcss('border-bottom-width: 1px;')).toBe('border-b-[1px]')
   })
 
   it('border-bottom-style: dashed;', () => {

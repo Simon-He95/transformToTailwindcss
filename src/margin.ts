@@ -22,18 +22,18 @@ export function transformMargin(key: string, val: string) {
   if (len === 1)
     return `${important}${key[0]}${getVal(values[0])}`
   if (len === 2) {
-    return `${important}${key[0]}x${getVal(values[1])}${important} ${
+    return `${important}${key[0]}x${getVal(values[1])} ${important}${
       key[0]
     }y${getVal(values[0])}`
   }
   if (len === 3) {
-    return `${important}${key[0]}x${getVal(values[1])}${important} ${
+    return `${important}${key[0]}x${getVal(values[1])} ${important}${
       key[0]
     }t${getVal(values[0])} ${important}${key[0]}b${getVal(values[2])}`
   }
-  return `${important}${key[0]}t${getVal(values[0])}${important} ${
+  return `${important}${key[0]}t${getVal(values[0])} ${important}${
     key[0]
   }b${getVal(values[2])} ${important}${key[0]}l${getVal(
     values[3],
-  )}${important} ${key[0]}r${getVal(values[1])}`
+  )} ${important}${key[0]}r${getVal(values[1])}`
 }

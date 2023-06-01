@@ -3,7 +3,7 @@ import { toTailwindcss } from '../src/toTailwindcss'
 
 describe('position', () => {
   it('max-width:50px', () => {
-    expect(toTailwindcss('max-width:50px')).toBe('max-w-50px')
+    expect(toTailwindcss('max-width:50px')).toBe('max-w-[50px]')
   })
 
   it('max-width:max-content', () => {
@@ -11,7 +11,7 @@ describe('position', () => {
   })
 
   it('max-height:50px', () => {
-    expect(toTailwindcss('max-height:50px')).toBe('max-h-50px')
+    expect(toTailwindcss('max-height:50px')).toBe('max-h-[50px]')
   })
 
   it('max-height:max-content', () => {

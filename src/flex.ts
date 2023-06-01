@@ -11,7 +11,7 @@ export function flex(key: string, val: string) {
   const [value, important] = transformImportant(val)
 
   if (lastMaps.includes(key))
-    return `${getLastName(key)}-${value}${important}`
+    return `${important}${getLastName(key)}-${value}`
   if (value === '1')
     return `${important}flex-1`
   const firstVal = trim(value)[0]

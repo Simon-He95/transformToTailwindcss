@@ -6,7 +6,7 @@ describe('filter', () => {
   })
 
   it('blur px', () => {
-    expect(toTailwindcss('filter: blur(10px);')).toBe('blur-10px')
+    expect(toTailwindcss('filter: blur(10px);')).toBe('blur-[10px]')
   })
 
   it('brightness', () => {

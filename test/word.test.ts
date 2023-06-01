@@ -15,6 +15,6 @@ describe('word-break', () => {
   })
 
   it('word-spacing: 0em;', () => {
-    expect(toTailwindcss('word-spacing: 0em;')).toBe('word-spacing-0em')
+    expect(toTailwindcss('word-spacing: 0em;')).toBe('word-spacing-[0em]')
   })
 })

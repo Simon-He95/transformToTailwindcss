@@ -1,5 +1,5 @@
 import { box } from './box'
-import { getHundred, transformImportant } from './utils'
+import { getHundred, getVal, transformImportant } from './utils'
 
 const hundred = ['contrast', 'brightness', 'saturate']
 const percent = ['grayscale', 'invert', 'sepia']
@@ -10,16 +10,18 @@ export function filter(key: string, val: string) {
   const [_, name, value] = v.match(/([\w-]+)\((.*)\)/)!
 
   if (hundred.includes(name))
-    return `${name}-${getHundred(value)}${important}`
+    return `${important}${name}${getVal(getHundred(value).toString())}`
 
   if (name === 'drop-shadow')
-    return `drop-${box(name, value)}${important}`
+    return `${important}drop${getVal(box(name, value))}`
   if (percent.includes(name)) {
-    return `${name}-${
-      value.endsWith('%') ? value.slice(0, -1) : getHundred(value)
-    }${important}`
+    return `${important}${name}${
+      value.endsWith('%')
+        ? getVal(value.slice(0, -1))
+        : getVal(getHundred(value).toString())
+    }`
   }
   if (name === 'hue-rotate')
-    return `${name}-${value.slice(0, -3)}${important}`
-  return `${name}-${value}${important}`
+    return `${important}${name}${getVal(value.slice(0, -3))}`
+  return `${important}${name}${getVal(value)}`
 }

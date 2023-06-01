@@ -37,8 +37,34 @@ export function isRgb(s: string) {
   return s.startsWith('rgb')
 }
 
+export function isPx(s: string) {
+  return s.endsWith('px')
+}
+
+export function isRem(s: string) {
+  return s.endsWith('rem')
+}
+
+export function isEm(s: string) {
+  return s.endsWith('em')
+}
+
+export function isDeg(s: string) {
+  return s.endsWith('deg')
+}
+
 export function getVal(val: string, transform?: Function) {
-  if (isCalc(val) || isUrl(val) || isHex(val) || isRgb(val) || isPercent(val))
+  if (
+    isDeg(val)
+    || isEm(val)
+    || isEm(val)
+    || isPx(val)
+    || isCalc(val)
+    || isUrl(val)
+    || isHex(val)
+    || isRgb(val)
+    || isPercent(val)
+  )
     return `-[${trim(val, 'all').replace(/['"]/g, '')}]`
   return `-${transform ? transform(val) : val}`
 }

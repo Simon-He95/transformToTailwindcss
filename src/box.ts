@@ -4,7 +4,7 @@ export function box(key: string, val: string) {
   let [value, important] = transformImportant(val)
 
   if (key.startsWith('box-decoration'))
-    return `box-decoration-${value}${important}`
+    return `${important}box-decoration-${value}`
   if (key === 'box-sizing')
     return `${important}box-${getFirstName(value)}`
   const rgb = /rgba?(\([\w,\s.]+\))/g

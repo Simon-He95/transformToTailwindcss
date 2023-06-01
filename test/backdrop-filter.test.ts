@@ -2,14 +2,12 @@ import { describe, expect, it } from 'vitest'
 import { toTailwindcss } from '../src/toTailwindcss'
 describe('backdrop-filter', () => {
   it('blur 0', () => {
-    expect(toTailwindcss('backdrop-filter: blur(0);')).toBe(
-      'backdrop-blur-0',
-    )
+    expect(toTailwindcss('backdrop-filter: blur(0);')).toBe('backdrop-blur-0')
   })
 
   it('blur px', () => {
     expect(toTailwindcss('backdrop-filter: blur(10px);')).toBe(
-      'backdrop-blur-10px',
+      'backdrop-blur-[10px]',
     )
   })
 
@@ -60,8 +58,6 @@ describe('backdrop-filter', () => {
   })
 
   it('sepia', () => {
-    expect(toTailwindcss('backdrop-filter: sepia(0);')).toBe(
-      'backdrop-sepia-0',
-    )
+    expect(toTailwindcss('backdrop-filter: sepia(0);')).toBe('backdrop-sepia-0')
   })
 })

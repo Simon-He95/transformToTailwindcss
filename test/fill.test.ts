@@ -3,7 +3,7 @@ import { toTailwindcss } from '../src/toTailwindcss'
 
 describe('fill', () => {
   it('fill: #312e81;', () => {
-    expect(toTailwindcss('fill: #312e81;')).toBe('fill-#312e81')
+    expect(toTailwindcss('fill: #312e81;')).toBe('fill-[#312e81]')
   })
 
   it('fill: transparent;', () => {
