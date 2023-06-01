@@ -34,7 +34,7 @@ importers:
       sass: ^1.59.2
       simple-git-hooks: ^2.8.1
       stylus: ^0.59.0
-      transform-to-tailwindcss: ^0.0.1
+      transform-to-tailwindcss: ^0.0.4
       tsup: ^6.5.0
       tsx: ^3.12.1
       typescript: ^4.7.4
@@ -72,7 +72,7 @@ importers:
       sass: 1.62.1
       simple-git-hooks: 2.8.1
       stylus: 0.59.0
-      transform-to-tailwindcss: 0.0.1_typescript@4.9.5
+      transform-to-tailwindcss: 'link:'
       tsup: 6.7.0_typescript@4.9.5
       tsx: 3.12.7
       typescript: 4.9.5
@@ -5805,22 +5805,6 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       punycode: 2.3.0
-    dev: true
-
-  /transform-to-tailwindcss/0.0.1_typescript@4.9.5:
-    resolution: {integrity: sha512-JvJoL31VqLgaS1xzKB3qNIvxlf7gHDFlzmA9lfZiyA6mlzp6HEARQxjDtvon4nd6OkjUSUHhptmO+cKcpdxoSg==}
-    hasBin: true
-    dependencies:
-      fast-glob: 3.2.12
-      vivid-typing: 1.1.37_typescript@4.9.5+vue@3.3.4
-      vue: 3.3.4
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@vue/composition-api'
-      - postcss
-      - supports-color
-      - ts-node
-      - typescript
     dev: true
 
   /tree-kill/1.2.2:
