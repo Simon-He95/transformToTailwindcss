@@ -5,7 +5,7 @@ describe('transition', () => {
   it('transition: background-color 0.5s ease-in;', () => {
     expect(
       toTailwindcss('transition: background-color 0.5s 1.5s ease-in;'),
-    ).toBe('transition-colors duration-0.5s delay-1.5s ease-in')
+    ).toBe('transition-colors duration-500 delay-1500 ease-in')
   })
 
   it('transition: none;', () => {
@@ -48,5 +48,11 @@ describe('transition', () => {
     expect(
       toTailwindcss('transition-timing-function: cubic-bezier(0.4, 0, 1, 1);'),
     ).toBe('ease-[cubic-bezier(0.4,0,1,1)]')
+  })
+
+  it('transition: margin-left 28s;', () => {
+    expect(toTailwindcss('transition: margin-left 2s;')).toBe(
+      'transition-margin-left duration-2000',
+    )
   })
 })

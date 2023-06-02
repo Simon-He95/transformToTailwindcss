@@ -29,8 +29,8 @@ function transformTransition(v: string, important = '') {
     .map((item) => {
       if (/^[0-9]/.test(item) || /^\.[0-9]/.test(item)) {
         const calculateTime = item.endsWith('s')
-          ? 1000 * +item.slice(0, -1)[0]
-          : item.slice(0, -3)[0]
+          ? 1000 * +item.slice(0, -1)
+          : item.slice(0, -3)
         if (hasDuration)
           return `${important}delay-${calculateTime}`
         hasDuration = true
