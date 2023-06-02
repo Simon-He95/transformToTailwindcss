@@ -26,6 +26,12 @@ describe('transform', () => {
     )
   })
 
+  it.only('transition: margin-left 28s;', () => {
+    expect(toTailwindcss('transition: margin-left 2s;')).toBe(
+      'transition-margin-left duration-2000',
+    )
+  })
+
   it('transform: translateX(1px);', () => {
     expect(toTailwindcss('transform: translateX(1px);')).toBe(
       'translate-x-[1px]',

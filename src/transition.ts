@@ -27,11 +27,14 @@ function transformTransition(v: string, important = '') {
   return v
     .split(' ')
     .map((item) => {
-      if (/^[0-9]/.test(item)) {
+      if (/^[0-9]/.test(item) || /^\.[0-9]/.test(item)) {
+        const calculateTime = item.endsWith('s')
+          ? 1000 * +item.slice(0, -1)[0]
+          : item.slice(0, -3)[0]
         if (hasDuration)
-          return `${important}delay-${item}`
+          return `${important}delay-${calculateTime}`
         hasDuration = true
-        return `${important}duration-${item}`
+        return `${important}duration-${calculateTime}`
       }
       if (item.startsWith('background'))
         return `${important}transition-colors`
