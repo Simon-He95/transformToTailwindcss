@@ -31,7 +31,7 @@ describe('flex', () => {
   })
 
   it('flex-shrink: 1;', () => {
-    expect(toTailwindcss('flex-shrink: 1;')).toBe('shrink-1')
+    expect(toTailwindcss('flex-shrink: 1;')).toBe('shrink')
   })
 
   it('flex-basis: 0px;', () => {
