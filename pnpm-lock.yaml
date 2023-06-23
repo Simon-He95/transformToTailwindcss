@@ -72,7 +72,7 @@ importers:
       sass: 1.62.1
       simple-git-hooks: 2.8.1
       stylus: 0.59.0
-      transform-to-tailwindcss: 'link:'
+      transform-to-tailwindcss: 0.0.4
       tsup: 6.7.0_typescript@4.9.5
       tsx: 3.12.7
       typescript: 4.9.5
@@ -88,7 +88,7 @@ importers:
       '@iconify/json': ^2.2.31
       '@simon_he/git-fork-vue': ^0.0.11
       '@types/node': ^18.0.0
-      '@unocss/reset': ^0.47.0
+      '@unocss/reset': ^0.53.0
       '@vitejs/plugin-vue': ^3.2.0
       '@vue/test-utils': ^2.0.0-rc.18
       '@vueuse/core': ^9.0.0
@@ -115,7 +115,7 @@ importers:
       '@iconify/json': 2.2.67
       '@simon_he/git-fork-vue': 0.0.11
       '@types/node': 18.16.13
-      '@unocss/reset': 0.47.6
+      '@unocss/reset': 0.53.0
       '@vitejs/plugin-vue': 3.2.0_vite@4.3.8+vue@3.3.4
       '@vue/test-utils': 2.3.2_vue@3.3.4
       '@vueuse/core': 9.13.0_vue@3.3.4
@@ -1556,12 +1556,12 @@ packages:
       '@unocss/preset-mini': 0.50.8
     dev: true
 
-  /@unocss/reset/0.47.6:
-    resolution: {integrity: sha512-bdc2dbuDg+CzgeLowEwO1URRIMdzmCE4RH4IKpCpT1Xoa+92RRubdtzK4N/9ZiSo8d4vvfWcc8fvhZko/6smPQ==}
-    dev: true
-
   /@unocss/reset/0.50.8:
     resolution: {integrity: sha512-2WoM6O9VyuHDPAnvCXr7LBJQ8ZRHDnuQAFsL1dWXp561Iq2l9whdNtPuMcozLGJGUUrFfVBXIrHY4sfxxScgWg==}
+    dev: true
+
+  /@unocss/reset/0.53.0:
+    resolution: {integrity: sha512-4XJkEtVxUGYp+WX2aRTrZLNp6MEwulBvhhpkAjwfkS+wVdo9lMma0O93TCqJaFeYx7lU8W92APB4n918rz9scA==}
     dev: true
 
   /@unocss/scope/0.50.8:
@@ -5805,6 +5805,15 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       punycode: 2.3.0
+    dev: true
+
+  /transform-to-tailwindcss/0.0.4:
+    resolution: {integrity: sha512-NpeXjdPy6/plRgk7sPzHWQte2ZxjxIKgrkL7ccGs56kiL/lKAON4JHhEbffXWphljcLyiUUXhRsYOPzx7u9Mpw==}
+    hasBin: true
+    peerDependencies:
+      lazy-js-utils: ^0.0.39
+    dependencies:
+      fast-glob: 3.2.12
     dev: true
 
   /tree-kill/1.2.2:
