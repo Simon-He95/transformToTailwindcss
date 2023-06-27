@@ -57,7 +57,7 @@
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
-    "lazy-js-utils": "^0.0.39"
+    "lazy-js-utils": "^0.0.39 || ^0.0.56"
   },
   "dependencies": {
     "fast-glob": "^3.2.12"
