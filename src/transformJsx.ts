@@ -4,7 +4,12 @@ import { parse as babelParse, traverse as babelTraverse } from '@babel/core'
 import vueJsxPlugin from '@vue/babel-plugin-jsx'
 import { transformVue } from './transformVue'
 
-export async function transformJsx(code: string, filepath?: string) {
+interface Options {
+  filepath?: string
+  isRem?: boolean
+}
+export async function transformJsx(code: string, options: Options = {}) {
+  const { filepath, isRem } = options
   const ast = babelParse(code, {
     babelrc: false,
     comments: true,
@@ -42,7 +47,11 @@ export async function transformJsx(code: string, filepath?: string) {
     ${css}
     </style>`
 
-  let vueTransfer = await transformVue(wrapperVue, true)
+  let vueTransfer = await transformVue(wrapperVue, {
+    isJsx: true,
+    isRem,
+    filepath,
+  })
   vueTransfer = vueTransfer.replace(/class/g, 'className')
   if (cssPath) {
     const cssTransfer = vueTransfer.match(/<style scoped>(.*)<\/style>/s)![1]

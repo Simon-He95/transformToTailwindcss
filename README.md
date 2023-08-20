@@ -3,9 +3,7 @@
 </p>
 <p align="center"> English | <a href="./README_zh.md">简体中文</a></p>
 
-> WIP
-
-This library is to convert css in vue to tailwindcss. [tailwindcss](https://tailwindcss.com/) can reuse styles better to reduce the packaging volume, which can be converted as a performance optimization method, and it can also make it easier for old projects to upgrade to tailwindcss
+This library is to convert css to tailwindcss. [tailwindcss](https://tailwindcss.com/) can reuse styles better to reduce the packaging volume, which can be converted as a performance optimization method, and it can also make it easier for old projects to upgrade to tailwindcss
 
 ## 📦 Install
 
@@ -102,12 +100,16 @@ build({
 
 </details>
 
-# ⭐ Feature
+## ⭐ Feature
 
 - support css in '.html' | '.tsx' | '.vue' | '.astro' | '.svelte' to tailwindcss
 - support sass less stylus convert
 - support vite | rollup | webpack | vue-cli | esbuild
 - vscode extension [To tailwindcss](https://github.com/Simon-He95/totailwindcss)
+
+## 🚁 More
+
+- [transform-to-tailwindcss-core](https://github.com/Simon-He95/transform-to-tailwindcss-core) - Provides the ability to convert css to tailwindcss on the browser side
 
 ## Before
 

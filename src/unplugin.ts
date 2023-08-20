@@ -1,25 +1,7 @@
 import { createUnplugin } from 'unplugin'
 import { createFilter } from '@rollup/pluginutils'
 import { transfromCode } from './transformCode'
-import type { Options } from './utils'
-
-// export function vitePluginTransformToTailwindcss() {
-//   return {
-//     name: 'vite-plugin-transform-to-tailwindcss',
-//     async transform(code: string, id: string) {
-//       const suffix = id.endsWith('.vue')
-//         ? 'vue'
-//         : id.endsWith('.tsx')
-//           ? 'tsx'
-//           : ''
-//       if (!suffix)
-//         return code
-
-//       return await transfromCode(code, id, suffix)
-//     },
-//     enforce: 'pre',
-//   }
-// }
+import type { Options } from './type'
 
 const unplugin = createUnplugin((options: Options = {}): any => {
   const filter = createFilter(options.include, options.exclude)
@@ -39,7 +21,11 @@ const unplugin = createUnplugin((options: Options = {}): any => {
         if (!suffix)
           return code
 
-        return await transfromCode(code, id, suffix)
+        return await transfromCode(code, {
+          filepath: id,
+          type: suffix,
+          isRem: options.isRem,
+        })
       },
     },
   ]

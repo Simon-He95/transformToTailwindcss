@@ -1,6 +1,7 @@
 import fsp from 'fs/promises'
 import path from 'path'
 import { parse } from 'vue/compiler-sfc'
+import { transformStyleToTailwindcss } from 'transform-to-tailwindcss-core'
 import {
   diffTemplateStyle,
   flag,
@@ -9,11 +10,9 @@ import {
   isEmptyStyle,
   isNot,
   joinWithUnderLine,
-  // transformUnocssBack,
   trim,
 } from './utils'
 import { tail } from './tail'
-import { transformStyleToTailwindcss } from './transformStyleToTailwindcss'
 import { transformVue } from './transformVue'
 import { wrapperVueTemplate } from './wrapperVueTemplate'
 import { compilerCss } from './compilerCss'
@@ -41,14 +40,21 @@ interface AllChange {
   start: Position
   end: Position
 }
+let isRem: boolean | undefined = false
+interface Options {
+  isJsx?: boolean
+  filepath?: string
+  isRem?: boolean
+}
 
 export async function transformCss(
   style: string,
   code: string,
   media = '',
-  isJsx?: boolean,
-  filepath?: string,
+  options: Options,
 ): Promise<string> {
+  const { isJsx, isRem: _isRem, filepath } = options || {}
+  isRem = _isRem
   const allChanges: AllChange[] = []
   code = (await importCss(code, style, filepath, isJsx)) as string
   let stack = parse(code).descriptor.template?.ast
@@ -58,7 +64,7 @@ export async function transformCss(
       name = trim(name.replace(/\s+/g, ' '))
       const originClassName = name
       const before = trim(value.replace(/\n\s*/g, ''))
-      const transfer = transformStyleToTailwindcss(before)[0]
+      const transfer = transformStyleToTailwindcss(before, isRem)[0]
       const tailMatcher = name.match(tailReg)
 
       const prefix = tailMatcher
@@ -448,7 +454,7 @@ async function resolveConflictClass(
 
     const returnValue = isJsx
       ? after
-        .replace(/\[(.*)\]/g, (all, v) =>
+        .replace(/\[([^\]]*)\]/g, (all, v) =>
           all.replace(v, joinWithUnderLine(v)),
         )
         .replace(/="([\w\-\,.\(\)\+\_\s#]+)"/g, '-$1')
@@ -594,6 +600,7 @@ async function getConflictClass(
         const prefix = keys.length > 1 ? keys[0] : ''
         let transferCss = transformStyleToTailwindcss(
           `${key}:${map[key][1]}`,
+          isRem,
         )[0]
         const match = transferCss.match(/(.*)="\[(.*)\]"/)
         if (match)

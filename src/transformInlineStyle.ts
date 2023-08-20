@@ -1,11 +1,15 @@
-import { transformStyleToTailwindcss } from './transformStyleToTailwindcss'
+import { transformStyleToTailwindcss } from 'transform-to-tailwindcss-core'
 
 const styleReg = /<([\w\-_]+)[^>]*[^:]style="([^"]+)"[^>]*>/g
 
 const removeStyleReg = / style="([#\w\:\-\s;\[\]\/\+%]+)"/
 const templateReg = /^<template>(.*)<\/template>$/ms
 const commentReg = /<!--.*-->/gs
-export function transformInlineStyle(code: string, isJsx?: boolean): string {
+export function transformInlineStyle(
+  code: string,
+  isJsx?: boolean,
+  isRem?: boolean,
+): string {
   // code中提取template
   const match = code.match(templateReg)
   if (!match)
@@ -21,7 +25,7 @@ export function transformInlineStyle(code: string, isJsx?: boolean): string {
   })
 
   templateMatch.replace(styleReg, (target, tag, inlineStyle) => {
-    const [after, noMap] = transformStyleToTailwindcss(inlineStyle)
+    const [after, noMap] = transformStyleToTailwindcss(inlineStyle, isRem)
 
     // transform inline-style
 

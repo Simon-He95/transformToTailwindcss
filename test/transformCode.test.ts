@@ -20,8 +20,10 @@ describe('transformCode', () => {
 
         return `\n\n-----    ${demo}     -------\n\n${await transfromCode(
           await fsp.readFile(url, 'utf-8'),
-          filepath,
-          suffix,
+          {
+            filepath,
+            type: suffix,
+          },
         )}`
       }),
     )
@@ -37,7 +39,7 @@ describe('transformCode', () => {
         <div class=\\"red bg-red w-[100%] leading-[20px]\\">
           nihao
         </div>
-        <div class=\\"yellow !bg-yellow w-[100%]_h-[100%]\\">
+        <div class=\\"yellow !bg-yellow w-[100%] h-[100%]\\">
           hi
         </div>
       </template>
@@ -50,7 +52,7 @@ describe('transformCode', () => {
       <script setup lang=\\"ts\\"></script>
 
       <template>
-        <div class=\\"red w-[100%]_h-[100%]\\" name=\\"hi\\" haha>
+        <div class=\\"red w-[100%] h-[100%]\\" name=\\"hi\\" haha>
           nihao
         </div>
         <div class=\\"yellow h-[100%]\\">
@@ -391,7 +393,8 @@ describe('single demo vue.tsx', async () => {
   it('vue.tsx', async () => {
     const filepath = path.resolve(process.cwd(), _path)
 
-    expect(await transfromCode(demo, filepath, 'tsx')).toMatchInlineSnapshot(`
+    expect(await transfromCode(demo, { filepath, type: 'tsx' }))
+      .toMatchInlineSnapshot(`
       "import { defineComponent, ref } from 'vue'
       import './index.css'
 

@@ -3,13 +3,12 @@ import path from 'path'
 import { describe, expect, it } from 'vitest'
 import { transformHtml } from '../src/transformHtml'
 
-describe.skip('accent', () => {
+describe('accent', () => {
   it('accent-color: inherit;', async () => {
     const html = await fsp.readFile('./test/demo/index.html', 'utf-8')
     const filepath = path.resolve(process.cwd(), './test/demo/index.html')
 
-    expect(await transformHtml(html, filepath)).toMatchInlineSnapshot(
-   `
+    expect(await transformHtml(html, { filepath })).toMatchInlineSnapshot(`
       "<!DOCTYPE html>
       <html lang=\\"en\\">
       <head>
@@ -19,7 +18,7 @@ describe.skip('accent', () => {
         <title>Document</title>
         <link rel=\\"stylesheet\\" href=\\"./index.css\\"></head>
       <body>
-        <div class=\\"red text-10px\\">hello world</div>
+        <div class=\\"red text-[10px]\\">hello world</div>
       </body>
       </html>
       "
