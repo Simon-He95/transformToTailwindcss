@@ -106,8 +106,8 @@ importers:
         specifier: ^0.0.4
         version: 0.0.4(lazy-js-utils@0.0.39)
       transform-to-tailwindcss-core:
-        specifier: ^0.0.5
-        version: 0.0.5
+        specifier: ^0.0.7
+        version: 0.0.7
       tsup:
         specifier: ^6.5.0
         version: 6.7.0(postcss@8.4.23)(typescript@4.9.5)
@@ -5851,8 +5851,8 @@ packages:
       punycode: 2.3.0
     dev: true
 
-  /transform-to-tailwindcss-core@0.0.5:
-    resolution: {integrity: sha512-1KdpTmNhIx518F0AMNBN9DGPmxaqeRzx+fJ9RdN3h2EUTnwrTHMpsmwX7EXvw9AA+WhkcbRQc7NjsOLNbm9WVg==}
+  /transform-to-tailwindcss-core@0.0.7:
+    resolution: {integrity: sha512-gSa70hzXshVbQSK3MiDMQBgqvyTqTGFUtDdUONG1Fe+vKZLfd9fUwZutNYF5We1k+Yy9CgBEdd2af2j+GGogDQ==}
     hasBin: true
     dev: true
 
