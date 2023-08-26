@@ -12,8 +12,8 @@ importers:
         specifier: ^3.2.12
         version: 3.2.12
       lazy-js-utils:
-        specifier: ^0.0.39
-        version: 0.0.39(vue@3.3.4)
+        specifier: ^0.0.63
+        version: 0.0.63(vue@3.3.4)
     devDependencies:
       '@antfu/eslint-config':
         specifier: ^0.25.1
@@ -104,7 +104,7 @@ importers:
         version: 0.59.0
       transform-to-tailwindcss:
         specifier: ^0.0.4
-        version: 0.0.4(lazy-js-utils@0.0.39)
+        version: 0.0.4(lazy-js-utils@0.0.63)
       transform-to-tailwindcss-core:
         specifier: ^0.0.7
         version: 0.0.7
@@ -4386,8 +4386,8 @@ packages:
     dependencies:
       vue: 3.3.4
 
-  /lazy-js-utils@0.0.39(vue@3.3.4):
-    resolution: {integrity: sha512-QSpgcSIU/r4SzawlicNTt4uN5e0aRY2hhRl/tIOdOZ5Y/tfhsf1Hl7eBDcHHVdHSOxstaZDe14xDcLuRs93Jpg==}
+  /lazy-js-utils@0.0.63(vue@3.3.4):
+    resolution: {integrity: sha512-b4W0sqF+26ypAsDfuwVlIcVA04SQ1XV8BwIV8W6fSN8fyDHyc14mZtsjYk/ZRbWmpK+U3/Rm5fR+oyAJJOBqCg==}
     peerDependencies:
       vue: ^3.2.41
     dependencies:
@@ -5856,14 +5856,14 @@ packages:
     hasBin: true
     dev: true
 
-  /transform-to-tailwindcss@0.0.4(lazy-js-utils@0.0.39):
+  /transform-to-tailwindcss@0.0.4(lazy-js-utils@0.0.63):
     resolution: {integrity: sha512-NpeXjdPy6/plRgk7sPzHWQte2ZxjxIKgrkL7ccGs56kiL/lKAON4JHhEbffXWphljcLyiUUXhRsYOPzx7u9Mpw==}
     hasBin: true
     peerDependencies:
       lazy-js-utils: ^0.0.39
     dependencies:
       fast-glob: 3.2.12
-      lazy-js-utils: 0.0.39(vue@3.3.4)
+      lazy-js-utils: 0.0.63(vue@3.3.4)
     dev: true
 
   /tree-kill@1.2.2:
