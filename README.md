@@ -3,7 +3,7 @@
 </p>
 <p align="center"> English | <a href="./README_zh.md">简体中文</a></p>
 
-This library is to convert css to tailwindcss. [tailwindcss](https://tailwindcss.com/) can reuse styles better to reduce the packaging volume, which can be converted as a performance optimization method, and it can also make it easier for old projects to upgrade to tailwindcss
+This library is to convert css to tailwindcss. [tailwindcss](https://tailwindcss.com/) can reuse styles better to reduce the packaging volume, which can be converted as a performance optimization method, and it can also make it easier for old projects to upgrade to tailwindcss. If you want to use [unocss](https://github.com/unocss/unocss), you can use [transformToUnocss](https://github.com/Simon-He95/transformToUnocss).
 
 ## 📦 Install
 
