@@ -16,7 +16,14 @@ const input = ref('')
 let pre: any
   = '<template>\n  <button>button</button>\n</template>\n\n<style scoped>\n  button {\n    height: 32px;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    font-size: 14px;\n    cursor: pointer;\n    user-select: none;\n    padding: 8px 15px;\n    border-radius: 4px;\n    border: none;\n    box-sizing: border-box;\n    color: #fff;\n    background-color: #409eff;\n    margin: auto;\n  }\n  button:hover{\n    background-color: #67c23a ;\n  }\n</style>\n'
 
-const transform = computed(() => toTailwindcss(input.value, isChecked.value))
+const transform = computed(() => {
+  try {
+    return toTailwindcss(input.value, isChecked.value)
+  }
+  catch (error) {
+    return ''
+  }
+})
 let editorComponent: any = null
 const editor = ref(null)
 const editorResult = ref<HTMLElement>()
