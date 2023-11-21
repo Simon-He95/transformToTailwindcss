@@ -19,7 +19,7 @@ export async function transformJsx(code: string, options: Options = {}) {
   let container: any = null
   let css = ''
   let cssPath = ''
-  babelTraverse(ast, {
+  babelTraverse(ast as any, {
     enter({ node }: any) {
       if (node.type === 'JSXElement') {
         if (container)
