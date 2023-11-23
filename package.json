@@ -90,7 +90,7 @@
     "sass": "^1.69.5",
     "simple-git-hooks": "^2.9.0",
     "stylus": "^0.59.0",
-    "transform-to-tailwindcss": "^0.0.4",
+    "transform-to-tailwindcss": "^0.0.14",
     "transform-to-tailwindcss-core": "^0.0.10",
     "tsup": "^6.7.0",
     "tsx": "^3.14.0",
