@@ -12,8 +12,8 @@ importers:
         specifier: ^3.3.2
         version: 3.3.2
       lazy-js-utils:
-        specifier: ^0.0.71
-        version: 0.0.71(vue@3.3.8)
+        specifier: ^0.0.75
+        version: 0.0.75(vue@3.3.8)
     devDependencies:
       '@antfu/eslint-config':
         specifier: ^0.25.2
@@ -46,7 +46,7 @@ importers:
         specifier: ^3.0.6
         version: 3.0.6
       '@types/node':
-        specifier: ^18.18.11
+        specifier: ^18.18.13
         version: 18.18.13
       '@types/stylus':
         specifier: ^0.48.42
@@ -96,9 +96,6 @@ importers:
       sass:
         specifier: ^1.69.5
         version: 1.69.5
-      simple-git-hooks:
-        specifier: ^2.9.0
-        version: 2.9.0
       stylus:
         specifier: ^0.59.0
         version: 0.59.0
@@ -4932,8 +4929,8 @@ packages:
       vue: 3.3.8(typescript@4.9.5)
     dev: true
 
-  /lazy-js-utils@0.0.71(vue@3.3.8):
-    resolution: {integrity: sha512-3CCdKmREU6KYaFysOCHW4F7QF5J32iiyMiYtFzIXJG4a2dC2YWFPTq8mWpLqHikiqSSNS9l8AwU+TX47upNhWA==}
+  /lazy-js-utils@0.0.75(vue@3.3.8):
+    resolution: {integrity: sha512-mW/PEpelfPIvaT/2vP6LsSPa2OKerLoQY/6A7yf1szwi7wxAnqcIoTsRqwiq81/c1WKGs0Vn5UxqXLw3GEaNZw==}
     peerDependencies:
       vue: ^3.2.41
     dependencies:
@@ -6088,12 +6085,6 @@ packages:
   /signal-exit@4.1.0:
     resolution: {integrity: sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==}
     engines: {node: '>=14'}
-    dev: true
-
-  /simple-git-hooks@2.9.0:
-    resolution: {integrity: sha512-waSQ5paUQtyGC0ZxlHmcMmD9I1rRXauikBwX31bX58l5vTOhCEcBC5Bi+ZDkPXTjDnZAF8TbCqKBY+9+sVPScw==}
-    hasBin: true
-    requiresBuild: true
     dev: true
 
   /sirv@2.0.3:

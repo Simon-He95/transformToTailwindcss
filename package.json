@@ -58,7 +58,7 @@
   },
   "dependencies": {
     "fast-glob": "^3.3.2",
-    "lazy-js-utils": "^0.0.71"
+    "lazy-js-utils": "^0.0.75"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.25.2",
@@ -71,7 +71,7 @@
     "@simon_he/colorize": "^0.0.1",
     "@types/babel__core": "^7.20.5",
     "@types/less": "^3.0.6",
-    "@types/node": "^18.18.11",
+    "@types/node": "^18.18.13",
     "@types/stylus": "^0.48.42",
     "@vue/babel-plugin-jsx": "^1.1.5",
     "bumpp": "^8.2.1",
@@ -88,7 +88,6 @@
     "prettier": "^2.8.8",
     "rimraf": "^3.0.2",
     "sass": "^1.69.5",
-    "simple-git-hooks": "^2.9.0",
     "stylus": "^0.59.0",
     "transform-to-tailwindcss": "workspace:^",
     "transform-to-tailwindcss-core": "^0.0.12",
@@ -97,10 +96,6 @@
     "typescript": "^4.9.5",
     "unplugin": "^1.5.1",
     "vitest": "^0.15.2"
-  },
-  "simple-git-hooks": {
-    "pre-commit": "pnpm exec lint-staged --concurrent false",
-    "commit-msg": "pnpm exec tsx scripts/verifyCommit.ts $1"
   },
   "lint-staged": {
     "*": [
