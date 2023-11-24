@@ -57,8 +57,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "fast-glob": "^3.3.2",
-    "lazy-js-utils": "^0.0.75"
+    "fast-glob": "^3.3.2"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.25.2",
@@ -78,6 +77,7 @@
     "eslint": "^8.54.0",
     "esno": "^0.16.3",
     "find-up": "^6.3.0",
+    "lazy-js-utils": "^0.0.75",
     "less": "^4.2.0",
     "less-plugin-module-resolver": "^1.0.3",
     "lint-staged": "^13.3.0",
