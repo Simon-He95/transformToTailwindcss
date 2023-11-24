@@ -103,11 +103,11 @@ importers:
         specifier: ^0.59.0
         version: 0.59.0
       transform-to-tailwindcss:
-        specifier: ^0.0.4
-        version: 0.0.4(lazy-js-utils@0.0.71)
+        specifier: workspace:^
+        version: 'link:'
       transform-to-tailwindcss-core:
-        specifier: ^0.0.10
-        version: 0.0.10
+        specifier: ^0.0.11
+        version: 0.0.11
       tsup:
         specifier: ^6.7.0
         version: 6.7.0(postcss@8.4.31)(typescript@4.9.5)
@@ -2519,6 +2519,7 @@ packages:
       magic-string: 0.30.5
       postcss: 8.4.31
       source-map-js: 1.0.2
+    dev: false
 
   /@vue/compiler-ssr@3.3.4:
     resolution: {integrity: sha512-m0v6oKpup2nMSehwA6Uuu+j+wEwcy7QmwMkVNVfrV9P2qE5KshC6RwOCq8fjGS/Eak/uNb8AaWekfiXxbBB6gQ==}
@@ -2555,6 +2556,7 @@ packages:
       '@vue/shared': 3.3.8
       estree-walker: 2.0.2
       magic-string: 0.30.5
+    dev: false
 
   /@vue/reactivity@3.3.4:
     resolution: {integrity: sha512-kLTDLwd0B1jG08NBF3R5rqULtv/f8x3rOFByTDz4J53ttIQEDmALqKqXY0J+XQeN0aV2FBxY8nJDf88yvOPAqQ==}
@@ -2566,6 +2568,7 @@ packages:
     resolution: {integrity: sha512-ctLWitmFBu6mtddPyOKpHg8+5ahouoTCRtmAHZAXmolDtuZXfjL2T3OJ6DL6ezBPQB1SmMnpzjiWjCiMYmpIuw==}
     dependencies:
       '@vue/shared': 3.3.8
+    dev: false
 
   /@vue/runtime-core@3.3.4:
     resolution: {integrity: sha512-R+bqxMN6pWO7zGI4OMlmvePOdP2c93GsHFM/siJI7O2nxFRzj55pLwkpCedEY+bTMgp5miZ8CxfIZo3S+gFqvA==}
@@ -2579,6 +2582,7 @@ packages:
     dependencies:
       '@vue/reactivity': 3.3.8
       '@vue/shared': 3.3.8
+    dev: false
 
   /@vue/runtime-dom@3.3.4:
     resolution: {integrity: sha512-Aj5bTJ3u5sFsUckRghsNjVTtxZQ1OyMWCr5dZRAPijF/0Vy4xEoRCwLyHXcj4D0UFbJ4lbx3gPTgg06K/GnPnQ==}
@@ -2594,6 +2598,7 @@ packages:
       '@vue/runtime-core': 3.3.8
       '@vue/shared': 3.3.8
       csstype: 3.1.2
+    dev: false
 
   /@vue/server-renderer@3.3.4(vue@3.3.4):
     resolution: {integrity: sha512-Q6jDDzR23ViIb67v+vM1Dqntu+HUexQcsWKhhQa4ARVzxOY2HbC7QRW/ggkDBd5BU+uM1sV6XOAP0b216o34JQ==}
@@ -2624,6 +2629,7 @@ packages:
       '@vue/compiler-ssr': 3.3.8
       '@vue/shared': 3.3.8
       vue: 3.3.8(typescript@4.9.5)
+    dev: false
 
   /@vue/shared@3.3.4:
     resolution: {integrity: sha512-7OjdcV8vQ74eiz1TZLzZP4JwqM5fA94K6yntPS5Z25r9HDuGNzaGdgvwKYq6S+MxwF0TFRwe50fIR/MYnakdkQ==}
@@ -5785,6 +5791,7 @@ packages:
       vue: ^3.2.41
     dependencies:
       vue: 3.3.8(typescript@4.9.5)
+    dev: false
 
   /lazy-js-utils@0.0.71(vue@3.3.8):
     resolution: {integrity: sha512-3CCdKmREU6KYaFysOCHW4F7QF5J32iiyMiYtFzIXJG4a2dC2YWFPTq8mWpLqHikiqSSNS9l8AwU+TX47upNhWA==}
@@ -5796,6 +5803,7 @@ packages:
       qrcode: 1.5.3
       spark-md5: 3.0.2
       vue: 3.3.8(typescript@4.9.5)
+    dev: false
 
   /less-plugin-module-resolver@1.0.3:
     resolution: {integrity: sha512-w5xD9Kv1KpqG0ie181t1RH99n0tfbGpBnajrpOfRKJgqrlRdKsfYax5WUFqRlJ1tE5pJqssV6FJQeodY0IGylw==}
@@ -7388,19 +7396,9 @@ packages:
       punycode: 2.3.0
     dev: true
 
-  /transform-to-tailwindcss-core@0.0.10:
-    resolution: {integrity: sha512-cRixKYDdGxCoLgDavADqZOSX9+ndscEavL+26YRA9rPrz4Phw+uOanEVbEcMaii4CVJj4J6kU6QTVgnM2/p3uw==}
+  /transform-to-tailwindcss-core@0.0.11:
+    resolution: {integrity: sha512-5/5/UT4mJzQEfrEKr6eMZbNum0NloF6va+05iB18fBM8/oUEJ2bpwcHOXpP061dHhFS1ogxBFEW01MWAbHm4dA==}
     hasBin: true
-    dev: true
-
-  /transform-to-tailwindcss@0.0.4(lazy-js-utils@0.0.71):
-    resolution: {integrity: sha512-NpeXjdPy6/plRgk7sPzHWQte2ZxjxIKgrkL7ccGs56kiL/lKAON4JHhEbffXWphljcLyiUUXhRsYOPzx7u9Mpw==}
-    hasBin: true
-    peerDependencies:
-      lazy-js-utils: ^0.0.39
-    dependencies:
-      fast-glob: 3.3.2
-      lazy-js-utils: 0.0.71(vue@3.3.8)
     dev: true
 
   /tree-kill@1.2.2:
@@ -8090,6 +8088,7 @@ packages:
       '@vue/server-renderer': 3.3.8(vue@3.3.8)
       '@vue/shared': 3.3.8
       typescript: 4.9.5
+    dev: false
 
   /w3c-hr-time@1.0.2:
     resolution: {integrity: sha512-z8P5DvDNjKDoFIHK7q8r8lackT6l+jo/Ye3HOle7l9nICP9lf1Ci25fy9vHd0JOWewkIFzXIEig3TdKT7JQ5fQ==}
