@@ -2,7 +2,7 @@ import { transformStyleToTailwindcss } from 'transform-to-tailwindcss-core'
 
 const styleReg = /<([\w\-_]+)[^>]*[^:]style="([^"]+)"[^>]*>/g
 
-const removeStyleReg = / style="([#\w\:\-\s;\[\]\/\+%]+)"/
+const removeStyleReg = / style="([^"]*)"/
 const templateReg = /^<template>(.*)<\/template>$/ms
 const commentReg = /<!--.*-->/gs
 export function transformInlineStyle(
@@ -30,7 +30,7 @@ export function transformInlineStyle(
     // transform inline-style
 
     if (isJsx) {
-      const newReg = new RegExp(`<${tag}.*class="([^"]*)"`)
+      const newReg = new RegExp(`<${tag}.*\\sclass="([^"]*)"`)
       const matcher = target.match(newReg)
 
       if (matcher) {

@@ -181,7 +181,7 @@ async function importCss(
 
     const vue = wrapperVueTemplate(code, css)
 
-    const transfer = await transformVue(vue, isJsx)
+    const transfer = await transformVue(vue, { isJsx })
 
     if (diffTemplateStyle(transfer, vue)) {
       code = originCode
@@ -463,7 +463,7 @@ async function resolveConflictClass(
 
     if (isJsx) {
       const newReg = new RegExp(
-        `<${tag}.*class="([\\w\\:\\-\\s;\\[\\]\\/\\+%]+)"[=\\w\\-\\_'"\\s:]*\/?>`,
+        `<${tag}.*\\sclass=["']([^"']+)["'][^\\/>]*\/?>`,
       )
       const matcher = target.match(newReg)
 

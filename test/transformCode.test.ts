@@ -13,10 +13,9 @@ describe('transformCode', () => {
         const suffix = demo.endsWith('.vue')
           ? 'vue'
           : demo.endsWith('.tsx')
-            ? 'tsx'
-            : ''
-        if (!suffix)
-          return
+          ? 'tsx'
+          : ''
+        if (!suffix) return
 
         return `\n\n-----    ${demo}     -------\n\n${await transfromCode(
           await fsp.readFile(url, 'utf-8'),
@@ -392,7 +391,6 @@ describe('single demo vue.tsx', async () => {
 
   it('vue.tsx', async () => {
     const filepath = path.resolve(process.cwd(), _path)
-
     expect(await transfromCode(demo, { filepath, type: 'tsx' }))
       .toMatchInlineSnapshot(`
       "import { defineComponent, ref } from 'vue'
