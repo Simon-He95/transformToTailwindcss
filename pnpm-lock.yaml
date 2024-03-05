@@ -64,8 +64,8 @@ importers:
         specifier: ^6.3.0
         version: 6.3.0
       lazy-js-utils:
-        specifier: ^0.0.39
-        version: 0.0.39(vue@3.2.45)
+        specifier: ^0.0.87
+        version: 0.0.87(vue@3.2.45)
       less:
         specifier: ^4.1.3
         version: 4.1.3
@@ -5090,8 +5090,8 @@ packages:
       vue: 3.2.45
     dev: true
 
-  /lazy-js-utils@0.0.39(vue@3.2.45):
-    resolution: {integrity: sha512-QSpgcSIU/r4SzawlicNTt4uN5e0aRY2hhRl/tIOdOZ5Y/tfhsf1Hl7eBDcHHVdHSOxstaZDe14xDcLuRs93Jpg==}
+  /lazy-js-utils@0.0.60(vue@3.2.45):
+    resolution: {integrity: sha512-2weiG4wqcleerGVaJcowSSOViGWiKJU8CqFJzSeUHVVzULsMzzJ+z4Sk2c0E8vPMjrpKZmc5EwGzYRuttNQ+0w==}
     peerDependencies:
       vue: ^3.2.41
     dependencies:
@@ -5102,8 +5102,8 @@ packages:
       vue: 3.2.45
     dev: true
 
-  /lazy-js-utils@0.0.60(vue@3.2.45):
-    resolution: {integrity: sha512-2weiG4wqcleerGVaJcowSSOViGWiKJU8CqFJzSeUHVVzULsMzzJ+z4Sk2c0E8vPMjrpKZmc5EwGzYRuttNQ+0w==}
+  /lazy-js-utils@0.0.87(vue@3.2.45):
+    resolution: {integrity: sha512-S5ZDjcc7jSLb926ZT2YDc6t22MLihunMuogFN6bRlnIzYJXtgyp6XRt2J2a/V7pxSDCO5wcV/412TGXgD8PGjA==}
     peerDependencies:
       vue: ^3.2.41
     dependencies:
