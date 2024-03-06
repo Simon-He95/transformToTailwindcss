@@ -89,7 +89,7 @@
     "rimraf": "^3.0.2",
     "sass": "^1.59.2",
     "simple-git-hooks": "^2.8.1",
-    "stylus": "^0.59.0",
+    "stylus": "^0.63.0",
     "transform-to-tailwindcss": "workspace:^",
     "transform-to-tailwindcss-core": "^0.0.15",
     "tsup": "^6.5.0",
