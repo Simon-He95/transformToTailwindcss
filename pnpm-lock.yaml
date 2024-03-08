@@ -79,8 +79,8 @@ importers:
         specifier: ^0.30.0
         version: 0.30.0
       monaco-editor:
-        specifier: ^0.36.1
-        version: 0.36.1
+        specifier: ^0.47.0
+        version: 0.47.0
       picocolors:
         specifier: ^1.0.0
         version: 1.0.0
@@ -5828,8 +5828,8 @@ packages:
       ufo: 1.1.0
     dev: true
 
-  /monaco-editor@0.36.1:
-    resolution: {integrity: sha512-/CaclMHKQ3A6rnzBzOADfwdSJ25BFoFT0Emxsc4zYVyav5SkK9iA6lEtIeuN/oRYbwPgviJT+t3l+sjFa28jYg==}
+  /monaco-editor@0.47.0:
+    resolution: {integrity: sha512-VabVvHvQ9QmMwXu4du008ZDuyLnHs9j7ThVFsiJoXSOQk18+LF89N4ADzPbFenm0W4V2bGHnFBztIRQTgBfxzw==}
     dev: true
 
   /mrmime@1.0.1:
