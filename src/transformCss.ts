@@ -10,19 +10,21 @@ import {
   isEmptyStyle,
   isNot,
   joinWithUnderLine,
+  transformUnocssBack,
   trim,
 } from './utils'
 import { tail } from './tail'
 import { transformVue } from './transformVue'
 import { wrapperVueTemplate } from './wrapperVueTemplate'
 import { compilerCss } from './compilerCss'
+
 const combineReg = /([.#\w]+)([.#][\w]+)/ // xx.xx
 
 const addReg = /([.#\w]+)\s*\+\s*([.#\w]+)/ // xx + xx
-const tailReg = /:([\w-\(\)]+)/ // :after
+const tailReg = /:([\w\-]+)/ // :after
 const tagReg = /\[([\w-]*)[='" ]*([\w-]*)['" ]*\]/ // [class="xxx"]
+const emptyClass = /[,\w>\.\#\-\+>\:\[\]\="'\s\(\)]+\s*{}\n/g
 
-const emptyClass = /[\w>\.\#\-\+>\:\[\]\="'\s\(\)]+\s*{}\n/g
 interface Position {
   column: number
   line: number
@@ -40,6 +42,7 @@ interface AllChange {
   start: Position
   end: Position
 }
+
 let isRem: boolean | undefined = false
 interface Options {
   isJsx?: boolean
@@ -62,18 +65,25 @@ export async function transformCss(
     /(.*){([#\\n\s\w\-.:;,%\(\)\+'"!]*)}/g,
     (all: any, name: any, value: any = '') => {
       name = trim(name.replace(/\s+/g, ' '))
+
       const originClassName = name
       const before = trim(value.replace(/\n\s*/g, ''))
-      const transfer = transformStyleToTailwindcss(before, isRem)[0]
+      const [transfer, noTransfer] = transformStyleToTailwindcss(before, isRem)
       const tailMatcher = name.match(tailReg)
 
       const prefix = tailMatcher
         ? (name.endsWith(tailMatcher[0]) ? '' : 'group-') + tail(tailMatcher[1])
         : ''
+      // :deep()
+      if (prefix === 'group-deep')
+        return
 
       const after
         = prefix && transfer
-          ? `${prefix}:${transfer.replace(/="\[(.*)\]"/g, (_, v) => `-${v}`)}`
+          ? `${prefix}="${transfer.replace(
+              /="\[([^\]]*)\]"/g,
+              (_, v) => `-[${v}]`,
+            )}"`
           : transfer ?? before
       // 未被转换跳过
       if (before === after)
@@ -81,6 +91,7 @@ export async function transformCss(
 
       if (prefix)
         name = name.replace(tailMatcher[0], '')
+
       // 找template > ast
       const names = name.replace(/\s*\+\s*/, '+').split(' ')
 
@@ -88,20 +99,69 @@ export async function transformCss(
 
       if (!result.length)
         return
-
+      const updateOffsetMap: any = {}
       result.forEach((r) => {
         const parent = r.parent
         if (prefix.startsWith('group-') && parent) {
           // 给result的parent添加class="group"
           const hasClass = parent.props.find((i: any) => i.name === 'class')
           if (hasClass) {
+            if (hasClass.value.content.includes('group'))
+              return
             // 如果有class
             const index = hasClass.value.loc.start.offset
-            code = `${code.slice(0, index + 1)}group ${code.slice(index + 1)}`
+            const newIndex
+              = hasClass.value.loc.start.offset
+              + getCalculateOffset(updateOffsetMap, index)
+            const updateText = 'group '
+            updateOffsetMap[index] = updateText.length
+            hasClass.value.content = `${hasClass.value.content} ${updateText}`
+            code = `${code.slice(0, newIndex + 1)}${updateText}${code.slice(
+              newIndex + 1,
+            )}`
           }
           else {
             const index = parent.loc.start.offset + parent.tag.length + 1
-            code = `${code.slice(0, index)} class="group" ${code.slice(index)}`
+            const newIndex
+              = hasClass.value.loc.start.offset
+              + getCalculateOffset(updateOffsetMap, index)
+            const updateText = 'class="group" '
+            parent.props.push({
+              type: 6,
+              name: 'class',
+              value: {
+                type: 2,
+                content: 'group',
+                loc: {
+                  start: {
+                    column: 0,
+                    line: 0,
+                    offset: newIndex,
+                  },
+                  end: {
+                    column: 0,
+                    line: 0,
+                    offset: newIndex + updateText.length,
+                  },
+                },
+              },
+              loc: {
+                start: {
+                  column: 0,
+                  line: 0,
+                  offset: newIndex,
+                },
+                end: {
+                  column: 0,
+                  line: 0,
+                  offset: newIndex + updateText.length,
+                },
+              },
+            })
+            updateOffsetMap[index] = updateText.length
+            code = `${code.slice(0, newIndex)} class="group" ${code.slice(
+              newIndex,
+            )}`
           }
         }
 
@@ -121,6 +181,7 @@ export async function transformCss(
 
           return result
         }, [] as string[])
+        stack = parse(code).descriptor!.template!.ast
 
         allChanges.push({
           before,
@@ -137,13 +198,11 @@ export async function transformCss(
       })
       // 拿出class
       const _class = code.match(/<style[^>]+>(.*)<\/style>/s)![1]
-
       // 删除原本class
-      let newClass = _class.replace(value, '')
+      let newClass = _class.replace(value, noTransfer.join(';'))
 
       // 如果class中内容全部被移除删除这个定义的class
       newClass = newClass.replace(emptyClass, '')
-
       code = code.replace(_class, newClass)
 
       // update stack
@@ -181,7 +240,7 @@ async function importCss(
 
     const vue = wrapperVueTemplate(code, css)
 
-    const transfer = await transformVue(vue, { isJsx })
+    const transfer = await transformVue(vue, { isJsx, isRem })
 
     if (diffTemplateStyle(transfer, vue)) {
       code = originCode
@@ -415,6 +474,7 @@ async function resolveConflictClass(
 ) {
   const changes = findSameSource(allChange)
   let result = code
+  const updateOffset: any = {}
   for await (const key of Object.keys(changes)) {
     const value = changes[key]
     const {
@@ -423,6 +483,7 @@ async function resolveConflictClass(
       media,
       source,
       start: { offset },
+      end: { offset: offsetEnd },
     } = value[0]
     // eslint-disable-next-line prefer-const
     let [after, transform] = await getConflictClass(value)
@@ -441,7 +502,11 @@ async function resolveConflictClass(
           after = after.replace(
             /class="(\[&:not\([\w\s\-\_\.\#]+\)\]:[\w\-\.]+)"\s*/,
             (_, v) => {
-              result = result.replace(match[1], `${match[1]} ${v}`)
+              const updateText = ` ${v}`
+              result = result.replace(match[1], `${match[1]}${updateText}`)
+              updateOffset[offset]
+                = updateOffset[offset] ?? 0 + updateText.length
+
               return ''
             },
           )
@@ -454,12 +519,18 @@ async function resolveConflictClass(
 
     const returnValue = isJsx
       ? after
-        .replace(/\[([^\]]*)\]/g, (all, v) =>
+        .replace(/\[([^\]]+)\]/g, (all, v) =>
           all.replace(v, joinWithUnderLine(v)),
         )
-        .replace(/="([\w\-\,.\(\)\+\_\s#]+)"/g, '-$1')
+        .replace(/-(rgba?([^\)]+))/g, '-[$1]')
+        .replace(/="([^"]+)"/g, '-$1')
       : after
-    const start = result.slice(offset)
+
+    const getUpdateOffset = getCalculateOffset(updateOffset, offset)
+    const start = result.slice(
+      getUpdateOffset + offset,
+      getUpdateOffset + offsetEnd,
+    )
 
     if (isJsx) {
       const newReg = new RegExp(
@@ -468,26 +539,33 @@ async function resolveConflictClass(
       const matcher = target.match(newReg)
 
       if (matcher) {
+        const updateText = ` ${returnValue}`
+        updateOffset[offset] = updateOffset[offset] ?? 0 + updateText.length
+
         result = result.replace(
           start,
           start.replace(
             `class="${matcher[1]}"`,
-            `class="${matcher[1]} ${returnValue}"`,
+            `class="${matcher[1]}${updateText}"`,
           ),
         )
         continue
       }
+      const updateText = ` class="${returnValue}"`
+      updateOffset[offset] = updateOffset[offset] ?? 0 + updateText.length
 
       result = result.replace(
         start,
-        start.replace(`<${tag}`, `<${tag} class="${returnValue}"`),
+        start.replace(`<${tag}`, `<${tag}${updateText}`),
       )
       continue
     }
+    const updateText = ` ${returnValue}`
+    updateOffset[offset] = updateOffset[offset] ?? 0 + updateText.length
 
     result = result.replace(
       start,
-      start.replace(`<${tag}`, `<${tag} ${returnValue}`),
+      start.replace(`<${tag}`, `<${tag}${updateText}`),
     )
   }
 
@@ -542,7 +620,7 @@ async function getConflictClass(
   const map: Record<string, Array<number | string>> = {}
   let transform = (code: string) => code
   for await (const item of allChange) {
-    const { before, name, source, attr, after, prefix } = item
+    const { before, name, source, attr, after, prefix, media } = item
     const pre = prefix ? `${prefix}|` : ''
     const beforeArr = before.split(';').filter(Boolean)
     const data = beforeArr.map((item) => {
@@ -564,16 +642,15 @@ async function getConflictClass(
 
     // map如果已存在内联转换的unocss且为相同属性的判断是否需要删除
     if (attr) {
-      // const res = (await transformUnocssBack(
-      //   attr.map((i) => {
-      //     if (prefix)
-      //       return `${prefix}="${i}"`
-      //     if (media)
-      //       return `${media}:${i}`
-      //     return i
-      //   }),
-      // )) as any[]
-      const res: any[] = []
+      const res = (await transformUnocssBack(
+        attr.map((i) => {
+          if (prefix)
+            return `${prefix}="${i}"`
+          if (media)
+            return `${media}:${i}`
+          return i
+        }),
+      )) as any[]
       Object.keys(map).forEach((i) => {
         const index = res.findIndex(r => r === i)
         if (index !== -1) {
@@ -584,7 +661,7 @@ async function getConflictClass(
             return delete map[i]
           }
           else {
-            // 不需要删除，移除原本的inlineStyle的转换后的结果
+            // 不需要删除,移除原本的inlineStyle的转换后的结果
             transform = (code: string) =>
               code.replace(source, source.replace(` ${inline}`, ''))
           }
@@ -597,41 +674,88 @@ async function getConflictClass(
     Object.keys(map)
       .reduce((result, key) => {
         const keys = key.split('|')
-        const prefix = keys.length > 1 ? keys[0] : ''
+        let prefix = keys.length > 1 ? keys[0] : ''
         let transferCss = transformStyleToTailwindcss(
           `${key}:${map[key][1]}`,
           isRem,
         )[0]
-        const match = transferCss.match(/(.*)="\[(.*)\]"/)
-        if (match)
-          transferCss = `${match[1]}-${joinWithUnderLine(match[2])}`
-        const _transferCss = prefix
-          ? isNot(prefix)
-            ? `class="${prefix}${transferCss.replace(
-                /="\[(.*)\]"/g,
-                (_, v) => `-${v}`,
-              )}"`
-            : `${prefix}:${transferCss.replace(
-                /="\[(.*)\]"/g,
-                (_, v) => `-${v}`,
-              )}`
-          : transferCss
-        // 如果存在相同的prefix, 进行合并
-        if (prefix && result.includes(prefix)) {
-          if (isNot(prefix)) {
-            const newPrefix = prefix.replace(/[\[\]\(\)]/g, all => `\\${all}`)
-            const reg = new RegExp(`${newPrefix}([\\w\\:\\-;\\[\\]\\/\\+%]+)`)
-            return result.replace(reg, all => `${all}:${transferCss}`)
-          }
-          const reg = new RegExp(`${prefix}="([\\w\\:\\-\\s;\\[\\]\\/\\+%]+)"`)
-          return result.replace(reg, (all, v) =>
-            all.replace(v, `${v} ${transferCss}`),
-          )
+
+        const match = transferCss.match(/([^\s]*)="\[([^\]]*)\]"/)
+        if (match) {
+          transferCss = `${match.input?.replace(
+            match[0],
+            match[0]
+              .replace(/="\[([^\]]*)\]"/, (_, v) => `-[${v}]`)
+              .replace(/="([^"]*)"/, '-$1'),
+          )}`
         }
 
+        // transferCss = `${match[1]}-${joinWithUnderLine(match[2])}`
+
+        const _transferCss = prefix
+          ? isNot(prefix)
+            ? `class="${prefix}${transferCss
+                .replace(/="\[([^\]]*)\]"/g, (_, v) => `-[${v}]`)
+                .replace(/="([^"]*)"/, '-$1')}"`
+            : `${prefix}="${transferCss
+                .replace(/="\[([^\]]*)\]"/g, (_, v) => `-[${v}]`)
+                .replace(/="([^"]*)"/, '-$1')}"`
+          : transferCss
+        // 如果存在相同的prefix, 进行合并
+
+        if (!prefix) {
+          const reg = /^([^\s]*)="[^"]*"$/
+          if (reg.test(transferCss))
+            prefix = transferCss.match(reg)![1]
+        }
+
+        if (prefix) {
+          const prefixReg1 = new RegExp(`(?<!\\S)${prefix}(?!\\S)`)
+          if (prefixReg1.test(result)) {
+            return result.replace(prefixReg1, all =>
+              all.replace(prefix, _transferCss),
+            )
+          }
+          const prefixReg2 = new RegExp(`(?<!\\S)${prefix}=`)
+
+          if (prefixReg2.test(result)) {
+            if (isNot(prefix)) {
+              const newPrefix = prefix.replace(
+                /[\[\]\(\)]/g,
+                all => `\\${all}`,
+              )
+              const reg = new RegExp(`${newPrefix}([\\w\\:\\-;\\[\\]\\/\\+%]+)`)
+              return result.replace(reg, all => `${all}:${transferCss}`)
+            }
+            const reg = new RegExp(`${prefix}="([^"]*)"`)
+            return result.replace(reg, (all, v) => {
+              const unique = [
+                ...new Set(
+                  v
+                    .split(' ')
+                    .concat(
+                      _transferCss.slice(prefix.length + 2, -1).split(' '),
+                    ),
+                ),
+              ].join(' ')
+              if (v)
+                return all.replace(v, unique)
+              return `${prefix}="${unique.trim()}"`
+            })
+          }
+        }
         return `${result}${_transferCss} `
       }, '')
       .trim(),
     transform,
   ]
+}
+
+function getCalculateOffset(offsetMap: any, offset: any) {
+  return Object.keys(offsetMap).reduce((result, key) => {
+    if (+key < offset)
+      result += offsetMap[key]
+
+    return result
+  }, 0)
 }

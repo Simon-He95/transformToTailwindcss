@@ -106,8 +106,8 @@ importers:
         specifier: workspace:^
         version: 'link:'
       transform-to-tailwindcss-core:
-        specifier: ^0.0.16
-        version: 0.0.16
+        specifier: ^0.0.18
+        version: 0.0.18
       tsup:
         specifier: ^6.5.0
         version: 6.5.0(typescript@4.7.4)
@@ -6644,6 +6644,7 @@ packages:
 
   /sax@1.2.4:
     resolution: {integrity: sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==}
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -7075,8 +7076,8 @@ packages:
       punycode: 2.1.1
     dev: true
 
-  /transform-to-tailwindcss-core@0.0.16:
-    resolution: {integrity: sha512-Ze6Uk1yqSIgeC5Cd6frUpbwBm5JYHoAmYBwyPSGFTMroJHWIPCapoHKfUpLLalr9k4rOeNmdmrSzMfeGfYcC5Q==}
+  /transform-to-tailwindcss-core@0.0.18:
+    resolution: {integrity: sha512-OhkIyF08ck0FO0ek5nOGc6fWAosiRSrLxJYToHSg9CTy/Lr4G8Qfy4Q27k+pQeHeEYNcPmLBe8CLgokxzK9VGg==}
     hasBin: true
     dev: true
 

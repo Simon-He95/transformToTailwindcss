@@ -1,3 +1,5 @@
+import { createGenerator } from '@unocss/core'
+import presetUno from '@unocss/preset-uno'
 import type { CssType } from './type'
 
 export const flag = '.__unocss_transfer__'
@@ -61,4 +63,41 @@ export function getCssType(filename: string) {
   const ext = filename.split('.').pop()!
   const result = ext === 'styl' ? 'stylus' : ext
   return result as CssType
+}
+
+export function transformUnocssBack(code: string[]) {
+  const result: string[] = []
+  return new Promise((resolve) => {
+    createGenerator(
+      {},
+      {
+        presets: [presetUno()],
+      },
+    )
+      .generate(code || '')
+      .then((res: any) => {
+        const css = res.getLayers()
+        code.forEach((item) => {
+          try {
+            const reg = new RegExp(
+              `${item.replace(/([\!\(\)\[\]\*])/g, '\\\\$1')}{(.*)}`,
+            )
+            const match = css.match(reg)
+            if (!match)
+              return
+            const matcher = match[1]
+
+            result.push(
+              matcher
+                .split(';')
+                .filter((i: any) => /^\w+[\w\-]*:/.test(i))[0]
+                .split(':')[0],
+            )
+          }
+          catch (error) {}
+        })
+
+        resolve(result)
+      })
+  })
 }
