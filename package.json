@@ -82,7 +82,7 @@
     "less-plugin-module-resolver": "^1.0.3",
     "lint-staged": "^13.1.0",
     "magic-string": "^0.30.0",
-    "monaco-editor": "^0.36.1",
+    "monaco-editor": "^0.48.0",
     "picocolors": "^1.0.0",
     "pnpm": "^8.0.0",
     "prettier": "^2.8.1",
