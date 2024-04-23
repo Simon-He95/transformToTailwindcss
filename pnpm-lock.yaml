@@ -140,7 +140,7 @@ importers:
         version: 1.1.31
       '@iconify/json':
         specifier: ^2.2.31
-        version: 2.2.31
+        version: 2.2.203
       '@simon_he/git-fork-vue':
         specifier: ^0.0.11
         version: 0.0.11
@@ -1320,11 +1320,11 @@ packages:
       '@iconify/types': 2.0.0
     dev: true
 
-  /@iconify/json@2.2.31:
-    resolution: {integrity: sha512-DztAaMCNFM+b46IDnqlCU3LvjD6hFQyHKsd7+KusdHwbCDq0EeLMtyyydOivModCaGc0zQwLqfLCGbxDBdj0wA==}
+  /@iconify/json@2.2.203:
+    resolution: {integrity: sha512-SjtZP6JGbklux1Nf8nQYDZTYRxdKvXLsRQIRvSgMc2z8z9UHpoRakpe8JGT7w1RjK6MMVIfal7Nrf9w8yjKDcA==}
     dependencies:
       '@iconify/types': 2.0.0
-      pathe: 1.1.0
+      pathe: 1.1.2
     dev: true
 
   /@iconify/types@2.0.0:
@@ -1946,7 +1946,7 @@ packages:
       consola: 2.15.3
       fast-glob: 3.2.12
       magic-string: 0.30.0
-      pathe: 1.1.0
+      pathe: 1.1.2
       perfect-debounce: 0.1.3
     transitivePeerDependencies:
       - rollup
@@ -5821,7 +5821,7 @@ packages:
     resolution: {integrity: sha512-Jnlh4W/aI4GySPo6+DyTN17Q75KKbLTyFK8BrGhjNP4rxuUjbRWhE6gHg3bs33URWAF44FRm7gdQA348i3XxRw==}
     dependencies:
       acorn: 8.8.2
-      pathe: 1.1.0
+      pathe: 1.1.2
       pkg-types: 1.0.2
       ufo: 1.1.0
     dev: true
@@ -6235,8 +6235,8 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /pathe@1.1.0:
-    resolution: {integrity: sha512-ODbEPR0KKHqECXW1GoxdDb+AZvULmXjVPy4rt+pGo2+TnjJTIPJQSVS6N63n8T2Ip+syHhbn52OewKicV0373w==}
+  /pathe@1.1.2:
+    resolution: {integrity: sha512-whLdWMYL2TwI08hn8/ZqAbrVemu0LNaNNJZX73O6qaIdCTfXutsLhMkjdENX0qhsQ9uIimo4/aQOmXkoon2nDQ==}
     dev: true
 
   /pathval@1.1.1:
@@ -6278,7 +6278,7 @@ packages:
     dependencies:
       jsonc-parser: 3.2.0
       mlly: 1.1.1
-      pathe: 1.1.0
+      pathe: 1.1.2
     dev: true
 
   /pluralize@8.0.0:
@@ -7250,7 +7250,7 @@ packages:
       local-pkg: 0.4.3
       magic-string: 0.27.0
       mlly: 1.1.1
-      pathe: 1.1.0
+      pathe: 1.1.2
       pkg-types: 1.0.2
       scule: 1.0.0
       strip-literal: 1.0.1
