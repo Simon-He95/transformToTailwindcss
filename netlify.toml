@@ -1,7 +1,8 @@
-[build.environment]
-  NODE_OPTIONS = "--max_old_space_size=4096"
-  NODE_VERSION = "16"
 [build]
-  publish = "./playground/dist"
-  command = "npm run play:build"
-  functions="./playground/functions/server.zip"
+publish = "./playground/dist"
+command = "npm run play:build"
+functions = "./playground/functions/server.zip"
+
+[build.environment]
+NODE_OPTIONS = "--max_old_space_size=4096"
+NODE_VERSION = "16"

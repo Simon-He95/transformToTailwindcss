@@ -1,10 +1,11 @@
-import { parse } from 'vue/compiler-sfc'
+import { parse } from '@vue/compiler-sfc'
 import { compilerCss } from './compilerCss'
 import { prettierCode } from './prettierCode'
 import { transformCss } from './transformCss'
 import { transformInlineStyle } from './transformInlineStyle'
 import { transformMedia } from './transformMedia'
 import type { CssType } from './type'
+
 interface Options {
   isJsx?: boolean
   filepath?: string

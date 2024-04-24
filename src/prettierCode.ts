@@ -1,4 +1,4 @@
-import { parse } from 'vue/compiler-sfc'
+import { parse } from '@vue/compiler-sfc'
 
 const emptyStyle = /<style[\s\w'=]*>([\n\s]*)/
 

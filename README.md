@@ -41,7 +41,7 @@ export default defineConfig({
 
 ```ts
 // rollup.config.js
-import { resolve } from 'path'
+import { resolve } from 'node:path'
 import { rollupTransformTotailwindcss } from 'transform-to-tailwindcss'
 export default {
   plugins: [rollupTransformTotailwindcss(/* options */)],

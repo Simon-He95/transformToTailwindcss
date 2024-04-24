@@ -1,13 +1,13 @@
-[build.environment]
-  NODE_OPTIONS = "--max_old_space_size=4096"
-  NPM_FLAGS = "--version"
-  NODE_VERSION = "16"
-
 [build]
-  publish = "dist"
-  command = "npx pnpm run build"
+publish = "dist"
+command = "npx pnpm run build"
+
+[build.environment]
+NODE_OPTIONS = "--max_old_space_size=4096"
+NPM_FLAGS = "--version"
+NODE_VERSION = "16"
 
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+from = "/*"
+to = "/index.html"
+status = 200

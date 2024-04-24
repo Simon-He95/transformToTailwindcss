@@ -1,5 +1,5 @@
 import fsp from 'node:fs/promises'
-import path from 'path'
+import path from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { transformAstro } from '../src/transformAstro'
 
@@ -17,7 +17,7 @@ describe('accent', () => {
       ---
         
       	<main>
-      		<h1 class=\\"red text-[1.25rem]\\">hi </h1>
+      		<h1 class="red text-[1.25rem]">hi </h1>
       	</main>
       "
     `,

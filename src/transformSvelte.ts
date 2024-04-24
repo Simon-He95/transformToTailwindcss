@@ -13,7 +13,7 @@ export async function transformSvelte(code: string, options: Options = {}) {
   )
   if (!match)
     return code
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   const [_all, _js, template, css] = match
   const _css = css ? css.replace(/<style>(.*)<\/style>/s, '$1') : ''
   const _template = wrapperVueTemplate(template, _css)

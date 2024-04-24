@@ -1,9 +1,10 @@
-import path from 'path'
-import fsp from 'fs/promises'
+import path from 'node:path'
+import fsp from 'node:fs/promises'
 import { wrapperVueTemplate } from './wrapperVueTemplate'
 import { transformVue } from './transformVue'
 import { prettierCode } from './prettierCode'
 import { diffTemplateStyle } from './utils'
+
 const linkCssReg = /<link.*href="(.*.css)".*>/g
 const styleReg = /[\s\n]*<style.*>(.*)<\/style>[\s\n]*/s
 

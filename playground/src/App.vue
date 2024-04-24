@@ -77,7 +77,7 @@ monaco.editor.setTheme('myTheme')
 onMounted(() => {
   useFocus('input') // 自动聚焦input
 
-  self.MonacoEnvironment = {
+  globalThis.MonacoEnvironment = {
     getWorker() {
       return new HtmlWorker()
     },
@@ -151,7 +151,7 @@ function codeToHtml(code: string) {
 }
 
 const isCopy = ref(false)
-const copyStyle = () => {
+function copyStyle() {
   if (copy(transform.value))
     isCopy.value = true
 
@@ -160,7 +160,7 @@ const copyStyle = () => {
   }, 1000)
 }
 
-const changelanguage = () => {
+function changelanguage() {
   if (locale.value === 'en')
     locale.value = 'zh'
   else locale.value = 'en'

@@ -1,6 +1,6 @@
-import fsp from 'fs/promises'
-import path from 'path'
-import { parse } from 'vue/compiler-sfc'
+import fsp from 'node:fs/promises'
+import path from 'node:path'
+import { parse } from '@vue/compiler-sfc'
 import { transformStyleToTailwindcss } from 'transform-to-tailwindcss-core'
 import {
   diffTemplateStyle,
@@ -234,7 +234,7 @@ async function importCss(
     )
     const type = getCssType(url)
     const css = await compilerCss(content, type)
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     const [_, beforeStyle] = code.match(/<style.*>(.*)<\/style>/s)!
     code = code.replace(beforeStyle, '')
 
@@ -274,7 +274,7 @@ async function importCss(
 function findChild(
   list: any[],
   stack: any,
-  deps = Infinity,
+  deps = Number.POSITIVE_INFINITY,
   targets: any = undefined,
   result: any[] = [],
 ) {
@@ -331,10 +331,21 @@ function findDeepChild(
       = curs.length > 1
         ? findChild(curs, stack, 1)
         : combineMatch
-          ? astFindTag(stack, combineMatch[1], Infinity, combineMatch[2])
+          ? astFindTag(
+            stack,
+            combineMatch[1],
+            Number.POSITIVE_INFINITY,
+            combineMatch[2],
+          )
           : addMatch
-            ? astFindTag(stack, addMatch[2], Infinity, undefined, addMatch[1])
-            : astFindTag(stack, cur, Infinity)
+            ? astFindTag(
+              stack,
+              addMatch[2],
+              Number.POSITIVE_INFINITY,
+              undefined,
+              addMatch[1],
+            )
+            : astFindTag(stack, cur, Number.POSITIVE_INFINITY)
 
     if (list.length === 1) {
       result.push(...targets)
@@ -362,7 +373,7 @@ function sort(data: any[]) {
 export function astFindTag(
   ast: any,
   tag = '',
-  deps = Infinity,
+  deps = Number.POSITIVE_INFINITY,
   combine: string | undefined = undefined,
   add: string | undefined = undefined,
   result: any = [],
@@ -485,7 +496,7 @@ async function resolveConflictClass(
       start: { offset },
       end: { offset: offsetEnd },
     } = value[0]
-    // eslint-disable-next-line prefer-const
+
     let [after, transform] = await getConflictClass(value)
     if (!after)
       continue
@@ -513,8 +524,25 @@ async function resolveConflictClass(
         }
       }
       else {
-        after = after.replace(/="\[/g, '-"[')
+        after = after
+          .replace(/="\[/g, '-"[')
+          .replace(/([\w\-]+)="([^"]+)"/, (_, pre, v) =>
+            v
+              .split(' ')
+              .map((i: string) => `${pre}:${i}`)
+              .join(' '),
+          )
       }
+    }
+    else {
+      after = after
+        .replace(/="\[/g, '-"[')
+        .replace(/([\w\-]+)="([^"]+)"/, (_, pre, v) =>
+          v
+            .split(' ')
+            .map((i: string) => `${pre}:${i}`)
+            .join(' '),
+        )
     }
 
     const returnValue = isJsx
