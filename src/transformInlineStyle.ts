@@ -30,7 +30,7 @@ export function transformInlineStyle(
     // transform inline-style
 
     if (isJsx) {
-      const newReg = new RegExp(`<${tag}.*\\sclass="([^"]*)"`)
+      const newReg = new RegExp(`<${tag}.*\\sclass="([^"]*)"`, 's')
       const matcher = target.match(newReg)
 
       if (matcher) {

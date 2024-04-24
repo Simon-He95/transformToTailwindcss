@@ -433,3 +433,35 @@ describe('single demo vue.tsx', async () => {
       `)
   })
 })
+
+describe.only('single demo test-1.vue', async () => {
+  const _path = './test/demo/test-1.vue'
+  const demo = await fsp.readFile(_path, 'utf-8')
+
+  it('test-1.vue', async () => {
+    const filepath = path.resolve(process.cwd(), _path)
+    expect(await transfromCode(demo, { filepath, type: 'vue' }))
+      .toMatchInlineSnapshot(`
+        "<script setup lang="ts"></script>
+
+        <template>
+          <div bg="red" w="[100%]" leading20px>
+            <div
+              flex
+              flex-1
+              h-100px
+              bg-red
+              class="container scale-[0.8_0.9]"
+             
+            >
+              <div flex-1 h-100px bg-red />
+              <div />
+            </div>
+          </div>
+        </template>
+
+        <style scoped></style>
+        "
+      `)
+  })
+})

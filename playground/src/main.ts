@@ -4,7 +4,7 @@ import routes from 'virtual:generated-pages'
 import App from './App.vue'
 // import '@unocss/reset/tailwind.css'
 import './styles/main.css'
-import 'uno.css'
+// import 'uno.css'
 import i18n from './locales'
 import 'vivid-typing/style.css'
 
