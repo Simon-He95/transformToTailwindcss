@@ -13,8 +13,8 @@ describe('transformCode', () => {
         const suffix = demo.endsWith('.vue')
           ? 'vue'
           : demo.endsWith('.tsx')
-            ? 'tsx'
-            : ''
+          ? 'tsx'
+          : ''
         if (!suffix) return
 
         return `\n\n-----    ${demo}     -------\n\n${await transfromCode(
@@ -188,12 +188,36 @@ describe('transformCode', () => {
       ",
         "
 
+      -----    test-1.vue     -------
+
+      <script setup lang="ts"></script>
+
+      <template>
+        <div bg="red" w="[100%]" leading20px>
+          <div
+            flex
+            flex-1
+            h-100px
+            bg-red
+            class="container scale-[0.8_0.9]"
+           
+          >
+            <div flex-1 h-100px bg-red />
+            <div />
+          </div>
+        </div>
+      </template>
+
+      <style scoped></style>
+      ",
+        "
+
       -----    test.vue     -------
 
       <script setup lang="ts"></script>
       <template>
-        <div class="bg-red w-[100%] leading-[20px] flex"
-          class="container"
+        <div class="w-[100%] flex"
+          class="container bg-red w-[100%] leading-[20px]"
          
         >
           <div class="flex-1 h-[100px] bg-red" />
@@ -376,19 +400,19 @@ describe('single test', async () => {
   it('single.vue', async () => {
     expect(await transfromCode(demo, { filepath, type: 'vue' }))
       .toMatchInlineSnapshot(`
-      "<script setup lang="ts"></script>
-      <template>
-        <div class="bg-red w-[100%] leading-[20px] flex"
-          class="container"
-         
-        >
-          <div class="flex-1 h-[100px] bg-red" />
-          <div class="flex-1 h-[100px] bg-red" />
-        </div>
-      </template>
-      <style scoped></style>
-      "
-    `)
+        "<script setup lang="ts"></script>
+        <template>
+          <div class="w-[100%] flex"
+            class="container bg-red w-[100%] leading-[20px]"
+           
+          >
+            <div class="flex-1 h-[100px] bg-red" />
+            <div class="flex-1 h-[100px] bg-red" />
+          </div>
+        </template>
+        <style scoped></style>
+        "
+      `)
   })
 })
 
@@ -434,7 +458,7 @@ describe('single demo vue.tsx', async () => {
   })
 })
 
-describe.only('single demo test-1.vue', async () => {
+describe('single demo test-1.vue', async () => {
   const _path = './test/demo/test-1.vue'
   const demo = await fsp.readFile(_path, 'utf-8')
 
