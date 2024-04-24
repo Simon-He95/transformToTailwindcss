@@ -77,7 +77,6 @@
     "eslint": "^8.18.0",
     "esno": "^0.16.3",
     "find-up": "^7.0.0",
-    "lazy-js-utils": "^0.0.91",
     "less": "^4.2.0",
     "less-plugin-module-resolver": "^1.0.3",
     "lint-staged": "^15.2.2",
