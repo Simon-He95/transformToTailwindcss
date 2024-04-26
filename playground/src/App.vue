@@ -7,9 +7,10 @@ import { copy, useFocus, useRaf } from 'lazy-js-utils'
 import gitForkVue from '@simon_he/git-fork-vue'
 import { useI18n } from 'vue-i18n'
 import { toTailwindcss } from 'transform-to-tailwindcss-core'
+import { AutoComplete } from 'ant-design-vue'
 import { transformVue } from '../../src/transformVue'
+import { cssSuggestions } from './utils'
 import { isDark, toggleDark } from '~/composables'
-
 const { t, locale } = useI18n()
 const isChecked = ref(false)
 const input = ref('')
@@ -73,6 +74,47 @@ monaco.editor.defineTheme('myTheme', {
   },
 })
 monaco.editor.setTheme('myTheme')
+
+const cssCompletionProvider = {
+  triggerCharacters: ['.', ':', '-'],
+  provideCompletionItems: (model, position) => {
+    const word = model.getWordUntilPosition(position)
+    const range = {
+      startLineNumber: position.lineNumber,
+      endLineNumber: position.lineNumber,
+      startColumn: word.startColumn,
+      endColumn: word.endColumn,
+    }
+
+    return {
+      suggestions: cssSuggestions.map(prop => ({
+        label: prop,
+        kind: monaco.languages.CompletionItemKind.Property,
+        insertText: prop,
+        range,
+      })),
+    }
+  },
+}
+monaco.languages.registerCompletionItemProvider('html', {
+  provideCompletionItems(model, position) {
+    const textUntilPosition = model.getValueInRange({
+      startLineNumber: 1,
+      startColumn: 1,
+      endLineNumber: position.lineNumber,
+      endColumn: position.column,
+    })
+    const isInStyleSection
+      = /<style\b/.test(textUntilPosition)
+      || /style\s*=\s*"/.test(textUntilPosition)
+      || /style\s*=\s*'/.test(textUntilPosition)
+
+    if (!isInStyleSection)
+      return { suggestions: [] }
+
+    return cssCompletionProvider.provideCompletionItems(model, position)
+  },
+})
 
 onMounted(() => {
   useFocus('input') // 自动聚焦input
@@ -149,7 +191,17 @@ function codeToHtml(code: string) {
     .replace('<template>', '')
     .replace('<\/template>', '')
 }
-
+const options = ref(cssSuggestions.map(i => ({ value: i })))
+const onSearch = (searchText: string) => {
+  options.value = !searchText
+    ? cssSuggestions.map(i => ({ value: i }))
+    : cssSuggestions
+      .map(i => ({ value: i }))
+      .filter(i => i.value.includes(searchText))
+      .sort(
+        (a, b) => a.value.indexOf(searchText) - b.value.indexOf(searchText),
+      )
+}
 const isCopy = ref(false)
 function copyStyle() {
   if (copy(transform.value))
@@ -211,7 +263,7 @@ onUnmounted(() => {
     data-text="Css To Tailwindcss"
   />
   <div h="100%" flex justify-center items-center flex-col p="y10">
-    <input
+    <!-- <input
       v-model="input"
       class="!outline-none"
       w="40%"
@@ -222,7 +274,18 @@ onUnmounted(() => {
       p="x6 y4"
       hover:border-pink
       border-1
-    >
+    > -->
+    <AutoComplete
+      v-model:value="input"
+      w="60%"
+      :options="options"
+      class="!text-6"
+      :placeholder="t('placeholder')"
+      hover="border-pink!"
+      border-1
+      allow-clear
+      @search="onSearch"
+    />
     <div flex items-center my3>
       <input v-model="isChecked" type="checkbox" w4 h4 mr1> isRem
     </div>
@@ -290,7 +353,6 @@ onUnmounted(() => {
 <style scoped>
 .textshadow::after {
   bottom: 0;
-  color: #000;
   content: attr(data-text);
   -webkit-filter: blur(2px);
   filter: blur(2px);
@@ -302,8 +364,18 @@ onUnmounted(() => {
   transform: translate(-26px, 16px) skew(50deg) scaleY(0.6);
   z-index: 1;
 }
+</style>
 
-.dark .textshadow::after {
-  color: #fff;
+<style>
+.ant-select-selector {
+  height: 50px !important;
+}
+
+.ant-select-selector input {
+  height: 100% !important;
+  font-size: 16px;
+}
+.ant-select-selector .ant-select-selection-placeholder {
+  line-height: 50px !important;
 }
 </style>
