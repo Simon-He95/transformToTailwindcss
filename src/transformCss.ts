@@ -2,6 +2,9 @@ import fsp from 'node:fs/promises'
 import path from 'node:path'
 import { parse } from '@vue/compiler-sfc'
 import { transformStyleToTailwindcss } from 'transform-to-tailwindcss-core'
+import { compilerCss } from './compilerCss'
+import { tail } from './tail'
+import { transformVue } from './transformVue'
 import {
   diffTemplateStyle,
   flag,
@@ -13,17 +16,14 @@ import {
   transformUnocssBack,
   trim,
 } from './utils'
-import { tail } from './tail'
-import { transformVue } from './transformVue'
 import { wrapperVueTemplate } from './wrapperVueTemplate'
-import { compilerCss } from './compilerCss'
 
-const combineReg = /([.#\w]+)([.#][\w]+)/ // xx.xx
+const combineReg = /([.#\w]+)([.#]\w+)/ // xx.xx
 
 const addReg = /([.#\w]+)\s*\+\s*([.#\w]+)/ // xx + xx
 const tailReg = /:([\w\-]+)/ // :after
 const tagReg = /\[([\w-]*)[='" ]*([\w-]*)['" ]*\]/ // [class="xxx"]
-const emptyClass = /[,\w>\.\#\-\+>\:\[\]\="'\s\(\)]+\s*{}\n/g
+const emptyClass = /[,\w>.#\-+:[\]="'\s()]+\{\}\n/g
 
 interface Position {
   column: number
@@ -62,7 +62,7 @@ export async function transformCss(
   code = (await importCss(code, style, filepath, isJsx)) as string
   let stack = parse(code).descriptor.template?.ast
   style.replace(
-    /(.*){([#\\n\s\w\-.:;,%\(\)\+'"!]*)}/g,
+    /(.*)\{([#\\\s\w\-.:;,%()+'"!]*)\}/g,
     (all: any, name: any, value: any = '') => {
       name = trim(name.replace(/\s+/g, ' '))
 
@@ -81,10 +81,10 @@ export async function transformCss(
       const after
         = prefix && transfer
           ? `${prefix}="${transfer.replace(
-              /="\[([^\]]*)\]"/g,
-              (_, v) => `-[${v}]`,
-            )}"`
-          : transfer ?? before
+            /="\[([^\]]*)\]"/g,
+            (_, v) => `-[${v}]`,
+          )}"`
+          : (transfer ?? before)
       // 未被转换跳过
       if (before === after)
         return
@@ -222,7 +222,7 @@ async function importCss(
 ) {
   const originCode = code
   for await (const match of style.matchAll(
-    /@import (url\()?["']*([\w.\/\-\_]*)["']*\)?;/g,
+    /@import (url\()?["']*([\w./\-]*)["']*\)?;/g,
   )) {
     if (!match)
       continue
@@ -332,19 +332,19 @@ function findDeepChild(
         ? findChild(curs, stack, 1)
         : combineMatch
           ? astFindTag(
-            stack,
-            combineMatch[1],
-            Number.POSITIVE_INFINITY,
-            combineMatch[2],
-          )
+              stack,
+              combineMatch[1],
+              Number.POSITIVE_INFINITY,
+              combineMatch[2],
+            )
           : addMatch
             ? astFindTag(
-              stack,
-              addMatch[2],
-              Number.POSITIVE_INFINITY,
-              undefined,
-              addMatch[1],
-            )
+                stack,
+                addMatch[2],
+                Number.POSITIVE_INFINITY,
+                undefined,
+                addMatch[1],
+              )
             : astFindTag(stack, cur, Number.POSITIVE_INFINITY)
 
     if (list.length === 1) {
@@ -364,8 +364,9 @@ function sort(data: any[]) {
           k.loc.start.offset === item.loc.start.offset
           && k.loc.end.offset === item.loc.end.offset,
       )
-    )
+    ) {
       result.push(item)
+    }
   })
   return result
 }
@@ -426,20 +427,21 @@ export function astFindTag(
             prop.name === combineSelector
             && prop.value.content?.includes(combine.slice(1)),
         ))
-      && (add === undefined
-        || siblings.some(
-          (sib: any) =>
-            sib !== ast
-            && sib.props
-            && sib.props.length
-            && sib.props.some(
-              (prop: any) =>
-                prop.name === addSelector
-                && prop.value.content?.includes(add.slice(1)),
-            ),
-        ))
-    )
+        && (add === undefined
+          || siblings.some(
+            (sib: any) =>
+              sib !== ast
+              && sib.props
+              && sib.props.length
+              && sib.props.some(
+                (prop: any) =>
+                  prop.name === addSelector
+                  && prop.value.content?.includes(add.slice(1)),
+              ),
+          ))
+    ) {
       result.push(ast)
+    }
   }
   else if (
     ast.tag === tag
@@ -451,18 +453,18 @@ export function astFindTag(
             prop.name === combineSelector
             && (tagMatch || prop.value.content?.includes(combine.slice(1))),
         )))
-    && (add === undefined
-      || siblings.some(
-        (sib: any) =>
-          sib !== ast
-          && sib.props
-          && sib.props.length
-          && sib.props.some(
-            (prop: any) =>
-              prop.name === addSelector
-              && prop.value.content?.includes(add.slice(1)),
-          ),
-      ))
+        && (add === undefined
+          || siblings.some(
+            (sib: any) =>
+              sib !== ast
+              && sib.props
+              && sib.props.length
+              && sib.props.some(
+                (prop: any) =>
+                  prop.name === addSelector
+                  && prop.value.content?.includes(add.slice(1)),
+              ),
+          ))
   ) {
     result.push(ast)
   }
@@ -511,7 +513,7 @@ async function resolveConflictClass(
         if (match) {
           // 将class合并
           after = after.replace(
-            /class="(\[&:not\([\w\s\-\_\.\#]+\)\]:[\w\-\.]+)"\s*/,
+            /class="(\[&:not\([\w\s\-.#]+\)\]:[\w\-.]+)"\s*/,
             (_, v) => {
               const updateText = ` ${v}`
               result = result.replace(match[1], `${match[1]}${updateText}`)
@@ -530,8 +532,7 @@ async function resolveConflictClass(
             v
               .split(' ')
               .map((i: string) => `${pre}:${i}`)
-              .join(' '),
-          )
+              .join(' '))
       }
     }
     else {
@@ -541,17 +542,15 @@ async function resolveConflictClass(
           v
             .split(' ')
             .map((i: string) => `${pre}:${i}`)
-            .join(' '),
-        )
+            .join(' '))
     }
 
     const returnValue = isJsx
       ? after
-        .replace(/\[([^\]]+)\]/g, (all, v) =>
-          all.replace(v, joinWithUnderLine(v)),
-        )
-        .replace(/-(rgba?([^\)]+))/g, '-[$1]')
-        .replace(/="([^"]+)"/g, '-$1')
+          .replace(/\[([^\]]+)\]/g, (all, v) =>
+            all.replace(v, joinWithUnderLine(v)))
+          .replace(/-(rgba?([^)]+))/g, '-[$1]')
+          .replace(/="([^"]+)"/g, '-$1')
       : after
 
     const getUpdateOffset = getCalculateOffset(updateOffset, offset)
@@ -708,7 +707,7 @@ async function getConflictClass(
           isRem,
         )[0]
 
-        const match = transferCss.match(/([^\s]*)="\[([^\]]*)\]"/)
+        const match = transferCss.match(/(\S*)="\[([^\]]*)\]"/)
         if (match) {
           transferCss = `${match.input?.replace(
             match[0],
@@ -723,16 +722,16 @@ async function getConflictClass(
         const _transferCss = prefix
           ? isNot(prefix)
             ? `class="${prefix}${transferCss
-                .replace(/="\[([^\]]*)\]"/g, (_, v) => `-[${v}]`)
-                .replace(/="([^"]*)"/, '-$1')}"`
+              .replace(/="\[([^\]]*)\]"/g, (_, v) => `-[${v}]`)
+              .replace(/="([^"]*)"/, '-$1')}"`
             : `${prefix}="${transferCss
-                .replace(/="\[([^\]]*)\]"/g, (_, v) => `-[${v}]`)
-                .replace(/="([^"]*)"/, '-$1')}"`
+              .replace(/="\[([^\]]*)\]"/g, (_, v) => `-[${v}]`)
+              .replace(/="([^"]*)"/, '-$1')}"`
           : transferCss
         // 如果存在相同的prefix, 进行合并
 
         if (!prefix) {
-          const reg = /^([^\s]*)="[^"]*"$/
+          const reg = /^(\S*)="[^"]*"$/
           if (reg.test(transferCss))
             prefix = transferCss.match(reg)![1]
         }
@@ -741,17 +740,13 @@ async function getConflictClass(
           const prefixReg1 = new RegExp(`(?<!\\S)${prefix}(?!\\S)`)
           if (prefixReg1.test(result)) {
             return result.replace(prefixReg1, all =>
-              all.replace(prefix, _transferCss),
-            )
+              all.replace(prefix, _transferCss))
           }
           const prefixReg2 = new RegExp(`(?<!\\S)${prefix}=`)
 
           if (prefixReg2.test(result)) {
             if (isNot(prefix)) {
-              const newPrefix = prefix.replace(
-                /[\[\]\(\)]/g,
-                all => `\\${all}`,
-              )
+              const newPrefix = prefix.replace(/[[\]()]/g, all => `\\${all}`)
               const reg = new RegExp(`${newPrefix}([\\w\\:\\-;\\[\\]\\/\\+%]+)`)
               return result.replace(reg, all => `${all}:${transferCss}`)
             }

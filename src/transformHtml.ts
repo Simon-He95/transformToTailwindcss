@@ -1,12 +1,12 @@
-import path from 'node:path'
 import fsp from 'node:fs/promises'
-import { wrapperVueTemplate } from './wrapperVueTemplate'
-import { transformVue } from './transformVue'
+import path from 'node:path'
 import { prettierCode } from './prettierCode'
+import { transformVue } from './transformVue'
 import { diffTemplateStyle } from './utils'
+import { wrapperVueTemplate } from './wrapperVueTemplate'
 
-const linkCssReg = /<link.*href="(.*.css)".*>/g
-const styleReg = /[\s\n]*<style.*>(.*)<\/style>[\s\n]*/s
+const linkCssReg = /<link.*href="(.+css)".*>/g
+const styleReg = /\s*<style.*>(.*)<\/style>\s*/s
 
 interface Options {
   isRem?: boolean
@@ -45,14 +45,14 @@ function getStyleCss(code: string) {
 }
 
 function getBody(code: string) {
-  const match = code.match(/<body.*>.*<\/body>/s)
+  const match = code.match(/<body[^>]*>.*<\/body>/s)
   if (!match)
     return ''
   return match[0]
 }
 
 async function generateNewCode(
-  css: { url: string; content: string }[],
+  css: { url: string, content: string }[],
   style: string,
   code: string,
   isRem?: boolean,

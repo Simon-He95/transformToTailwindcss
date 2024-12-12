@@ -20,7 +20,7 @@ export async function transformSvelte(code: string, options: Options = {}) {
   const vue = await transformVue(_template, { isJsx: true, isRem, filepath })
 
   vue.replace(
-    /<template>(.*)<\/template>[\n\s]*<style scoped>(.*)<\/style>/s,
+    /<template>(.*)<\/template>\s*<style scoped>(.*)<\/style>/s,
     (_, newTemplate, newCss) =>
       (code = code.replace(template, newTemplate).replace(css, newCss)),
   )

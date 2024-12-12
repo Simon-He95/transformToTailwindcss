@@ -1,7 +1,7 @@
+import type { CssType } from './type'
 import { lessCompiler } from './lessCompiler'
 import { sassCompiler } from './sassCompiler'
 import { stylusCompiler } from './stylusCompiler'
-import type { CssType } from './type'
 
 export function compilerCss(css: string, lang: CssType) {
   switch (lang) {

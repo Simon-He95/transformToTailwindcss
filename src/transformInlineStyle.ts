@@ -1,6 +1,6 @@
 import { transformStyleToTailwindcss } from 'transform-to-tailwindcss-core'
 
-const styleReg = /<([\w\-_]+)[^>]*[^:]style="([^"]+)"[^>]*>/g
+const styleReg = /<([\w\-]+)[^/>]*[^:]style="([^"]+)"[^>]*>/g
 
 const removeStyleReg = / style="([^"]*)"/
 const templateReg = /^<template>(.*)<\/template>$/ms

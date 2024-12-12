@@ -1,6 +1,6 @@
+import type { CssType } from './type'
 import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
-import type { CssType } from './type'
 
 export const flag = '.__unocss_transfer__'
 
@@ -49,7 +49,7 @@ export function diffTemplateStyle(before: string, after: string) {
 }
 
 export function isEmptyStyle(code: string) {
-  return /<style scoped>[\n\s]*<\/style>/.test(code)
+  return /<style scoped>\s*<\/style>/.test(code)
 }
 
 export function getStyleScoped(code: string) {
@@ -80,7 +80,7 @@ export function transformUnocssBack(code: string[]) {
         code.forEach((item) => {
           try {
             const reg = new RegExp(
-              `${item.replace(/([\!\(\)\[\]\*])/g, '\\\\$1')}{(.*)}`,
+              `${item.replace(/([!()[\]*])/g, '\\\\$1')}{(.*)}`,
             )
             const match = css.match(reg)
             if (!match)
@@ -90,7 +90,7 @@ export function transformUnocssBack(code: string[]) {
             result.push(
               matcher
                 .split(';')
-                .filter((i: any) => /^\w+[\w\-]*:/.test(i))[0]
+                .filter((i: any) => /^\w[\w\-]*:/.test(i))[0]
                 .split(':')[0],
             )
           }
