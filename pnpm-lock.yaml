@@ -151,8 +151,8 @@ importers:
         specifier: ^2.2.281
         version: 2.2.281
       '@simon_he/git-fork-vue':
-        specifier: ^0.0.11
-        version: 0.0.11(typescript@4.9.5)
+        specifier: ^0.0.12
+        version: 0.0.12(typescript@4.9.5)
       '@types/node':
         specifier: ^18.19.68
         version: 18.19.68
@@ -543,12 +543,15 @@ packages:
 
   '@esbuild-kit/cjs-loader@2.4.1':
     resolution: {integrity: sha512-lhc/XLith28QdW0HpHZvZKkorWgmCNT7sVelMHDj3HFdTfdqkwEKvT+aXVQtNAmCC39VJhunDkWhONWB7335mg==}
+    deprecated: 'Merged into tsx: https://tsx.is'
 
   '@esbuild-kit/core-utils@3.0.0':
     resolution: {integrity: sha512-TXmwH9EFS3DC2sI2YJWJBgHGhlteK0Xyu1VabwetMULfm3oYhbrsWV5yaSr2NTWZIgDGVLHbRf0inxbjXqAcmQ==}
+    deprecated: 'Merged into tsx: https://tsx.is'
 
   '@esbuild-kit/esm-loader@2.5.4':
     resolution: {integrity: sha512-afmtLf6uqxD5IgwCzomtqCYIgz/sjHzCWZFvfS5+FzeYxOURPUo4QcHtqJxbxWOMOogKriZanN/1bJQE/ZL93A==}
+    deprecated: 'Merged into tsx: https://tsx.is'
 
   '@esbuild-plugins/node-globals-polyfill@0.2.3':
     resolution: {integrity: sha512-r3MIryXDeXDOZh7ih1l/yE9ZLORCd5e8vWg02azWRGj5SPTuoh69A2AIyn0Z31V/kHBfZ4HgWJ+OK3GTTwLmnw==}
@@ -1098,8 +1101,8 @@ packages:
   '@simon_he/colorize@0.0.1':
     resolution: {integrity: sha512-AsMYrX9s9Nw3CfXoPc4mVRc1/NJTR8UNhKS0dscA1rtzs0JEGHoxeOkwpx8kvm8zjUZP9Spup1TYPVBe0iLCFA==}
 
-  '@simon_he/git-fork-vue@0.0.11':
-    resolution: {integrity: sha512-OZdx8VzBeiOHbCZ59KaLy5eNZ2nHYb96bw10dRkdraLctB7I3mVMrKNhBKNacilKQOgbn193nxm9wLQlg9VWcw==}
+  '@simon_he/git-fork-vue@0.0.12':
+    resolution: {integrity: sha512-6CXqopQKR62mBaoxJdf88eulevd2vhEbnt4RjaKpKyXayewO89gkSFsaSvXRKg02+gs13P/dufxH8Rg1+7TPew==}
 
   '@simonwep/pickr@1.8.2':
     resolution: {integrity: sha512-/l5w8BIkrpP6n1xsetx9MWPWlU6OblN5YgZZphxan0Tq4BByTCETL6lyIeY8lagalS2Nbt4F2W034KHLIiunKA==}
@@ -6015,7 +6018,7 @@ snapshots:
     dependencies:
       picocolors: 1.0.0
 
-  '@simon_he/git-fork-vue@0.0.11(typescript@4.9.5)':
+  '@simon_he/git-fork-vue@0.0.12(typescript@4.9.5)':
     dependencies:
       '@vueuse/core': 8.9.4(vue@3.5.13(typescript@4.9.5))
       vue: 3.5.13(typescript@4.9.5)
