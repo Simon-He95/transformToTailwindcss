@@ -42,8 +42,8 @@ importers:
         specifier: ^0.48.38
         version: 0.48.38
       '@unocss/preset-uno':
-        specifier: ^0.50.4
-        version: 0.50.4
+        specifier: ^65.4.2
+        version: 65.4.2
       '@vue/babel-plugin-jsx':
         specifier: ^1.1.1
         version: 1.1.1(@babel/core@7.21.0)
@@ -66,8 +66,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.0
       lazy-js-utils:
-        specifier: ^0.1.27
-        version: 0.1.27
+        specifier: ^0.1.28
+        version: 0.1.28
       less:
         specifier: ^4.1.3
         version: 4.1.3
@@ -80,9 +80,6 @@ importers:
       magic-string:
         specifier: ^0.30.0
         version: 0.30.0
-      monaco-editor:
-        specifier: ^0.36.1
-        version: 0.36.1
       picocolors:
         specifier: ^1.0.0
         version: 1.0.0
@@ -174,6 +171,9 @@ importers:
       jsdom:
         specifier: ^19.0.0
         version: 19.0.0
+      monaco-editor:
+        specifier: ^0.36.1
+        version: 0.36.1
       rollup-plugin-polyfill-node:
         specifier: ^0.12.0
         version: 0.12.0(rollup@4.16.4)
@@ -1315,11 +1315,14 @@ packages:
     resolution: {integrity: sha512-+Hzl99klLiIq7Lcc5EirTSfBqUH+5NOCmEkXXWcYKYyAk3BLnBU9Fk76P7HxchDwQ5zdwpC4Cq++LQlqbAw/Uw==}
     engines: {node: '>=14'}
 
-  '@unocss/core@0.50.4':
-    resolution: {integrity: sha512-k/8CdnO4w7f+QdvCpS3U5y6xApC4odiErkBKCCaGgBqOWkuTSL92TiBnffSEA2WepGm1+Mv4urIk20ocKYxbUQ==}
-
   '@unocss/core@0.50.8':
     resolution: {integrity: sha512-rWmyeNE0Na8dJPDynLVar0X22qMHFNhO+/F2FZDpG4tubTavXJJo9uvhZr/D381kiWxt+XZ38y6EAD4UMdBqMA==}
+
+  '@unocss/core@65.4.2':
+    resolution: {integrity: sha512-VmXy5D25por+pt9LBlKZ3gk4rOE5ldm80MyVOEnLcpaFb9LqB0g/8qUU9/Dk3TSA+ZPeoGm53Juo0p8LMFIigA==}
+
+  '@unocss/extractor-arbitrary-variants@65.4.2':
+    resolution: {integrity: sha512-qm5JXfjbxgXqhQAeOfV1jFT1ThBTi1bP1m+Nu2p6tB9EUbAUp+AKY4sODueqDXoriUtOc7h0QzyW3Lm+s3fTGw==}
 
   '@unocss/inspector@0.50.8':
     resolution: {integrity: sha512-M963+B9iYGDI7m8KONppJ9EvrDowKWnzzmMLGf+D+qEXmXdnSztMZxEnOdg/caYyHJMw+4jlftyYRZB0VXnAGA==}
@@ -1336,11 +1339,11 @@ packages:
   '@unocss/preset-icons@0.50.8':
     resolution: {integrity: sha512-tQ05aP7ZRRP39+egB16gFMK6fkEdS8ob4rJeqUG6vEXiiAFWVbotI/NbHQapqk3wRthmyI3d9rUtxClJ2micvw==}
 
-  '@unocss/preset-mini@0.50.4':
-    resolution: {integrity: sha512-M+4by82hlpZq/sE0axrepQ6sgTl65nXrbNIHhXmfIsqulH7nENELJIr/TFi7VcSJdPMGVwo9l9dHnFMhSQM5hg==}
-
   '@unocss/preset-mini@0.50.8':
     resolution: {integrity: sha512-/4sbOdyaqJMvFkw1xzo2+h6bZJHw6WCYw1mF+f0ydHzj8ruvwaj9ClDDOweW5cdrk3wzDzRZ6NPRahKqLwv6/Q==}
+
+  '@unocss/preset-mini@65.4.2':
+    resolution: {integrity: sha512-4ZZK9KwDHjI8wFUKeB+30GHekPmy1OzXncjlXhqm+vNQ7FO3xCee7VY00E5bgz5Tt0pXALcKFlrEspjpSaeCoQ==}
 
   '@unocss/preset-tagify@0.50.8':
     resolution: {integrity: sha512-CNm9wEmDGEsCvBgWTBOPhH5ts5iobQh5mBeZyH2uCKuQNX+Vc21tXLX78bCk2V4yJ7mpqUWokDNqgTaNhTZjnw==}
@@ -1348,26 +1351,30 @@ packages:
   '@unocss/preset-typography@0.50.8':
     resolution: {integrity: sha512-jraHusTmbJq9UHgQ43ifzVJobTyoJLuGzeGqBzgLNac+V4BltzqHghup6obA09asQio7xe+crFkTV4IXWNK1lA==}
 
-  '@unocss/preset-uno@0.50.4':
-    resolution: {integrity: sha512-otmCHbzJH1EISZ2Hvu35CEYaH3T6giwTreaP8CEo+BEjhGv2hgWmJko8GPDerUgO4FSP/YCwSGyBvcvSsRXV8A==}
-
   '@unocss/preset-uno@0.50.8':
     resolution: {integrity: sha512-BVgGpv+G9dauX6oRuno8ATOx6bjykiTGuy9NWZCG+/0vux0wplylQm/nSWYsEZZoxRwGOaAoNx93TeOPoofrXQ==}
+
+  '@unocss/preset-uno@65.4.2':
+    resolution: {integrity: sha512-rJcGx/+EWA3wXGOAZdYQFSEn8knsiqiST/Ji1adN+9dTq4BVYMZ9n3zYRF6GZ8p61aZomhU4jmzpLk12RMdxpg==}
 
   '@unocss/preset-web-fonts@0.50.8':
     resolution: {integrity: sha512-diGJVTC3W2lovRL9hlV7h4mdzKjoyJD1rlLai2QMZP/+UCsEwDcL9JFF0lZTlEN5GtcbgvcyPRZKB1/ituvjdg==}
 
-  '@unocss/preset-wind@0.50.4':
-    resolution: {integrity: sha512-kOdX5DYrspbVOkNY7cEH0jJrtmtxlEcsZb9ieToYb3l76oWicgZX5G46c74+UzMW2ru9dxdOBgJWgnWbH7AFDQ==}
-
   '@unocss/preset-wind@0.50.8':
     resolution: {integrity: sha512-lF6MAJm2HVF8GJoBIIus1cpZL1ybisj8fl3KYEzVUFUWCwmNnxG4rr+CGnck3bDRYk2zmEvTwX+cISTCwq2u1Q==}
+
+  '@unocss/preset-wind@65.4.2':
+    resolution: {integrity: sha512-TQm9P2UHpqfn92APfZJtbK2brkXQ+GInFL2evup/ZChU1fqdbH9mL0ef6ZNQbCH4gjY6mEzwPXt4lhGod6CajA==}
 
   '@unocss/reset@0.47.6':
     resolution: {integrity: sha512-bdc2dbuDg+CzgeLowEwO1URRIMdzmCE4RH4IKpCpT1Xoa+92RRubdtzK4N/9ZiSo8d4vvfWcc8fvhZko/6smPQ==}
 
   '@unocss/reset@0.50.8':
     resolution: {integrity: sha512-2WoM6O9VyuHDPAnvCXr7LBJQ8ZRHDnuQAFsL1dWXp561Iq2l9whdNtPuMcozLGJGUUrFfVBXIrHY4sfxxScgWg==}
+
+  '@unocss/rule-utils@65.4.2':
+    resolution: {integrity: sha512-OdMSJZiZUr8XmLo3Bz3Wrw1nZLT1nTPnPOV8gdi4vZ+2RgCChua9o8Dz4IyeQ7mMhLXoqHIUpJ7jE5Nv+Uz1Fw==}
+    engines: {node: '>=14'}
 
   '@unocss/scope@0.50.8':
     resolution: {integrity: sha512-QA4G9JYK8jrnU02qi1WBi45S+V0HKNUY0u6h5drYqRkcUho2YrpcfMagYi1A5XGg5ykmtP9e6vx1D9lij+JGnQ==}
@@ -3341,8 +3348,8 @@ packages:
     peerDependencies:
       vue: ^3.2.41
 
-  lazy-js-utils@0.1.27:
-    resolution: {integrity: sha512-6NjFRl/VvxIQ3EdEJuE2DAWT3h4wCVSTFcOyEkme+VYxDlkfjDA3gB3TzoiLvWK1w/Ufzq0ZQN8Tj5Hpvq9VDQ==}
+  lazy-js-utils@0.1.28:
+    resolution: {integrity: sha512-nFpbWygC3AVRtQXJ/jXCKMAfUvO5gnjeHKceek3vr89F4hdvyTBdQzsfv7xv8Buez/7xkPWSePxTe2V/iIfDHA==}
 
   less-plugin-module-resolver@1.0.3:
     resolution: {integrity: sha512-w5xD9Kv1KpqG0ie181t1RH99n0tfbGpBnajrpOfRKJgqrlRdKsfYax5WUFqRlJ1tE5pJqssV6FJQeodY0IGylw==}
@@ -3465,6 +3472,9 @@ packages:
 
   magic-string@0.30.15:
     resolution: {integrity: sha512-zXeaYRgZ6ldS1RJJUrMrYgNJ4fdwnyI6tVqoiIhyCyv5IVTK9BU8Ic2l253GGETQHxI4HNUwhJ3fjDhKqEoaAw==}
+
+  magic-string@0.30.17:
+    resolution: {integrity: sha512-sNPKHvyjVf7gyjwS4xGTaW/mCnF8wnjtifKBEhxfZ7E/S8tQ0rssrwGNn6q8JH/ohItJfSQp9mBtQYuTlH5QnA==}
 
   magic-string@0.30.8:
     resolution: {integrity: sha512-ISQTe55T2ao7XtlAStud6qwYPZjE4GK1S/BeVPus4jrq6JuOnQ00YKQC581RWhR122W7msZV263KzVeLoqidyQ==}
@@ -6316,9 +6326,13 @@ snapshots:
       '@unocss/core': 0.50.8
       unconfig: 0.3.7
 
-  '@unocss/core@0.50.4': {}
-
   '@unocss/core@0.50.8': {}
+
+  '@unocss/core@65.4.2': {}
+
+  '@unocss/extractor-arbitrary-variants@65.4.2':
+    dependencies:
+      '@unocss/core': 65.4.2
 
   '@unocss/inspector@0.50.8':
     dependencies:
@@ -6346,13 +6360,15 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@unocss/preset-mini@0.50.4':
-    dependencies:
-      '@unocss/core': 0.50.4
-
   '@unocss/preset-mini@0.50.8':
     dependencies:
       '@unocss/core': 0.50.8
+
+  '@unocss/preset-mini@65.4.2':
+    dependencies:
+      '@unocss/core': 65.4.2
+      '@unocss/extractor-arbitrary-variants': 65.4.2
+      '@unocss/rule-utils': 65.4.2
 
   '@unocss/preset-tagify@0.50.8':
     dependencies:
@@ -6363,36 +6379,43 @@ snapshots:
       '@unocss/core': 0.50.8
       '@unocss/preset-mini': 0.50.8
 
-  '@unocss/preset-uno@0.50.4':
-    dependencies:
-      '@unocss/core': 0.50.4
-      '@unocss/preset-mini': 0.50.4
-      '@unocss/preset-wind': 0.50.4
-
   '@unocss/preset-uno@0.50.8':
     dependencies:
       '@unocss/core': 0.50.8
       '@unocss/preset-mini': 0.50.8
       '@unocss/preset-wind': 0.50.8
 
+  '@unocss/preset-uno@65.4.2':
+    dependencies:
+      '@unocss/core': 65.4.2
+      '@unocss/preset-mini': 65.4.2
+      '@unocss/preset-wind': 65.4.2
+      '@unocss/rule-utils': 65.4.2
+
   '@unocss/preset-web-fonts@0.50.8':
     dependencies:
       '@unocss/core': 0.50.8
       ofetch: 1.0.1
-
-  '@unocss/preset-wind@0.50.4':
-    dependencies:
-      '@unocss/core': 0.50.4
-      '@unocss/preset-mini': 0.50.4
 
   '@unocss/preset-wind@0.50.8':
     dependencies:
       '@unocss/core': 0.50.8
       '@unocss/preset-mini': 0.50.8
 
+  '@unocss/preset-wind@65.4.2':
+    dependencies:
+      '@unocss/core': 65.4.2
+      '@unocss/preset-mini': 65.4.2
+      '@unocss/rule-utils': 65.4.2
+
   '@unocss/reset@0.47.6': {}
 
   '@unocss/reset@0.50.8': {}
+
+  '@unocss/rule-utils@65.4.2':
+    dependencies:
+      '@unocss/core': 65.4.2
+      magic-string: 0.30.17
 
   '@unocss/scope@0.50.8': {}
 
@@ -8661,7 +8684,7 @@ snapshots:
       spark-md5: 3.0.2
       vue: 3.5.13(typescript@4.9.5)
 
-  lazy-js-utils@0.1.27:
+  lazy-js-utils@0.1.28:
     dependencies:
       htmlparser2: 8.0.2
       qrcode: 1.5.4
@@ -8804,6 +8827,10 @@ snapshots:
       '@jridgewell/sourcemap-codec': 1.4.14
 
   magic-string@0.30.15:
+    dependencies:
+      '@jridgewell/sourcemap-codec': 1.5.0
+
+  magic-string@0.30.17:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.0
 
@@ -10458,7 +10485,7 @@ snapshots:
   vivid-typing@1.1.46(vue@3.5.13(typescript@4.9.5)):
     dependencies:
       '@vueuse/core': 8.9.4(vue@3.5.13(typescript@4.9.5))
-      lazy-js-utils: 0.1.27
+      lazy-js-utils: 0.1.28
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
