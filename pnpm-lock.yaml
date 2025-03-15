@@ -175,8 +175,8 @@ importers:
         specifier: ^0.36.1
         version: 0.36.1
       rollup-plugin-polyfill-node:
-        specifier: ^0.12.0
-        version: 0.12.0(rollup@4.16.4)
+        specifier: ^0.13.0
+        version: 0.13.0(rollup@4.16.4)
       typescript:
         specifier: ^4.9.5
         version: 4.9.5
@@ -1029,11 +1029,11 @@ packages:
   '@polka/url@1.0.0-next.21':
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
 
-  '@rollup/plugin-inject@5.0.3':
-    resolution: {integrity: sha512-411QlbL+z2yXpRWFXSmw/teQRMkXcAAC8aYTemc15gwJRpvEVDQwoe+N/HTFD8RFG8+88Bme9DK2V9CVm7hJdA==}
+  '@rollup/plugin-inject@5.0.5':
+    resolution: {integrity: sha512-2+DEJbNBoPROPkgTDNe8/1YXWcqxbN5DTjASVIOx8HS+pITXushyNiBV56RB08zuptzz8gT3YfkqriTBVycepg==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
-      rollup: ^1.20.0||^2.0.0||^3.0.0
+      rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
     peerDependenciesMeta:
       rollup:
         optional: true
@@ -4219,10 +4219,10 @@ packages:
   rollup-plugin-node-polyfills@0.2.1:
     resolution: {integrity: sha512-4kCrKPTJ6sK4/gLL/U5QzVT8cxJcofO0OU74tnB19F40cmuAKSzH5/siithxlofFEjwvw1YAhPmbvGNA6jEroA==}
 
-  rollup-plugin-polyfill-node@0.12.0:
-    resolution: {integrity: sha512-PWEVfDxLEKt8JX1nZ0NkUAgXpkZMTb85rO/Ru9AQ69wYW8VUCfDgP4CGRXXWYni5wDF0vIeR1UoF3Jmw/Lt3Ug==}
+  rollup-plugin-polyfill-node@0.13.0:
+    resolution: {integrity: sha512-FYEvpCaD5jGtyBuBFcQImEGmTxDTPbiHjJdrYIp+mFIwgXiXabxvKUK7ZT9P31ozu2Tqm9llYQMRWsfvTMTAOw==}
     peerDependencies:
-      rollup: ^1.20.0 || ^2.0.0 || ^3.0.0
+      rollup: ^1.20.0 || ^2.0.0 || ^3.0.0 || ^4.0.0
 
   rollup-pluginutils@2.8.2:
     resolution: {integrity: sha512-EEp9NhnUkwY8aif6bxgovPHMoMoNr2FulJziTndpt5H9RdwC47GSGuII9XxpSdzVGM0GWrNPHV6ie1LTNJPaLQ==}
@@ -6014,11 +6014,11 @@ snapshots:
 
   '@polka/url@1.0.0-next.21': {}
 
-  '@rollup/plugin-inject@5.0.3(rollup@4.16.4)':
+  '@rollup/plugin-inject@5.0.5(rollup@4.16.4)':
     dependencies:
       '@rollup/pluginutils': 5.0.2(rollup@4.16.4)
       estree-walker: 2.0.2
-      magic-string: 0.27.0
+      magic-string: 0.30.17
     optionalDependencies:
       rollup: 4.16.4
 
@@ -9740,9 +9740,9 @@ snapshots:
     dependencies:
       rollup-plugin-inject: 3.0.2
 
-  rollup-plugin-polyfill-node@0.12.0(rollup@4.16.4):
+  rollup-plugin-polyfill-node@0.13.0(rollup@4.16.4):
     dependencies:
-      '@rollup/plugin-inject': 5.0.3(rollup@4.16.4)
+      '@rollup/plugin-inject': 5.0.5(rollup@4.16.4)
       rollup: 4.16.4
 
   rollup-pluginutils@2.8.2:
