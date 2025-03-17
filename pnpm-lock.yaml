@@ -40,7 +40,7 @@ importers:
         version: 18.0.0
       '@types/stylus':
         specifier: ^0.48.38
-        version: 0.48.38
+        version: 0.48.43
       '@unocss/preset-uno':
         specifier: ^65.4.2
         version: 65.4.2
@@ -1216,8 +1216,8 @@ packages:
   '@types/semver@7.3.13':
     resolution: {integrity: sha512-21cFJr9z3g5dW8B0CVI9g2O9beqaThGQ6ZFBqHfwhzLDKUxaqTIy3vnfah/UPkfOiF2pLq+tGz+W8RyCskuslw==}
 
-  '@types/stylus@0.48.38':
-    resolution: {integrity: sha512-B5otJekvD6XM8iTrnO6e2twoTY2tKL9VkL/57/2Lo4tv3EatbCaufdi68VVtn/h4yjO+HVvYEyrNQd0Lzj6riw==}
+  '@types/stylus@0.48.43':
+    resolution: {integrity: sha512-72dv/zdhuyXWVHUXG2VTPEQdOG+oen95/DNFx2aMFFaY6LoITI6PwEqf5x31JF49kp2w9hvUzkNfTGBIeg61LQ==}
 
   '@types/unist@2.0.6':
     resolution: {integrity: sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==}
@@ -6189,7 +6189,7 @@ snapshots:
 
   '@types/semver@7.3.13': {}
 
-  '@types/stylus@0.48.38':
+  '@types/stylus@0.48.43':
     dependencies:
       '@types/node': 18.0.0
 
