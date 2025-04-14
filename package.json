@@ -1,5 +1,6 @@
 {
   "name": "transform-to-tailwindcss",
+  "type": "module",
   "version": "0.0.28",
   "packageManager": "pnpm@10.8.0",
   "description": "The tool that transform css to tailwindcss",
@@ -20,12 +21,12 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     }
   },
   "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "typesVersions": {
     "*": {
@@ -97,6 +98,6 @@
     "*": [
       "prettier --write --cache --ignore-unknown"
     ],
-    "*.{vue,js,ts,jsx,tsx,md,json}": "eslint --fix"
+    "*.{vue,js,ts,jsx,tsx,md,json}": "eslint . --fix"
   }
 }

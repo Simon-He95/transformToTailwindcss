@@ -173,7 +173,7 @@ export async function transformCss(
 
         const attr = props.reduce((result: string[], cur: any) => {
           let item
-          // eslint-disable-next-line no-cond-assign
+
           if (cur.name === 'class' && (item = cur.value?.content))
             result.push(item)
           else if (!cur.value)
