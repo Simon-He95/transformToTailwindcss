@@ -1,6 +1,6 @@
 import fsp from 'node:fs/promises'
 import path from 'node:path'
-import { parse } from '@vue/compiler-sfc'
+import { parse } from '@vue/compiler-sfc/dist/compiler-sfc.esm-browser.js'
 import { transformStyleToTailwindcss } from 'transform-to-tailwindcss-core'
 import { compilerCss } from './compilerCss'
 import { tail } from './tail'
@@ -112,7 +112,7 @@ export async function transformCss(
             const index = hasClass.value.loc.start.offset
             const newIndex
               = hasClass.value.loc.start.offset
-              + getCalculateOffset(updateOffsetMap, index)
+                + getCalculateOffset(updateOffsetMap, index)
             const updateText = 'group '
             updateOffsetMap[index] = updateText.length
             hasClass.value.content = `${hasClass.value.content} ${updateText}`
@@ -124,7 +124,7 @@ export async function transformCss(
             const index = parent.loc.start.offset + parent.tag.length + 1
             const newIndex
               = hasClass.value.loc.start.offset
-              + getCalculateOffset(updateOffsetMap, index)
+                + getCalculateOffset(updateOffsetMap, index)
             const updateText = 'class="group" '
             parent.props.push({
               type: 6,

@@ -1,5 +1,5 @@
 import type { CssType } from './type'
-import { parse } from '@vue/compiler-sfc'
+import { parse } from '@vue/compiler-sfc/dist/compiler-sfc.esm-browser.js'
 import { compilerCss } from './compilerCss'
 import { prettierCode } from './prettierCode'
 import { transformCss } from './transformCss'
