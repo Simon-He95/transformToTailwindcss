@@ -101,3 +101,8 @@ export function transformUnocssBack(code: string[]) {
       })
   })
 }
+
+export async function getVueCompilerSfc() {
+  const { parse } = await import('vue/compiler-sfc')
+  return { parse }
+}

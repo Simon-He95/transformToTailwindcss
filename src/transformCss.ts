@@ -1,6 +1,5 @@
 import fsp from 'node:fs/promises'
 import path from 'node:path'
-import { parse } from '@vue/compiler-sfc/dist/compiler-sfc.esm-browser.js'
 import { transformStyleToTailwindcss } from 'transform-to-tailwindcss-core'
 import { compilerCss } from './compilerCss'
 import { tail } from './tail'
@@ -10,6 +9,7 @@ import {
   flag,
   getCssType,
   getStyleScoped,
+  getVueCompilerSfc,
   isEmptyStyle,
   isNot,
   joinWithUnderLine,
@@ -60,6 +60,7 @@ export async function transformCss(
   isRem = _isRem
   const allChanges: AllChange[] = []
   code = (await importCss(code, style, filepath, isJsx)) as string
+  const { parse } = await getVueCompilerSfc()
   let stack = parse(code).descriptor.template?.ast
   style.replace(
     /(.*)\{([#\\\s\w\-.:;,%()+'"!]*)\}/g,
