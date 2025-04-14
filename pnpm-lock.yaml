@@ -139,8 +139,8 @@ importers:
         specifier: ^2.2.327
         version: 2.2.327
       '@simon_he/git-fork-vue':
-        specifier: ^0.0.11
-        version: 0.0.11(typescript@4.9.5)
+        specifier: ^0.0.12
+        version: 0.0.12(typescript@4.9.5)
       '@types/node':
         specifier: ^18.19.86
         version: 18.19.86
@@ -1315,8 +1315,8 @@ packages:
   '@simon_he/colorize@0.0.1':
     resolution: {integrity: sha512-AsMYrX9s9Nw3CfXoPc4mVRc1/NJTR8UNhKS0dscA1rtzs0JEGHoxeOkwpx8kvm8zjUZP9Spup1TYPVBe0iLCFA==}
 
-  '@simon_he/git-fork-vue@0.0.11':
-    resolution: {integrity: sha512-OZdx8VzBeiOHbCZ59KaLy5eNZ2nHYb96bw10dRkdraLctB7I3mVMrKNhBKNacilKQOgbn193nxm9wLQlg9VWcw==}
+  '@simon_he/git-fork-vue@0.0.12':
+    resolution: {integrity: sha512-6CXqopQKR62mBaoxJdf88eulevd2vhEbnt4RjaKpKyXayewO89gkSFsaSvXRKg02+gs13P/dufxH8Rg1+7TPew==}
 
   '@simonwep/pickr@1.8.2':
     resolution: {integrity: sha512-/l5w8BIkrpP6n1xsetx9MWPWlU6OblN5YgZZphxan0Tq4BByTCETL6lyIeY8lagalS2Nbt4F2W034KHLIiunKA==}
@@ -6150,7 +6150,7 @@ snapshots:
     dependencies:
       picocolors: 1.1.1
 
-  '@simon_he/git-fork-vue@0.0.11(typescript@4.9.5)':
+  '@simon_he/git-fork-vue@0.0.12(typescript@4.9.5)':
     dependencies:
       '@vueuse/core': 8.9.4(vue@3.5.13(typescript@4.9.5))
       vue: 3.5.13(typescript@4.9.5)
