@@ -107,8 +107,8 @@ monaco.languages.registerCompletionItemProvider('html', {
     })
     const isInStyleSection
       = /<style\b/.test(textUntilPosition)
-      || /style\s*=\s*"/.test(textUntilPosition)
-      || /style\s*=\s*'/.test(textUntilPosition)
+        || /style\s*=\s*"/.test(textUntilPosition)
+        || /style\s*=\s*'/.test(textUntilPosition)
 
     if (!isInStyleSection)
       return { suggestions: [] }

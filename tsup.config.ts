@@ -2,10 +2,18 @@ import { defineConfig } from 'tsup'
 
 export default defineConfig({
   name: 'tsup',
-  target: 'node14',
   format: ['cjs', 'esm'],
   clean: true,
-  external: ['vite', 'webpack', 'rollup', 'esbuild', 'fast-glob', 'unocss'],
+  platform: 'node', // Specify the platform to handle import.meta correctly
+  external: [
+    'vite',
+    'webpack',
+    'rollup',
+    'esbuild',
+    'fast-glob',
+    'unocss',
+    '@vue/compiler-sfc',
+  ],
   dts: {
     resolve: true,
     // build types for `src/index.ts` only
