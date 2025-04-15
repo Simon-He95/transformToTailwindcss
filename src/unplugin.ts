@@ -41,3 +41,6 @@ export const viteTransformToTailwindcss = unplugin.vite
 export const rollupTransformToTailwindcss = unplugin.rollup
 export const webpackTransformToTailwindcss = unplugin.webpack
 export const esbuildTransformToTailwindcss = unplugin.esbuild
+export const rspackTransformToUnocss = unplugin.rspack
+export const farmTransformToUnocss = unplugin.farm
+export const rolldownTransformToUnocss = unplugin.rolldown

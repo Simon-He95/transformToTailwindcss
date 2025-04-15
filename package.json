@@ -62,7 +62,7 @@
     "fast-glob": "^3.3.3"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^3.16.0",
+    "@antfu/eslint-config": "^4.12.0",
     "@rollup/pluginutils": "^5.1.4",
     "@simon_he/colorize": "^0.0.1",
     "@types/babel__core": "^7.20.5",
@@ -70,8 +70,8 @@
     "@types/node": "^18.19.86",
     "@types/stylus": "^0.48.43",
     "@unocss/core": "^0.50.8",
-    "@unocss/preset-uno": "^0.50.8",
-    "@vue/babel-plugin-jsx": "^1.4.0",
+    "@unocss/preset-uno": "^0.50.4",
+    "@vue/babel-plugin-jsx": "^1.1.1",
     "bumpp": "^8.2.1",
     "eslint": "^9.24.0",
     "find-up": "^7.0.0",
@@ -85,7 +85,7 @@
     "simple-git-hooks": "^2.12.1",
     "stylus": "^0.63.0",
     "transform-to-tailwindcss": "workspace:^",
-    "transform-to-tailwindcss-core": "^0.0.20",
+    "transform-to-tailwindcss-core": "^0.0.22",
     "tsup": "^6.7.0",
     "tsx": "^3.14.0",
     "typescript": "^5.8.3",

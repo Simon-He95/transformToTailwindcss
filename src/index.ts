@@ -6,14 +6,20 @@ import { transformSvelte } from './transformSvelte'
 import { transformVue } from './transformVue'
 import {
   esbuildTransformToTailwindcss,
+  farmTransformToUnocss,
+  rolldownTransformToUnocss,
   rollupTransformToTailwindcss,
+  rspackTransformToUnocss,
   viteTransformToTailwindcss,
   webpackTransformToTailwindcss,
 } from './unplugin'
 
 export {
   esbuildTransformToTailwindcss,
+  farmTransformToUnocss,
+  rolldownTransformToUnocss,
   rollupTransformToTailwindcss,
+  rspackTransformToUnocss,
   transformAstro,
   transformHtml,
   transformJsx,
