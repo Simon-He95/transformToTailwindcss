@@ -83,7 +83,7 @@
     "prettier": "^3.5.3",
     "sass": "^1.86.3",
     "simple-git-hooks": "^2.12.1",
-    "stylus": "^0.63.0",
+    "stylus": "^0.64.0",
     "transform-to-tailwindcss": "workspace:^",
     "transform-to-tailwindcss-core": "^0.0.22",
     "tsup": "^6.7.0",
