@@ -85,7 +85,7 @@
     "simple-git-hooks": "^2.12.1",
     "stylus": "^0.63.0",
     "transform-to-tailwindcss": "workspace:^",
-    "transform-to-tailwindcss-core": "^0.0.23",
+    "transform-to-tailwindcss-core": "^0.0.24",
     "tsup": "^6.7.0",
     "tsx": "^3.14.0",
     "typescript": "^5.8.3",

@@ -85,8 +85,8 @@ importers:
         specifier: workspace:^
         version: 'link:'
       transform-to-tailwindcss-core:
-        specifier: ^0.0.23
-        version: 0.0.23
+        specifier: ^0.0.24
+        version: 0.0.24
       tsup:
         specifier: ^6.7.0
         version: 6.7.0(postcss@8.5.3)(typescript@5.8.3)
@@ -4449,8 +4449,8 @@ packages:
     resolution: {integrity: sha512-l7FvfAHlcmulp8kr+flpQZmVwtu7nfRV7NZujtN0OqES8EL4O4e0qqzL0DC5gAvx/ZC/9lk6rhcUwYvkBnBnYA==}
     engines: {node: '>=12'}
 
-  transform-to-tailwindcss-core@0.0.23:
-    resolution: {integrity: sha512-hB/u6/So+RQ75HDFQ6d6wYB+A7PKqpSuNolkTM/AAkfZDgPLOE2iqXSp8IxRh9RxpwChKkTNFY6A3Kz9mKRJxw==}
+  transform-to-tailwindcss-core@0.0.24:
+    resolution: {integrity: sha512-66ldavqRTQH7kRxBMT+5gFcP/mu4myo4RwGuBsr21/L/aQgyTzUJ+X369KYIaLsQSFatwVIh17H0/3nhY3OSYQ==}
     hasBin: true
 
   tree-kill@1.2.2:
@@ -9832,7 +9832,7 @@ snapshots:
     dependencies:
       punycode: 2.3.1
 
-  transform-to-tailwindcss-core@0.0.23: {}
+  transform-to-tailwindcss-core@0.0.24: {}
 
   tree-kill@1.2.2: {}
 
