@@ -35,7 +35,7 @@
     "unplugin-auto-import": "^0.12.2",
     "unplugin-vue-components": "^0.18.5",
     "vite": "^5.4.18",
-    "vite-plugin-pages": "^0.28.0",
+    "vite-plugin-pages": "^0.33.0",
     "vitest": "^0.34.6",
     "vivid-typing": "^1.1.46",
     "vue": "^3.5.13",
