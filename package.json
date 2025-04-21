@@ -2,7 +2,7 @@
   "name": "transform-to-tailwindcss",
   "type": "module",
   "version": "0.0.32",
-  "packageManager": "pnpm@10.8.0",
+  "packageManager": "pnpm@10.9.0",
   "description": "The tool that transform css to tailwindcss",
   "author": "Simon He",
   "license": "MIT",
