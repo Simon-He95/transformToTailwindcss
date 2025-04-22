@@ -452,7 +452,7 @@ onUnmounted(() => {
   window.removeEventListener('resize', updateEditorDimensions)
 })
 
-function onSelect(value: string) {
+function onSelect(value: any) {
   input.value = `${value}: `
   nextTick(() => {
     autoComplete.value.focus()
@@ -486,7 +486,7 @@ function onSelect(value: string) {
     color="pink"
   />
   <VividTyping
-    content="Css To UnoCss"
+    content="Css To TailwindCss"
     animate-bounce-alt
     animate-delay-1500
     animate-count-infinite
@@ -497,7 +497,7 @@ function onSelect(value: string) {
     text-center
     spilt-class="textshadow"
     class="typing"
-    data-text="Css To Unocss"
+    data-text="Css To TailwindCss"
   />
   <div h="100%" flex justify-center items-center flex-col p="y10" w-full>
     <!-- <input v-model="input" class="!outline-none" w="40%" text-4 :placeholder="t('placeholder')" type="text"
@@ -518,32 +518,34 @@ function onSelect(value: string) {
     <div flex items-center my3>
       <input v-model="isChecked" type="checkbox" w4 h4 mr1> isRem
     </div>
-    <div v-if="transform" flex="~ gap-4" items-center>
-      <div font-bold text="18px">
-        {{ t('result') }}
+    <div min-h-20 flex items-center justify-center>
+      <div v-if="transform" flex="~ gap-4" items-center>
+        <div font-bold text="18px">
+          {{ t('result') }}
+        </div>
+        <div flex gap-2 items-center>
+          {{ transform }}
+          <div
+            :class="[
+              isCopy
+                ? 'i-carbon:checkmark-outline text-green!'
+                : ' i-carbon:copy',
+            ]"
+            cursor-pointer
+            hover="color-orange"
+            @click="copyStyle"
+          />
+        </div>
       </div>
-      <div flex gap-2 items-center>
-        {{ transform }}
-        <div
-          :class="[
-            isCopy
-              ? 'i-carbon:checkmark-outline text-green!'
-              : ' i-carbon:copy',
-          ]"
-          cursor-pointer
-          hover="color-orange"
-          @click="copyStyle"
-        />
-      </div>
-    </div>
-    <template v-else>
-      <template v-if="input">
-        <div h-20 v-html="t('issue')" />
-      </template>
       <template v-else>
-        <div h-20 box-border pt6 v-html="t('find')" />
+        <template v-if="input">
+          <div v-html="t('issue')" />
+        </template>
+        <template v-else>
+          <div box-border pt6 v-html="t('find')" />
+        </template>
       </template>
-    </template>
+    </div>
   </div>
   <div flex>
     <div w="50%">
