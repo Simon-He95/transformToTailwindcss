@@ -16,9 +16,7 @@ export default defineConfig({
     },
   },
   plugins: [
-    Vue({
-      reactivityTransform: path.resolve(__dirname, 'src'),
-    }),
+    Vue({}),
 
     // https://github.com/hannoeru/vite-plugin-pages
     Pages(),

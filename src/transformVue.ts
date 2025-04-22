@@ -12,7 +12,7 @@ interface Options {
   isRem?: boolean
 }
 
-export async function transformVue(code: string, options: Options) {
+export async function transformVue(code: string, options?: Options) {
   const { isRem, isJsx, filepath } = options || {}
   const { parse } = await getVueCompilerSfc()
   const {

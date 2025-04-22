@@ -70,10 +70,10 @@
     "@types/node": "^18.19.86",
     "@types/stylus": "^0.48.43",
     "@unocss/core": "^0.50.8",
-    "@unocss/preset-uno": "^0.50.4",
-    "@vue/babel-plugin-jsx": "^1.1.1",
+    "@unocss/preset-uno": "^0.50.8",
+    "@vue/babel-plugin-jsx": "^1.4.0",
     "bumpp": "^8.2.1",
-    "eslint": "^9.24.0",
+    "eslint": "^9.25.1",
     "find-up": "^7.0.0",
     "less": "^4.3.0",
     "less-plugin-module-resolver": "^1.0.3",
@@ -81,7 +81,7 @@
     "magic-string": "^0.30.17",
     "picocolors": "^1.1.1",
     "prettier": "^3.5.3",
-    "sass": "^1.86.3",
+    "sass": "^1.87.0",
     "simple-git-hooks": "^2.12.1",
     "stylus": "^0.63.0",
     "transform-to-tailwindcss": "workspace:^",
@@ -90,7 +90,7 @@
     "tsx": "^3.14.0",
     "typescript": "^5.8.3",
     "unplugin": "^2.3.2",
-    "vitest": "^2.1.9"
+    "vitest": "^3.1.2"
   },
   "lint-staged": {
     "*": [
