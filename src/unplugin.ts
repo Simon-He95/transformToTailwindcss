@@ -3,8 +3,8 @@ import { createFilter } from '@rollup/pluginutils'
 import { createUnplugin } from 'unplugin'
 import { transfromCode } from './transformCode'
 
-const unplugin = createUnplugin((options: Options = {}): any => {
-  const filter = createFilter(options.include, options.exclude)
+const unplugin = createUnplugin((options?: Options): any => {
+  const filter = createFilter(options?.include, options?.exclude)
   return [
     {
       name: 'unplugin-transform-to-tailwindcss',
@@ -30,7 +30,7 @@ const unplugin = createUnplugin((options: Options = {}): any => {
         return await transfromCode(code, {
           filepath: id,
           type: suffix,
-          isRem: options.isRem,
+          isRem: options?.isRem,
         })
       },
     },
