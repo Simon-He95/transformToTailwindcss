@@ -20,7 +20,6 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
@@ -76,7 +75,6 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.12.0",
-    "@rollup/pluginutils": "^5.1.4",
     "@simon_he/colorize": "^0.0.1",
     "@types/babel__core": "^7.20.5",
     "@types/less": "^3.0.8",
@@ -87,12 +85,10 @@
     "find-up": "^7.0.0",
     "lint-staged": "^13.3.0",
     "magic-string": "^0.30.17",
-    "picocolors": "^1.1.1",
     "prettier": "^3.5.3",
     "simple-git-hooks": "^2.12.1",
     "transform-to-tailwindcss": "workspace:^",
-    "tsdown": "^0.9.3",
-    "tsup": "^6.7.0",
+    "tsdown": "^0.9.5",
     "tsx": "^3.14.0",
     "typescript": "^5.8.3",
     "vitest": "^3.1.2"
