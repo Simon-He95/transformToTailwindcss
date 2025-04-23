@@ -8,7 +8,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 import Pages from 'vite-plugin-pages'
-import { viteTransformToTailwindcss } from '../src/index'
+// import { viteTransformToTailwindcss } from '../src/index'
 
 export default defineConfig({
   resolve: {
@@ -18,7 +18,7 @@ export default defineConfig({
   },
   plugins: [
     Vue({}),
-    viteTransformToTailwindcss(),
+    // viteTransformToTailwindcss(),
     // https://github.com/hannoeru/vite-plugin-pages
     Pages(),
 
