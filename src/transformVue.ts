@@ -25,7 +25,7 @@ export async function transformVue(code: string, options?: Options) {
   // transform inline-style
   code = transformInlineStyle(code, isJsx, isRem)
 
-  if (!template || !styles.length)
+  if (errors.length || !template)
     return code
   // transform @media 注：transformBack是将@media中内容用一个占位符替换等到transformCss处理完将结果还原回去
   const [transferMediaCode, transformBack] = await transformMedia(
@@ -35,20 +35,23 @@ export async function transformVue(code: string, options?: Options) {
   )
 
   code = transferMediaCode
-  // transform class
-  const {
-    attrs: { scoped },
-    content: style,
-    lang = 'css',
-  } = styles[0]
+  if (styles.length) {
+    // transform class
+    const {
+      attrs: { scoped },
+      content: style,
+      lang = 'css',
+    } = styles[0]
 
-  const css = await compilerCss(style, lang as CssType)
-  code = code.replace(style, `\n${css}\n`).replace(` lang="${lang}"`, '')
+    const css = await compilerCss(style, lang as CssType)
+    if (css) {
+      code = code.replace(style, `\n${css}\n`).replace(` lang="${lang}"`, '')
 
-  // 只针对scoped css处理
-  if (scoped)
-    code = await transformCss(css, code, '', { isJsx, filepath, isRem })
-
+      // 只针对scoped css处理
+      if (scoped)
+        code = await transformCss(css, code, '', { isJsx, filepath, isRem })
+    }
+  }
   // 还原@media 未匹配到的class
   code = transformBack(code)
 
