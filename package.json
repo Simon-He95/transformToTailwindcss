@@ -70,7 +70,7 @@
     "picocolors": "^1.1.1",
     "sass": "^1.87.0",
     "stylus": "^0.63.0",
-    "transform-to-tailwindcss-core": "^0.0.24",
+    "transform-to-tailwindcss-core": "^0.0.26",
     "unplugin": "^2.3.2"
   },
   "devDependencies": {
