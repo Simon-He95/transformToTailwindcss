@@ -13,8 +13,8 @@ describe('transformCode', () => {
         const suffix = demo.endsWith('.vue')
           ? 'vue'
           : demo.endsWith('.tsx')
-          ? 'tsx'
-          : ''
+            ? 'tsx'
+            : ''
         if (!suffix) return
 
         return `\n\n-----    ${demo}     -------\n\n${await transfromCode(
@@ -191,7 +191,6 @@ describe('transformCode', () => {
       -----    test-1.vue     -------
 
       <script setup lang="ts"></script>
-
       <template>
         <div bg="red" w="[100%]" leading20px>
           <div
@@ -207,7 +206,6 @@ describe('transformCode', () => {
           </div>
         </div>
       </template>
-
       <style scoped></style>
       ",
         "
@@ -467,7 +465,6 @@ describe('single demo test-1.vue', async () => {
     expect(await transfromCode(demo, { filepath, type: 'vue' }))
       .toMatchInlineSnapshot(`
         "<script setup lang="ts"></script>
-
         <template>
           <div bg="red" w="[100%]" leading20px>
             <div
@@ -483,7 +480,6 @@ describe('single demo test-1.vue', async () => {
             </div>
           </div>
         </template>
-
         <style scoped></style>
         "
       `)
