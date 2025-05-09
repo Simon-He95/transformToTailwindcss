@@ -1,28 +1,31 @@
 import fsp from 'node:fs/promises'
 import path from 'node:path'
-import { transformStyleToTailwindcss } from 'transform-to-tailwindcss-core'
+import {
+  transformStyleToTailwindcss,
+  transformStyleToTailwindPre,
+} from 'transform-to-tailwindcss-core'
 import { compilerCss } from './compilerCss'
 import { tail } from './tail'
 import { transformVue } from './transformVue'
 import {
   diffTemplateStyle,
-  flag,
   getCssType,
   getStyleScoped,
   getVueCompilerSfc,
   isEmptyStyle,
   isNot,
   joinWithUnderLine,
+  TRANSFER_FLAG,
   transformUnocssBack,
   trim,
 } from './utils'
 import { wrapperVueTemplate } from './wrapperVueTemplate'
 
-const combineReg = /([.#\w]+)([.#]\w+)/ // xx.xx
+const combineReg = /([.#]?[\w\-]+)((?:[.#]\w+)+)/ // xx.xx
 
-const addReg = /([.#\w]+)\s*\+\s*([.#\w]+)/ // xx + xx
-const tailReg = /:([\w\-]+)/ // :after
-const tagReg = /\[([\w-]*)[='" ]*([\w-]*)['" ]*\]/ // [class="xxx"]
+const addReg = /([.#\w\-]+)\s*\+\s*([.#\w]+)/ // xx + xx
+const tailReg = /:?:(.+)/ // :after
+const tagReg = /\[([\w\-]*)[='" ]*([\w-]*)['" ]*\]/ // [class="xxx"]
 const emptyClass = /[,\w>.#\-+:[\]="'\s()]+\{\}\n/g
 
 interface Position {
@@ -59,9 +62,11 @@ export async function transformCss(
   const { isJsx, isRem: _isRem, filepath } = options || {}
   isRem = _isRem
   const allChanges: AllChange[] = []
-  code = (await importCss(code, style, filepath, isJsx)) as string
+  let newCode = (await importCss(code, style, filepath, isJsx)) as string
   const { parse } = await getVueCompilerSfc()
-  let stack = parse(code).descriptor.template?.ast
+  const stack = parse(newCode).descriptor.template?.ast
+  const updateOffsetMap: any = {}
+  const deferRun: any[] = []
   style.replace(
     /(.*)\{([#\\\s\w\-.:;,%()+'"!]*)\}/g,
     (all: any, name: any, value: any = '') => {
@@ -83,7 +88,7 @@ export async function transformCss(
         = prefix && transfer
           ? `${prefix}="${transfer.replace(
             /="\[([^\]]*)\]"/g,
-            (_, v) => `-[${v}]`,
+            (_: string, v: string) => `-[${v}]`,
           )}"`
           : (transfer ?? before)
       // 未被转换跳过
@@ -100,8 +105,18 @@ export async function transformCss(
 
       if (!result.length)
         return
-      const updateOffsetMap: any = {}
-      result.forEach((r) => {
+
+      // 拿出class
+      const _class = newCode.match(/<style[^>]+>(.*)<\/style>/s)![1]
+      // 删除原本class
+      let newClass = _class.replace(all, _ =>
+        _.replace(value, noTransfer.join(';')))
+
+      // 如果class中内容全部被移除删除这个定义的class
+      newClass = newClass.replace(emptyClass, '')
+      newCode = newCode.replace(_class, newClass)
+
+      for (const r of result) {
         const parent = r.parent
         if (prefix.startsWith('group-') && parent) {
           // 给result的parent添加class="group"
@@ -117,7 +132,7 @@ export async function transformCss(
             const updateText = 'group '
             updateOffsetMap[index] = updateText.length
             hasClass.value.content = `${hasClass.value.content} ${updateText}`
-            code = `${code.slice(0, newIndex + 1)}${updateText}${code.slice(
+            newCode = `${newCode.slice(0, newIndex + 1)}${updateText}${newCode.slice(
               newIndex + 1,
             )}`
           }
@@ -160,7 +175,7 @@ export async function transformCss(
               },
             })
             updateOffsetMap[index] = updateText.length
-            code = `${code.slice(0, newIndex)} class="group" ${code.slice(
+            newCode = `${newCode.slice(0, newIndex)}${updateText}${newCode.slice(
               newIndex,
             )}`
           }
@@ -182,37 +197,34 @@ export async function transformCss(
 
           return result
         }, [] as string[])
-        stack = parse(code).descriptor!.template!.ast
 
-        allChanges.push({
-          before,
-          after,
-          name: originClassName,
-          source,
-          tag,
-          attr,
-          prefix,
-          media,
-          start,
-          end,
+        // 运行完后执行
+        deferRun.push(() => {
+          const newIndex = getCalculateOffset(updateOffsetMap, start.offset)
+          const newSource = newCode.slice(
+            start.offset + newIndex,
+            end.offset + newIndex,
+          )
+          allChanges.push({
+            before,
+            after,
+            name: originClassName,
+            source: newSource,
+            tag,
+            attr,
+            prefix,
+            media,
+            start,
+            end,
+          })
         })
-      })
-      // 拿出class
-      const _class = code.match(/<style[^>]+>(.*)<\/style>/s)![1]
-      // 删除原本class
-      let newClass = _class.replace(value, noTransfer.join(';'))
+      }
 
-      // 如果class中内容全部被移除删除这个定义的class
-      newClass = newClass.replace(emptyClass, '')
-      code = code.replace(_class, newClass)
-
-      // update stack
-      stack = parse(code).descriptor!.template!.ast
       return all
     },
   )
-
-  return await resolveConflictClass(allChanges, code, isJsx)
+  deferRun.forEach(run => run())
+  return await resolveConflictClass(allChanges, newCode, isJsx, updateOffsetMap)
 }
 
 async function importCss(
@@ -257,7 +269,7 @@ async function importCss(
     const restStyle = getStyleScoped(transfer)
 
     fsp.writeFile(
-      url.replace(`.${type}`, `${flag}.${type}`),
+      url.replace(`.${type}`, `${TRANSFER_FLAG}.${type}`),
       restStyle,
       'utf-8',
     )
@@ -275,7 +287,7 @@ async function importCss(
 function findChild(
   list: any[],
   stack: any,
-  deps = Number.POSITIVE_INFINITY,
+  deps = Infinity,
   targets: any = undefined,
   result: any[] = [],
 ) {
@@ -297,61 +309,48 @@ function findChild(
         : astFindTag(stack, curFirst, deps)
     if (list.length === 1) {
       result.push(...targets)
-      return
+      return result
     }
   }
   return result
 }
 
 // 查找下无限级的
-function findDeepChild(
-  list: any[],
-  stack: any,
-  targets: any = undefined,
-  result: any[] = [],
-) {
-  for (let i = 0; i < list.length; i++) {
-    const cur = list[i]
-    if (cur === '>')
-      continue
-    const curs = cur.split('>')
-    if (targets) {
-      result.length = 0
-      targets.forEach((t: any) =>
-        findDeepChild(list.slice(i), t, undefined, result),
-      )
-      const hasOrigin = result.findIndex(item => item === targets[0])
-      if (hasOrigin !== -1)
-        result.splice(hasOrigin, 1)
-      continue
+function findDeepChild(list: any[], stack: any, result: any[] = []) {
+  if (list.length) {
+    let cur = list.shift()
+    while (cur === '>') {
+      cur = list.shift()
     }
+
+    const curs = cur.split('>')
+
     const combineMatch = cur.match(combineReg)
     const addMatch = cur.match(addReg)
 
-    targets
-      = curs.length > 1
-        ? findChild(curs, stack, 1)
-        : combineMatch
-          ? astFindTag(
-              stack,
-              combineMatch[1],
-              Number.POSITIVE_INFINITY,
-              combineMatch[2],
-            )
-          : addMatch
-            ? astFindTag(
-                stack,
-                addMatch[2],
-                Number.POSITIVE_INFINITY,
-                undefined,
-                addMatch[1],
-              )
-            : astFindTag(stack, cur, Number.POSITIVE_INFINITY)
-
-    if (list.length === 1) {
-      result.push(...targets)
-      return result
+    let found: any[] = []
+    if (curs.length > 1) {
+      found = findChild(curs, stack, 1)
     }
+    else if (combineMatch) {
+      found = astFindTag(stack, combineMatch[1], Infinity, combineMatch[2])
+    }
+    else if (addMatch) {
+      found = astFindTag(stack, addMatch[2], Infinity, undefined, addMatch[1])
+    }
+    else {
+      found = astFindTag(stack, cur, Infinity)
+    }
+
+    // 递归查找下一级
+    if (found.length) {
+      found.forEach((item: any) => {
+        findDeepChild(list, item, result)
+      })
+    }
+  }
+  else {
+    result.push(stack)
   }
   return sort(result)
 }
@@ -372,10 +371,38 @@ function sort(data: any[]) {
   return result
 }
 
+function matchCombine(
+  props: any[],
+  combineClass: string[],
+  combineId: string[],
+) {
+  const classPassed = combineClass.length
+    ? props.some(
+        (prop: any) =>
+          prop.name === 'class'
+          && combineClass.every((c) => {
+            const className = prop.value.content?.split(' ').filter(Boolean)
+            return className?.some((item: string) => item.includes(c))
+          }),
+      )
+    : true
+  const idPassed = combineId.length
+    ? props.some(
+        (prop: any) =>
+          prop.name === 'id'
+          && combineId.every((i) => {
+            const idName = prop.value.content?.split(' ').filter(Boolean)
+            return idName?.some((item: string) => item.includes(i))
+          }),
+      )
+    : true
+  return classPassed && idPassed
+}
+
 export function astFindTag(
   ast: any,
   tag = '',
-  deps = Number.POSITIVE_INFINITY,
+  deps = Infinity,
   combine: string | undefined = undefined,
   add: string | undefined = undefined,
   result: any = [],
@@ -396,6 +423,26 @@ export function astFindTag(
       : tag.startsWith('#')
         ? 'id'
         : ''
+  // combine 可能包含多个 .xxx#xxx.### , 需要一个个一个的去匹配
+  const combineClass: string[] = []
+  const combineId: string[] = []
+  if (combine) {
+    combine
+      .split('.')
+      .filter(Boolean)
+      .forEach((item) => {
+        if (item.includes('#')) {
+          const classNames = item.replace(/#([^.#]+)/g, (_, id) => {
+            combineId.push(id)
+            return ''
+          })
+          combineClass.push(...classNames.split('.').filter(Boolean))
+        }
+        else {
+          combineClass.push(item)
+        }
+      })
+  }
   const combineSelector = combine
     ? combine.startsWith('.')
       ? 'class'
@@ -423,11 +470,9 @@ export function astFindTag(
               .includes(tagMatch && tagMatch[2] ? tagMatch[2] : tag.slice(1))),
       )
       && (combine === undefined
-        || ast.props.some(
-          (prop: any) =>
-            prop.name === combineSelector
-            && prop.value.content?.includes(combine.slice(1)),
-        ))
+        || (ast.props
+          && ast.props.length
+          && matchCombine(ast.props, combineClass, combineId)))
         && (add === undefined
           || siblings.some(
             (sib: any) =>
@@ -449,23 +494,19 @@ export function astFindTag(
     && (combine === undefined
       || (ast.props
         && ast.props.length
-        && ast.props.some(
-          (prop: any) =>
-            prop.name === combineSelector
-            && (tagMatch || prop.value.content?.includes(combine.slice(1))),
-        )))
-        && (add === undefined
-          || siblings.some(
-            (sib: any) =>
-              sib !== ast
-              && sib.props
-              && sib.props.length
-              && sib.props.some(
-                (prop: any) =>
-                  prop.name === addSelector
-                  && prop.value.content?.includes(add.slice(1)),
-              ),
-          ))
+        && matchCombine(ast.props, combineClass, combineId)))
+      && (add === undefined
+        || siblings.some(
+          (sib: any) =>
+            sib !== ast
+            && sib.props
+            && sib.props.length
+            && sib.props.some(
+              (prop: any) =>
+                prop.name === addSelector
+                && prop.value.content?.includes(add.slice(1)),
+            ),
+        ))
   ) {
     result.push(ast)
   }
@@ -484,11 +525,12 @@ export function astFindTag(
 async function resolveConflictClass(
   allChange: AllChange[],
   code: string,
-  isJsx?: boolean,
+  isJsx: boolean = true,
+  updateOffset: Record<number, number>,
 ) {
+  const originCode = code
   const changes = findSameSource(allChange)
   let result = code
-  const updateOffset: any = {}
   for await (const key of Object.keys(changes)) {
     const value = changes[key]
     const {
@@ -504,7 +546,8 @@ async function resolveConflictClass(
     if (!after)
       continue
 
-    result = transform(result)
+    const newResult = transform(result)
+    result = newResult
     const target = transform(source)
     if (media)
       after = `${media}:${after}`
@@ -518,82 +561,71 @@ async function resolveConflictClass(
             (_, v) => {
               const updateText = ` ${v}`
               result = result.replace(match[1], `${match[1]}${updateText}`)
-              updateOffset[offset]
-                = updateOffset[offset] ?? 0 + updateText.length
-
               return ''
             },
           )
         }
       }
       else {
-        after = after
-          .replace(/="\[/g, '-"[')
-          .replace(/([\w\-]+)="([^"]+)"/, (_, pre, v) =>
-            v
-              .split(' ')
-              .map((i: string) => `${pre}:${i}`)
-              .join(' '))
+        after = after.replace(/="\[/g, '-"[')
       }
     }
-    else {
-      after = after
-        .replace(/="\[/g, '-"[')
-        .replace(/([\w\-]+)="([^"]+)"/, (_, pre, v) =>
-          v
-            .split(' ')
-            .map((i: string) => `${pre}:${i}`)
-            .join(' '))
-    }
 
-    const returnValue = isJsx
-      ? after
-          .replace(/\[([^\]]+)\]/g, (all, v) =>
-            all.replace(v, joinWithUnderLine(v)))
-          .replace(/-(rgba?([^)]+))/g, '-[$1]')
-          .replace(/="([^"]+)"/g, '-$1')
-      : after
+    // 默认全部都输出到class中
+    const returnValue
+      = isJsx || after.replace(/[\w\-]+=("{1})(.*?)\1/g, '').includes('[')
+        ? after
+            .replace(/\[([^\]]+)\]/g, (all, v) =>
+              all.replace(v, joinWithUnderLine(v)))
+            .replace(/-(rgba?([^)]+))/g, '-[$1]')
+            .replace(
+              /([\w\-]+(?:-\[[^\]]*\])?)=(['"]{1})(.*?)\2/g,
+              (_all, prefix, _, content) => {
+                // 拆分 content 中的空格，但是要忽略 ( ) [] 中的空格, 然后用 prefix 连接
+                const splitContent: string[] = content
+                  .split(/(?<!\[[^\]]*)\s+/)
+                  .filter(Boolean)
 
+                return splitContent.map(item => `${prefix}:${item}`).join(` `)
+              },
+            )
+        : after
+
+    // (["]{1})(.*?)\1
     const getUpdateOffset = getCalculateOffset(updateOffset, offset)
-    const start = result.slice(
-      getUpdateOffset + offset,
-      getUpdateOffset + offsetEnd,
+    const start = originCode.slice(
+      offset + getUpdateOffset,
+      offsetEnd + getUpdateOffset,
     )
 
-    if (isJsx) {
+    if (isJsx || after.replace(/[\w\-]+=("{1})(.*?)\1/g, '').includes('[')) {
       const newReg = new RegExp(
         `<${tag}.*\\sclass=["']([^"']+)["'][^\\/>]*\/?>`,
       )
       const matcher = target.match(newReg)
 
       if (matcher) {
-        const updateText = ` ${returnValue}`
-        updateOffset[offset] = updateOffset[offset] ?? 0 + updateText.length
-
+        // updateText
         result = result.replace(
           start,
           start.replace(
             `class="${matcher[1]}"`,
-            `class="${matcher[1]}${updateText}"`,
+            `class="${matcher[1]} ${returnValue}"`,
           ),
         )
         continue
       }
-      const updateText = ` class="${returnValue}"`
-      updateOffset[offset] = updateOffset[offset] ?? 0 + updateText.length
 
       result = result.replace(
         start,
-        start.replace(`<${tag}`, `<${tag}${updateText}`),
+        start.replace(`<${tag}`, `<${tag} class="${returnValue}"`),
       )
       continue
     }
-    const updateText = ` ${returnValue}`
-    updateOffset[offset] = updateOffset[offset] ?? 0 + updateText.length
 
     result = result.replace(
       start,
-      start.replace(`<${tag}`, `<${tag}${updateText}`),
+      start.replace(`<${tag}`, `<${tag} ${returnValue}`),
     )
   }
 
@@ -642,10 +674,11 @@ function findSameSource(allChange: AllChange[]) {
   return result
 }
 
+const skipTransformFlag = Symbol('skipTransformFlag')
 async function getConflictClass(
   allChange: AllChange[],
 ): Promise<[string, (code: string) => string]> {
-  const map: Record<string, Array<number | string>> = {}
+  let map: Record<string, Array<number | string | symbol>> = {}
   let transform = (code: string) => code
   for await (const item of allChange) {
     const { before, name, source, attr, after, prefix, media } = item
@@ -657,13 +690,17 @@ async function getConflictClass(
     })
     data.forEach((item) => {
       const [key, value] = item
+      if (value === undefined)
+        return
       if (!map[key]) {
         map[key] = [calculateWeight(name), value]
       }
       else {
-        const [preWeight] = map[key]
+        const [preWeight] = map[key] as any
+        if (preWeight === skipTransformFlag)
+          return
         const curWeight = calculateWeight(name)
-        if (+curWeight > +preWeight)
+        if (+curWeight >= +preWeight)
           map[key] = [+curWeight, value]
       }
     })
@@ -683,13 +720,12 @@ async function getConflictClass(
         const index = res.findIndex(r => r === i)
         if (index !== -1) {
           const inline = item.attr[index]
-
-          if (inline.endsWith('!') || !after.endsWith('!')) {
+          if (inline?.endsWith('!') || !after?.endsWith('!')) {
             // 需要删除
             return delete map[i]
           }
           else {
-            // 不需要删除,移除原本的inlineStyle的转换后的结果
+            // 不需要删除，移除原本的inlineStyle的转换后的结果
             transform = (code: string) =>
               code.replace(source, source.replace(` ${inline}`, ''))
           }
@@ -698,22 +734,49 @@ async function getConflictClass(
     }
   }
 
+  // 提前处理 map
+  const joinMap = Object.keys(map)
+    .map((key) => {
+      const value = map[key][1] as string
+      return `${key}:${value}`
+    })
+    .join(';')
+  const { transformedResult, newStyle } = transformStyleToTailwindPre(joinMap)
+  if (transformedResult) {
+    // map 赋值新 newStyle
+    map = newStyle.split(';').reduce(
+      (acc: Record<string, Array<number | string | symbol>>, item: string) => {
+        const [key, value] = item.split(':')
+        if (value !== undefined) {
+          acc[key] = [map[key][0], value]
+        }
+        return acc
+      },
+      // 将 transformedResult 赋值给 map
+      // map[]
+      {},
+    )
+    map[transformedResult] = [1, skipTransformFlag]
+  }
   return [
     Object.keys(map)
       .reduce((result, key) => {
         const keys = key.split('|')
         let prefix = keys.length > 1 ? keys[0] : ''
-        let transferCss = transformStyleToTailwindcss(
-          `${key}:${map[key][1]}`,
-          isRem,
-        )[0]
+        let transferCss
+          = map[key][1] === skipTransformFlag
+            ? key
+            : transformStyleToTailwindcss(
+              `${key}:${map[key][1] as string}`,
+              isRem,
+            )[0]
 
         const match = transferCss.match(/(\S*)="\[([^\]]*)\]"/)
         if (match) {
           transferCss = `${match.input?.replace(
             match[0],
             match[0]
-              .replace(/="\[([^\]]*)\]"/, (_, v) => `-[${v}]`)
+              .replace(/="\[([^\]]*)\]"/, (_: string, v: string) => `-[${v}]`)
               .replace(/="([^"]*)"/, '-$1'),
           )}`
         }
@@ -723,10 +786,16 @@ async function getConflictClass(
         const _transferCss = prefix
           ? isNot(prefix)
             ? `class="${prefix}${transferCss
-              .replace(/="\[([^\]]*)\]"/g, (_, v) => `-[${v}]`)
+              .replace(
+                /="\[([^\]]*)\]"/g,
+                (_: string, v: string) => `-[${v}]`,
+              )
               .replace(/="([^"]*)"/, '-$1')}"`
             : `${prefix}="${transferCss
-              .replace(/="\[([^\]]*)\]"/g, (_, v) => `-[${v}]`)
+              .replace(
+                /="\[([^\]]*)\]"/g,
+                (_: string, v: string) => `-[${v}]`,
+              )
               .replace(/="([^"]*)"/, '-$1')}"`
           : transferCss
         // 如果存在相同的prefix, 进行合并
@@ -751,8 +820,8 @@ async function getConflictClass(
               const reg = new RegExp(`${newPrefix}([\\w\\:\\-;\\[\\]\\/\\+%]+)`)
               return result.replace(reg, all => `${all}:${transferCss}`)
             }
-            const reg = new RegExp(`${prefix}="([^"]*)"`)
-            return result.replace(reg, (all, v) => {
+            const reg = new RegExp(`${prefix}=(["]{1})(.*?)\\1`)
+            return result.replace(reg, (all, _, v) => {
               const unique = [
                 ...new Set(
                   v
@@ -777,7 +846,7 @@ async function getConflictClass(
 
 function getCalculateOffset(offsetMap: any, offset: any) {
   return Object.keys(offsetMap).reduce((result, key) => {
-    if (+key < offset)
+    if (+key <= offset)
       result += offsetMap[key]
 
     return result

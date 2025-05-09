@@ -2,7 +2,7 @@ import type { CssType } from './type'
 import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 
-export const flag = '.__unocss_transfer__'
+export const TRANSFER_FLAG = '.__unocss_transfer__'
 
 export function isNot(s: string) {
   return /\[&:not\(/.test(s)

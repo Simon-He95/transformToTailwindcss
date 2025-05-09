@@ -214,7 +214,7 @@ describe('transformCode', () => {
 
       <script setup lang="ts"></script>
       <template>
-        <div class="w-[100%] flex"
+        <div class="w-[100%] flex flex-1 h-[100px] bg-red"
           class="container bg-red w-[100%] leading-[20px]"
          
         >
@@ -400,7 +400,7 @@ describe('single test', async () => {
       .toMatchInlineSnapshot(`
         "<script setup lang="ts"></script>
         <template>
-          <div class="w-[100%] flex"
+          <div class="w-[100%] flex flex-1 h-[100px] bg-red"
             class="container bg-red w-[100%] leading-[20px]"
            
           >

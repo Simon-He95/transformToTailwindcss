@@ -5,7 +5,7 @@ import process from 'node:process'
 import colorize from '@simon_he/colorize'
 import fg from 'fast-glob'
 import { transfromCode } from './transformCode'
-import { flag } from './utils'
+import { TRANSFER_FLAG } from './utils'
 
 const log = console.log
 
@@ -28,14 +28,14 @@ export async function cli() {
     { cwd: fileDir },
   )
   entries
-    .filter(entry => !entry.endsWith(flag))
+    .filter(entry => !entry.endsWith(TRANSFER_FLAG))
     .forEach(async (entry) => {
       const filepath = `${fileDir}/${entry}`
       const suffix = entry.slice(entry.lastIndexOf('.') + 1) as SuffixType
 
-      const newfilepath = filepath.endsWith(flag)
+      const newfilepath = filepath.endsWith(TRANSFER_FLAG)
         ? filepath
-        : filepath.replace(`.${suffix}`, `${flag}.${suffix}`)
+        : filepath.replace(`.${suffix}`, `${TRANSFER_FLAG}.${suffix}`)
       if (fs.existsSync(newfilepath)) {
         if (isRevert) {
           // 删除
