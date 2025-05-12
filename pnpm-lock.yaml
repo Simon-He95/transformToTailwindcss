@@ -48,8 +48,8 @@ importers:
         specifier: ^0.63.0
         version: 0.63.0
       transform-to-tailwindcss-core:
-        specifier: ^0.0.32
-        version: 0.0.32
+        specifier: ^0.0.33
+        version: 0.0.33
       unplugin:
         specifier: ^2.3.2
         version: 2.3.2
@@ -4391,8 +4391,8 @@ packages:
     resolution: {integrity: sha512-l7FvfAHlcmulp8kr+flpQZmVwtu7nfRV7NZujtN0OqES8EL4O4e0qqzL0DC5gAvx/ZC/9lk6rhcUwYvkBnBnYA==}
     engines: {node: '>=12'}
 
-  transform-to-tailwindcss-core@0.0.32:
-    resolution: {integrity: sha512-jpa8xNLfwub/pXsyKk1SEpkKz2K/G4SrSpdkYKRWciKwKNl9mmEfdcCLAUuvPbcXB6UI5Mt2KP4qfUWEkx8Wqg==}
+  transform-to-tailwindcss-core@0.0.33:
+    resolution: {integrity: sha512-Ktt0HnW3OW9kBmnNmmdW2MHPZR81wsKHtTeUfFxahkSaFY4jfp/XFj1jwTF7fK9gApPw/eQ0MAraeahbobdd4w==}
     hasBin: true
 
   ts-api-utils@2.1.0:
@@ -9527,7 +9527,7 @@ snapshots:
     dependencies:
       punycode: 2.3.1
 
-  transform-to-tailwindcss-core@0.0.32: {}
+  transform-to-tailwindcss-core@0.0.33: {}
 
   ts-api-utils@2.1.0(typescript@4.9.5):
     dependencies:
