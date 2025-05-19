@@ -69,7 +69,7 @@
     "less-plugin-module-resolver": "^1.0.3",
     "picocolors": "^1.1.1",
     "sass": "^1.87.0",
-    "stylus": "^0.63.0",
+    "stylus": "^0.64.0",
     "transform-to-tailwindcss-core": "^0.0.36",
     "unplugin": "^2.3.2"
   },
