@@ -1,7 +1,7 @@
 {
   "name": "transform-to-tailwindcss",
   "type": "module",
-  "version": "0.0.42",
+  "version": "0.0.43",
   "packageManager": "pnpm@10.12.1",
   "description": "The tool that transform css to tailwindcss",
   "author": "Simon He",
