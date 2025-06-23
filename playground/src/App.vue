@@ -477,22 +477,14 @@ const stop = useRaf(
       pre = newInput
 
       try {
-        code = await fetch('https://localhost/.netlify/functions/server', {
-          method: 'POST',
-          body: newInput,
-        }).then(res => res.text())
+        code = await transformVue(newInput, {
+          isRem: isChecked.value,
+        })
       }
-      catch (error) {
-        try {
-          code = await transformVue(newInput, {
-            isRem: isChecked.value,
-          })
-        }
-        catch (e) {
-          // eslint-disable-next-line no-alert
-          alert(`Error: ${e}`)
-          return
-        }
+      catch (e) {
+        // eslint-disable-next-line no-alert
+        alert(`Error: ${e}`)
+        return
       }
 
       updateCode1(code, 'vue') // Update the editor with the new code
