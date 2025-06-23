@@ -3,19 +3,66 @@
   "type": "module",
   "version": "0.0.44",
   "packageManager": "pnpm@10.12.1",
-  "description": "The tool that transform css to tailwindcss",
-  "author": "Simon He",
+  "description": "🎨 Revolutionary CSS-to-TailwindCSS migration tool with surgical precision. Transform legacy stylesheets to utility-first classes instantly across Vue, React, Svelte, and Astro projects.",
+  "author": {
+    "name": "Simon He",
+    "email": "simon.he95@gmail.com",
+    "url": "https://github.com/Simon-He95"
+  },
   "license": "MIT",
-  "funding": "https://github.com/sponsors/Simon-He95",
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/Simon-He95"
+    },
+    {
+      "type": "buymeacoffee",
+      "url": "https://www.buymeacoffee.com/simon_he95"
+    },
+    {
+      "type": "individual",
+      "url": "https://github.com/Simon-He95/sponsor"
+    }
+  ],
   "homepage": "https://github.com/Simon-He95/transformToTailwindcss#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Simon-He95/transformToTailwindcss.git"
   },
-  "bugs": "https://github.com/Simon-He95/transformToTailwindcss/issues",
+  "bugs": {
+    "url": "https://github.com/Simon-He95/transformToTailwindcss/issues"
+  },
   "keywords": [
     "transform-to-tailwindcss",
-    "tailwindcss"
+    "tailwindcss",
+    "css-transform",
+    "utility-first",
+    "css-migration",
+    "vue",
+    "react",
+    "svelte",
+    "astro",
+    "vite-plugin",
+    "webpack-plugin",
+    "rollup-plugin",
+    "esbuild-plugin",
+    "css-preprocessor",
+    "sass",
+    "less",
+    "stylus",
+    "performance",
+    "optimization",
+    "developer-tools",
+    "build-tools",
+    "css-to-tailwind",
+    "legacy-css",
+    "modern-css",
+    "automated-migration",
+    "code-transformation",
+    "frontend-tooling",
+    "css-utilities",
+    "responsive-design",
+    "atomic-css"
   ],
   "sideEffects": false,
   "exports": {

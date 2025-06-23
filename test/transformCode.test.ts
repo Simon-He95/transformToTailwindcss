@@ -37,7 +37,7 @@ describe('single demo classWeight', async () => {
   const demo = await fsp.readFile('./test/demo/classWeight.vue', 'utf-8')
   const filepath = path.resolve(process.cwd(), './test/demo/classWeight.vue')
   it('classWeight.vue', async () => {
-    expect(
+    await expect(
       await transfromCode(demo, { filepath, type: 'vue' }),
     ).toMatchFileSnapshot('./__snapshots__/classWeight.test.ts.snap')
   })
@@ -119,7 +119,7 @@ describe('single demo test-1.vue', () => {
     const _path = './test/demo/test-1.vue'
     const demo = await fsp.readFile(_path, 'utf-8')
     const filepath = path.resolve(process.cwd(), _path)
-    expect(
+    await expect(
       await transfromCode(demo, { filepath, type: 'vue' }),
     ).toMatchFileSnapshot('./__snapshots__/test-1.test.ts.snap')
   })
@@ -141,7 +141,7 @@ describe('single demo complex2.vue', () => {
     const _path = './test/demo/complex2.vue'
     const demo = await fsp.readFile(_path, 'utf-8')
     const filepath = path.resolve(process.cwd(), _path)
-    expect(
+    await expect(
       await transfromCode(demo, { filepath, type: 'vue' }),
     ).toMatchFileSnapshot('./__snapshots__/complex2.test.ts.snap')
   })
@@ -163,7 +163,7 @@ describe('single demo complex4.vue', () => {
     const _path = './test/demo/complex4.vue'
     const demo = await fsp.readFile(_path, 'utf-8')
     const filepath = path.resolve(process.cwd(), _path)
-    expect(
+    await expect(
       await transfromCode(demo, { filepath, type: 'vue' }),
     ).toMatchFileSnapshot('./__snapshots__/complex4.test.ts.snap')
   })

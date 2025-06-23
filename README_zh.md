@@ -1,26 +1,53 @@
-<p align="center">
+<div align="center">
+
+# 🎨 Transform to TailwindCSS
+
 <img height="200" src="./assets/kv.png" alt="to tailwindcss">
-</p>
-<p align="center"> <a href="./README.md">English</a> | 简体中文</p>
 
-> WIP
+[![npm version](https://badge.fury.io/js/transform-to-tailwindcss.svg)](https://badge.fury.io/js/transform-to-tailwindcss)
+[![Downloads](https://img.shields.io/npm/dm/transform-to-tailwindcss.svg)](https://www.npmjs.com/package/transform-to-tailwindcss)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub stars](https://img.shields.io/github/stars/Simon-He95/transformToTailwindcss.svg?style=social&label=Star)](https://github.com/Simon-He95/transformToTailwindcss)
 
-这个库就是把 css 转成 tailwindcss 的。 [tailwindcss](https://tailwindcss.com/) 可以更好的复用样式减少打包体积，可以转化为一种性能优化的方式，也可以让老项目更容易升级到 tailwindcss。如果你是 [unocss](https://github.com/unocss/unocss) 使用者, 你可以尝试使用 [transformToUnocss](https://github.com/Simon-He95/transformToUnocss)。
+**🚀 轻松将传统 CSS 迁移到 TailwindCSS**
 
-## 📦 Install
+_自动将现有 CSS 样式转换为实用优先的 TailwindCSS 类_
 
+[English](./README.md) | [简体中文](./README_zh.md)
+
+</div>
+
+---
+
+## ✨ 为什么选择 Transform to TailwindCSS？
+
+🎯 **性能优先** - 通过利用 TailwindCSS 的实用类减少打包体积
+🔄 **遗留迁移** - 无缝将老项目升级到现代化的 TailwindCSS
+⚡ **开发体验** - 保持设计系统的一致性
+🛠️ **框架无关** - 支持 Vue、React、Svelte、Astro 和原生 HTML
+
+> 想要使用 UnoCSS？试试 [transformToUnocss](https://github.com/Simon-He95/transformToUnocss)！
+
+## � 快速开始
+
+### 全局安装
+
+```bash
+npm install -g transform-to-tailwindcss
+# 或
+yarn global add transform-to-tailwindcss
+# 或
+pnpm add -g transform-to-tailwindcss
 ```
-  npm i -g transform-to-tailwindcss
-```
 
-## 🦄 cli
+### CLI 使用
 
-```
-  ## command: totailwindcss + directory
-  totailwindcss playground
+```bash
+# 转换目录
+totailwindcss playground
 
-  ## revoke: totailwindcss + directory + --revert
-  totailwindcss payground --revert
+# 撤销更改
+totailwindcss playground --revert
 ```
 
 ## 🌈 Usage
@@ -132,25 +159,41 @@ vitePluginTransformTotailwindcss({
 
 用于在转换过程中包含或排除文件的过滤模式。
 
-# ⭐ Feature
+## 🎯 支持特性
 
-- 支持 css 在 '.html' | '.tsx' | '.vue' | '.astro' | '.svelte' 转换到 tailwindcss
-- 支持 sass less stylus 类型的转换
-- 支持 vite | rollup | webpack | vue-cli | esbuild 作为插件使用
-- vscode 扩展 [To tailwindcss](https://github.com/Simon-He95/totailwindcss)
+✅ **文件格式** - `.html` | `.tsx` | `.vue` | `.astro` | `.svelte`
+✅ **CSS 预处理器** - Sass、Less、Stylus
+✅ **构建工具** - Vite、Rollup、Webpack、Vue CLI、ESBuild
+✅ **IDE 支持** - [VS Code 扩展](https://github.com/Simon-He95/totailwindcss)
 
-## 编译前
+## 🔗 相关项目
+
+- [transform-to-tailwindcss-core](https://github.com/Simon-He95/transform-to-tailwindcss-core) - 浏览器端 CSS 转换引擎
+
+## 📈 转换前后对比
+
+<div align="center">
+
+### 转换前 😤
 
 ![before](/assets/before.png)
 
-## 编译后
+### 转换后 🎉
 
 ![after](/assets/after.png)
 
-## :coffee:
+</div>
 
-[请我喝一杯咖啡](https://github.com/Simon-He95/sponsor)
+## 💖 支持项目
 
-## License
+<div align="center">
 
-[MIT](./license)
+**如果这个项目对你有帮助，请考虑给个 ⭐！**
+
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://github.com/Simon-He95/sponsor)
+
+</div>
+
+## 📄 开源协议
+
+[MIT](./license) © 2024-PRESENT [Simon He](https://github.com/Simon-He95)
