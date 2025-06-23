@@ -11,14 +11,24 @@ const styleReg = /\s*<style.*>(.*)<\/style>\s*/s
 interface Options {
   isRem?: boolean
   filepath?: string
+  globalCss?: string
   debug?: boolean
   collectClasses?: boolean
 }
 export async function transformHtml(code: string, options: Options = {}) {
-  const { filepath, isRem, debug } = options || {}
+  const { filepath, globalCss, isRem, debug, collectClasses } = options || {}
   const css = await getLinkCss(code, filepath!)
   const style = getStyleCss(code)
-  const newCode = await generateNewCode(css, style, code, isRem, debug)
+  const newCode = await generateNewCode(
+    css,
+    style,
+    code,
+    isRem,
+    globalCss,
+    debug,
+    filepath,
+    collectClasses,
+  )
   return prettierCode(newCode)
 }
 
@@ -58,14 +68,24 @@ async function generateNewCode(
   style: string,
   code: string,
   isRem?: boolean,
+  globalCss?: string,
   debug?: boolean,
+  filepath?: string,
+  collectClasses?: boolean,
 ) {
   // 先处理style
   let template = getBody(code)
   const originBody = template
   if (style) {
     const vue = wrapperVueTemplate(template, style)
-    const transferCode = await transformVue(vue, { isJsx: true, isRem, debug })
+    const transferCode = await transformVue(vue, {
+      isJsx: true,
+      isRem,
+      filepath,
+      globalCss,
+      debug,
+      collectClasses,
+    })
     template = transferCode
 
     // 如果没有style scoped 删除style
@@ -80,7 +100,10 @@ async function generateNewCode(
       const transferCode = await transformVue(vue, {
         isJsx: true,
         isRem,
+        filepath,
+        globalCss,
         debug,
+        collectClasses,
       })
 
       if (diffTemplateStyle(template, transferCode)) {

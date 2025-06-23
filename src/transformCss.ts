@@ -1,5 +1,6 @@
 import fsp from 'node:fs/promises'
 import path from 'node:path'
+import process from 'node:process'
 import {
   transformStyleToTailwindcss,
   transformStyleToTailwindPre,
@@ -51,6 +52,7 @@ let isRem: boolean | undefined = false
 interface Options {
   isJsx?: boolean
   filepath?: string
+  globalCss?: string
   isRem?: boolean
   debug?: boolean
   collectClasses?: boolean
@@ -62,7 +64,15 @@ export async function transformCss(
   media = '',
   options: Options,
 ): Promise<string> {
-  const { isJsx, isRem: _isRem, filepath, debug } = options || {}
+  const {
+    isJsx,
+    isRem: _isRem,
+    filepath: _filepath,
+    globalCss,
+    debug,
+  } = options || {}
+  // 理论上filepath应该总是从plugin中获取id，但提供process.cwd()作为后备默认值
+  const filepath = _filepath || process.cwd()
   isRem = _isRem
   if (debug) {
     console.log(
@@ -70,7 +80,15 @@ export async function transformCss(
     )
   }
   const allChanges: AllChange[] = []
-  let newCode = (await importCss(code, style, filepath, isJsx)) as string
+  let newCode = (await importCss(
+    code,
+    style,
+    filepath,
+    isJsx,
+    debug,
+    isRem,
+    globalCss,
+  )) as string
   const { parse } = await getVueCompilerSfc()
   const stack = parse(newCode).descriptor.template?.ast
   const updateOffsetMap: any = {}
@@ -254,8 +272,11 @@ export async function transformCss(
 async function importCss(
   code: string,
   style: string,
-  filepath?: string,
+  filepath: string,
   isJsx?: boolean,
+  debug?: boolean,
+  isRem?: boolean,
+  globalCss?: string,
 ) {
   const originCode = code
   for await (const match of style.matchAll(
@@ -263,21 +284,27 @@ async function importCss(
   )) {
     if (!match)
       continue
-    const url = path.resolve(filepath!, '..', match[2])
+    const url = path.resolve(filepath, '..', match[2])
 
     const content = await fsp.readFile(
       path.resolve(filepath!, '..', url),
       'utf-8',
     )
     const type = getCssType(url)
-    const css = await compilerCss(content, type)
+    const css = await compilerCss(content, type, url, style, debug)
 
     const [_, beforeStyle] = code.match(/<style.*>(.*)<\/style>/s)!
     code = code.replace(beforeStyle, '')
 
     const vue = wrapperVueTemplate(code, css)
 
-    const transfer = await transformVue(vue, { isJsx, isRem })
+    const transfer = await transformVue(vue, {
+      isJsx,
+      isRem,
+      filepath,
+      globalCss,
+      debug,
+    })
 
     if (diffTemplateStyle(transfer, vue)) {
       code = originCode

@@ -1,7 +1,7 @@
 import type { Options } from './type'
 import { classCollector } from './classCollector'
 import { transformAstro } from './transformAstro'
-import { transfromCode } from './transformCode'
+import { transformCode } from './transformCode'
 import { transformHtml } from './transformHtml'
 import { transformJsx } from './transformJsx'
 import { transformSvelte } from './transformSvelte'
@@ -24,11 +24,11 @@ export {
   rollupTransformToTailwindcss,
   rspackTransformToUnocss,
   transformAstro,
+  transformCode,
   transformHtml,
   transformJsx,
   transformSvelte,
   transformVue,
-  transfromCode,
   viteTransformToTailwindcss,
   webpackTransformToTailwindcss,
 }

@@ -6,7 +6,6 @@ export async function lessCompiler(
   css: string,
   filepath?: string,
   globalCss?: string,
-  alias?: { [key: string]: string },
   debug?: boolean,
 ) {
   if (typeof window !== 'undefined')
@@ -34,7 +33,7 @@ export async function lessCompiler(
         filename: filepath,
         plugins: [
           new LessPluginModuleResolver({
-            alias: alias || {},
+            alias: {},
           }),
         ],
       })

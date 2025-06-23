@@ -1,3 +1,4 @@
+import process from 'node:process'
 import { transformCss } from './transformCss'
 import { getLastName } from './utils'
 
@@ -20,7 +21,10 @@ export async function transformMedia(
   isRem?: boolean,
   debug?: boolean,
   collectClasses?: boolean,
+  filepath?: string,
 ): Promise<[string, (r: string) => string]> {
+  // 理论上filepath应该总是从plugin中获取id，但提供process.cwd()作为后备默认值
+  const resolvedFilepath = filepath || process.cwd()
   const transferBackMap: any = []
   let result = code
 
@@ -47,6 +51,7 @@ export async function transformMedia(
         isRem,
         debug,
         collectClasses,
+        filepath: resolvedFilepath,
       })
 
       if (transfer !== result) {
@@ -70,6 +75,7 @@ export async function transformMedia(
         isRem,
         debug,
         collectClasses,
+        filepath: resolvedFilepath,
       })
     ).replace(emptyMediaReg, '')
     result = transfer.replace(all, tempFlag)

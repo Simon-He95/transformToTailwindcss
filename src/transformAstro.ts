@@ -4,12 +4,13 @@ import { wrapperVueTemplate } from './wrapperVueTemplate'
 
 interface Options {
   filepath?: string
+  globalCss?: string
   isRem?: boolean
   debug?: boolean
   collectClasses?: boolean
 }
 export async function transformAstro(code: string, options: Options) {
-  const { isRem, filepath, debug } = options || {}
+  const { isRem, filepath, globalCss, debug } = options || {}
   const match = code.match(/(---.*---)?(.*(?=<style>))(<style>.*<\/style>)?/s)
   if (!match)
     return code
@@ -21,6 +22,7 @@ export async function transformAstro(code: string, options: Options) {
     isJsx: true,
     isRem,
     filepath,
+    globalCss,
     debug,
   })
   vue.replace(

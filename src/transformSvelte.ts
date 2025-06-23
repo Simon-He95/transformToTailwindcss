@@ -4,12 +4,13 @@ import { wrapperVueTemplate } from './wrapperVueTemplate'
 
 interface Options {
   filepath?: string
+  globalCss?: string
   isRem?: boolean
   debug?: boolean
   collectClasses?: boolean
 }
 export async function transformSvelte(code: string, options: Options = {}) {
-  const { filepath, isRem, debug } = options
+  const { filepath, globalCss, isRem, debug } = options
   const match = code.match(
     /(<script.*<\/script>)?(.*(?=<style>))(<style>.*<\/style>)?/s,
   )
@@ -23,6 +24,7 @@ export async function transformSvelte(code: string, options: Options = {}) {
     isJsx: true,
     isRem,
     filepath,
+    globalCss,
     debug,
   })
 

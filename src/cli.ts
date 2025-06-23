@@ -4,7 +4,7 @@ import path from 'node:path'
 import process from 'node:process'
 import colorize from '@simon_he/colorize'
 import fg from 'fast-glob'
-import { transfromCode } from './transformCode'
+import { transformCode } from './transformCode'
 import { TRANSFER_FLAG } from './utils'
 
 const log = console.log
@@ -70,7 +70,7 @@ export async function cli() {
         return
       }
       const code = await fs.promises.readFile(filepath, 'utf-8')
-      const codeTransfer = await transfromCode(code, filepath, suffix)
+      const codeTransfer = await transformCode(code, { filepath, type: suffix })
       // 创建新文件
       try {
         await fs.promises.writeFile(newfilepath, codeTransfer)

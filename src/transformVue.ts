@@ -9,13 +9,15 @@ import { getVueCompilerSfc } from './utils'
 interface Options {
   isJsx?: boolean
   filepath?: string
+  globalCss?: string
   isRem?: boolean
   debug?: boolean
   collectClasses?: boolean
 }
 
 export async function transformVue(code: string, options?: Options) {
-  const { isRem, isJsx, filepath, debug, collectClasses } = options || {}
+  const { isRem, isJsx, filepath, globalCss, debug, collectClasses }
+    = options || {}
   const { parse } = await getVueCompilerSfc()
   const {
     descriptor: { template, styles },
@@ -36,6 +38,7 @@ export async function transformVue(code: string, options?: Options) {
     isRem,
     debug,
     collectClasses,
+    filepath, // 传递 filepath 参数
   )
 
   code = transferMediaCode
@@ -47,7 +50,13 @@ export async function transformVue(code: string, options?: Options) {
       lang = 'css',
     } = styles[0]
 
-    const css = await compilerCss(style, lang as CssType, debug)
+    const css = await compilerCss(
+      style,
+      lang as CssType,
+      filepath,
+      globalCss,
+      debug,
+    )
     if (css) {
       code = code.replace(style, `\n${css}\n`).replace(` lang="${lang}"`, '')
 

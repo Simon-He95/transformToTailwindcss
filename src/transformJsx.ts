@@ -6,12 +6,13 @@ import { transformVue } from './transformVue'
 
 interface Options {
   filepath?: string
+  globalCss?: string
   isRem?: boolean
   debug?: boolean
   collectClasses?: boolean
 }
 export async function transformJsx(code: string, options: Options = {}) {
-  const { filepath, isRem, debug } = options
+  const { filepath, globalCss, isRem, debug } = options
   const ast = babelParse(code, {
     babelrc: false,
     comments: true,
@@ -53,6 +54,7 @@ export async function transformJsx(code: string, options: Options = {}) {
     isJsx: true,
     isRem,
     filepath,
+    globalCss,
     debug,
   })
   vueTransfer = vueTransfer.replace(/class/g, 'className')

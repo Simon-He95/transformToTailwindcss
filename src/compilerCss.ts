@@ -3,14 +3,20 @@ import { lessCompiler } from './lessCompiler'
 import { sassCompiler } from './sassCompiler'
 import { stylusCompiler } from './stylusCompiler'
 
-export function compilerCss(css: string, lang: CssType, debug?: boolean) {
+export function compilerCss(
+  css: string,
+  lang: CssType,
+  filepath?: string,
+  globalCss?: string,
+  debug?: boolean,
+) {
   switch (lang) {
     case 'stylus':
-      return stylusCompiler(css, undefined, undefined, debug)
+      return stylusCompiler(css, filepath, globalCss, debug)
     case 'less':
-      return lessCompiler(css, undefined, undefined, undefined, debug)
+      return lessCompiler(css, filepath, globalCss, debug)
     case 'scss':
-      return sassCompiler(css, undefined, undefined, debug)
+      return sassCompiler(css, filepath, globalCss, debug)
     default:
       return css
   }
