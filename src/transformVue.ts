@@ -11,10 +11,11 @@ interface Options {
   filepath?: string
   isRem?: boolean
   debug?: boolean
+  collectClasses?: boolean
 }
 
 export async function transformVue(code: string, options?: Options) {
-  const { isRem, isJsx, filepath, debug } = options || {}
+  const { isRem, isJsx, filepath, debug, collectClasses } = options || {}
   const { parse } = await getVueCompilerSfc()
   const {
     descriptor: { template, styles },
@@ -24,7 +25,7 @@ export async function transformVue(code: string, options?: Options) {
   if (errors.length)
     return code
   // transform inline-style
-  code = transformInlineStyle(code, isJsx, isRem, debug)
+  code = transformInlineStyle(code, isJsx, isRem, debug, collectClasses)
 
   if (errors.length || !template)
     return code
@@ -34,6 +35,7 @@ export async function transformVue(code: string, options?: Options) {
     isJsx,
     isRem,
     debug,
+    collectClasses,
   )
 
   code = transferMediaCode
@@ -61,6 +63,7 @@ export async function transformVue(code: string, options?: Options) {
           filepath,
           isRem,
           debug,
+          collectClasses,
         })
       }
     }

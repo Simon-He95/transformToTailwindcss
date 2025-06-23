@@ -19,6 +19,7 @@ export async function transformMedia(
   isJsx?: boolean,
   isRem?: boolean,
   debug?: boolean,
+  collectClasses?: boolean,
 ): Promise<[string, (r: string) => string]> {
   const transferBackMap: any = []
   let result = code
@@ -45,6 +46,7 @@ export async function transformMedia(
         isJsx,
         isRem,
         debug,
+        collectClasses,
       })
 
       if (transfer !== result) {
@@ -63,7 +65,12 @@ export async function transformMedia(
       mapValue = `${getLastName(key)}-${val === 'no-preference' ? 'safe' : val}`
 
     const transfer = (
-      await transformCss(inner, result, mapValue, { isJsx, isRem, debug })
+      await transformCss(inner, result, mapValue, {
+        isJsx,
+        isRem,
+        debug,
+        collectClasses,
+      })
     ).replace(emptyMediaReg, '')
     result = transfer.replace(all, tempFlag)
     transferBackMap.push((r: string) => r.replace(tempFlag, all))

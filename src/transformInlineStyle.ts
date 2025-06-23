@@ -1,4 +1,5 @@
 import { transformStyleToTailwindcss } from 'transform-to-tailwindcss-core'
+import { classCollector } from './classCollector'
 
 const styleReg = /<([\w\-]+)[^/>]*[^:]style="([^"]+)"[^>]*>/g
 
@@ -10,6 +11,7 @@ export function transformInlineStyle(
   isJsx?: boolean,
   isRem?: boolean,
   debug?: boolean,
+  collectClasses?: boolean,
 ): string {
   // code中提取template
   const match = code.match(templateReg)
@@ -31,6 +33,11 @@ export function transformInlineStyle(
       isRem,
       debug,
     )
+
+    // 收集转换后的类名
+    if (collectClasses && after) {
+      classCollector.addClasses(after)
+    }
 
     // transform inline-style
 

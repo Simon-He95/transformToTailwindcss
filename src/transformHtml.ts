@@ -12,6 +12,7 @@ interface Options {
   isRem?: boolean
   filepath?: string
   debug?: boolean
+  collectClasses?: boolean
 }
 export async function transformHtml(code: string, options: Options = {}) {
   const { filepath, isRem, debug } = options || {}

@@ -1,3 +1,5 @@
+import type { Options } from './type'
+import { classCollector } from './classCollector'
 import { transformAstro } from './transformAstro'
 import { transfromCode } from './transformCode'
 import { transformHtml } from './transformHtml'
@@ -15,6 +17,7 @@ import {
 } from './unplugin'
 
 export {
+  classCollector,
   esbuildTransformToTailwindcss,
   farmTransformToUnocss,
   rolldownTransformToUnocss,
@@ -29,3 +32,5 @@ export {
   viteTransformToTailwindcss,
   webpackTransformToTailwindcss,
 }
+
+export type { Options }

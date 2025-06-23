@@ -6,6 +6,7 @@ interface Options {
   filepath?: string
   isRem?: boolean
   debug?: boolean
+  collectClasses?: boolean
 }
 export async function transformAstro(code: string, options: Options) {
   const { isRem, filepath, debug } = options || {}

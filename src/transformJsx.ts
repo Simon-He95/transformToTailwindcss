@@ -8,6 +8,7 @@ interface Options {
   filepath?: string
   isRem?: boolean
   debug?: boolean
+  collectClasses?: boolean
 }
 export async function transformJsx(code: string, options: Options = {}) {
   const { filepath, isRem, debug } = options

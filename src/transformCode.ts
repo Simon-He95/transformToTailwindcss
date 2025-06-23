@@ -10,22 +10,29 @@ interface Options {
   type?: SuffixType
   isRem?: boolean
   debug?: boolean
+  collectClasses?: boolean
 }
 export async function transfromCode(code: string, options: Options = {}) {
-  const { isRem, filepath, type, debug } = options
+  const { isRem, filepath, type, debug, collectClasses } = options
   // 删除代码中的注释部分
   // code = code.replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, '')
   if (debug) {
     console.log(`[transform-to-tailwindcss] Processing file: ${filepath}`)
   }
   if (type === 'tsx')
-    return transformJsx(code, { filepath, isRem, debug })
+    return transformJsx(code, { filepath, isRem, debug, collectClasses })
   if (type === 'html')
-    return transformHtml(code, { filepath, isRem, debug })
+    return transformHtml(code, { filepath, isRem, debug, collectClasses })
   if (type === 'svelte')
-    return transformSvelte(code, { filepath, isRem, debug })
+    return transformSvelte(code, { filepath, isRem, debug, collectClasses })
   if (type === 'astro')
-    return transformAstro(code, { filepath, isRem, debug })
+    return transformAstro(code, { filepath, isRem, debug, collectClasses })
 
-  return transformVue(code, { isJsx: true, filepath, isRem, debug })
+  return transformVue(code, {
+    isJsx: true,
+    filepath,
+    isRem,
+    debug,
+    collectClasses,
+  })
 }

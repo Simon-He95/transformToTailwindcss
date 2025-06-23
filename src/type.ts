@@ -9,4 +9,7 @@ export interface Options {
   exclude?: FilterPattern
   isRem?: boolean
   debug?: boolean
+  collectClasses?: boolean
+  outputPath?: string
+  skipIfNoChanges?: boolean // 新增：如果没有变化则跳过生成
 }

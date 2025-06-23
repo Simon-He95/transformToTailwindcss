@@ -4,6 +4,7 @@ import {
   transformStyleToTailwindcss,
   transformStyleToTailwindPre,
 } from 'transform-to-tailwindcss-core'
+import { classCollector } from './classCollector'
 import { compilerCss } from './compilerCss'
 import { tail } from './tail'
 import { transformVue } from './transformVue'
@@ -52,6 +53,7 @@ interface Options {
   filepath?: string
   isRem?: boolean
   debug?: boolean
+  collectClasses?: boolean
 }
 
 export async function transformCss(
@@ -107,6 +109,9 @@ export async function transformCss(
       // 未被转换跳过
       if (before === after)
         return
+
+      // 收集转换后的类名
+      classCollector.addClasses(after)
 
       if (prefix)
         name = name.replace(tailMatcher[0], '')

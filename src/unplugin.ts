@@ -1,14 +1,28 @@
 import type { Options } from './type'
 import { createFilter } from '@rollup/pluginutils'
 import { createUnplugin } from 'unplugin'
+import { classCollector } from './classCollector'
 import { transfromCode } from './transformCode'
 
 const unplugin = createUnplugin((options?: Options): any => {
   const filter = createFilter(options?.include, options?.exclude)
+
+  // 初始化类名收集器
+  if (options?.collectClasses) {
+    classCollector.clear()
+    classCollector.enable(options?.outputPath, options?.skipIfNoChanges)
+  }
+
   return [
     {
       name: 'unplugin-transform-to-tailwindcss',
       enforce: 'pre',
+      buildStart() {
+        // 在构建开始时重置状态
+        if (options?.collectClasses) {
+          classCollector.resetBuildState()
+        }
+      },
       transformInclude(id: string) {
         return filter(id)
       },
@@ -32,7 +46,14 @@ const unplugin = createUnplugin((options?: Options): any => {
           type: suffix,
           isRem: options?.isRem,
           debug: options?.debug,
+          collectClasses: options?.collectClasses,
         })
+      },
+      buildEnd() {
+        // 构建结束时生成safelist文件
+        if (options?.collectClasses) {
+          classCollector.onBuildEnd()
+        }
       },
     },
   ]
