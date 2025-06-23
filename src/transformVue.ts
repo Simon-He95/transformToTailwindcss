@@ -1,10 +1,10 @@
 import type { CssType } from './type'
-import { parse } from '@vue/compiler-sfc/dist/compiler-sfc.esm-browser.js'
 import { compilerCss } from './compilerCss'
 import { prettierCode } from './prettierCode'
 import { transformCss } from './transformCss'
 import { transformInlineStyle } from './transformInlineStyle'
 import { transformMedia } from './transformMedia'
+import { getVueCompilerSfc } from './utils'
 
 interface Options {
   isJsx?: boolean
@@ -15,7 +15,7 @@ interface Options {
 
 export async function transformVue(code: string, options?: Options) {
   const { isRem, isJsx, filepath, debug } = options || {}
-
+  const { parse } = await getVueCompilerSfc()
   const {
     descriptor: { template, styles },
     errors,

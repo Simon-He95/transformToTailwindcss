@@ -1,6 +1,5 @@
 import fsp from 'node:fs/promises'
 import path from 'node:path'
-import { parse } from '@vue/compiler-sfc/dist/compiler-sfc.esm-browser.js'
 import {
   transformStyleToTailwindcss,
   transformStyleToTailwindPre,
@@ -12,6 +11,7 @@ import {
   diffTemplateStyle,
   getCssType,
   getStyleScoped,
+  getVueCompilerSfc,
   isEmptyStyle,
   isNot,
   joinWithUnderLine,
@@ -69,6 +69,7 @@ export async function transformCss(
   }
   const allChanges: AllChange[] = []
   let newCode = (await importCss(code, style, filepath, isJsx)) as string
+  const { parse } = await getVueCompilerSfc()
   const stack = parse(newCode).descriptor.template?.ast
   const updateOffsetMap: any = {}
   const deferRun: any[] = []

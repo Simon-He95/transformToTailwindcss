@@ -101,3 +101,12 @@ export function transformUnocssBack(code: string[]) {
       })
   })
 }
+
+/**
+ * 动态导入 Vue Compiler SFC，避免打包时的问题
+ * @returns Vue Compiler SFC 中的方法
+ */
+export async function getVueCompilerSfc() {
+  const { parse } = await import('@vue/compiler-sfc')
+  return { parse }
+}
