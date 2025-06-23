@@ -7,9 +7,17 @@ export async function lessCompiler(
   filepath?: string,
   globalCss?: string,
   alias?: { [key: string]: string },
+  debug?: boolean,
 ) {
   if (typeof window !== 'undefined')
     throw new Error('lessCompiler is not supported in this browser')
+
+  if (debug) {
+    console.log(
+      `[transform-to-tailwindcss] Compiling LESS file: ${filepath || 'unknown file'}`,
+    )
+  }
+
   const { LessPluginModuleResolver } = await import(
     'less-plugin-module-resolver'
   )

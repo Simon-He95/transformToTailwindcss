@@ -11,12 +11,13 @@ const styleReg = /\s*<style.*>(.*)<\/style>\s*/s
 interface Options {
   isRem?: boolean
   filepath?: string
+  debug?: boolean
 }
 export async function transformHtml(code: string, options: Options = {}) {
-  const { filepath, isRem } = options || {}
+  const { filepath, isRem, debug } = options || {}
   const css = await getLinkCss(code, filepath!)
   const style = getStyleCss(code)
-  const newCode = await generateNewCode(css, style, code, isRem)
+  const newCode = await generateNewCode(css, style, code, isRem, debug)
   return prettierCode(newCode)
 }
 
@@ -56,13 +57,14 @@ async function generateNewCode(
   style: string,
   code: string,
   isRem?: boolean,
+  debug?: boolean,
 ) {
   // 先处理style
   let template = getBody(code)
   const originBody = template
   if (style) {
     const vue = wrapperVueTemplate(template, style)
-    const transferCode = await transformVue(vue, { isJsx: true, isRem })
+    const transferCode = await transformVue(vue, { isJsx: true, isRem, debug })
     template = transferCode
 
     // 如果没有style scoped 删除style
@@ -74,7 +76,11 @@ async function generateNewCode(
       const { url, content } = c
       const vue = wrapperVueTemplate(template, content)
 
-      const transferCode = await transformVue(vue, { isJsx: true, isRem })
+      const transferCode = await transformVue(vue, {
+        isJsx: true,
+        isRem,
+        debug,
+      })
 
       if (diffTemplateStyle(template, transferCode)) {
         // 新增的css全部被转换了,这个link可以被移除了

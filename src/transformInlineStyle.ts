@@ -9,6 +9,7 @@ export function transformInlineStyle(
   code: string,
   isJsx?: boolean,
   isRem?: boolean,
+  debug?: boolean,
 ): string {
   // code中提取template
   const match = code.match(templateReg)
@@ -25,7 +26,11 @@ export function transformInlineStyle(
   })
 
   templateMatch.replace(styleReg, (target, tag, inlineStyle) => {
-    const [after, noMap] = transformStyleToTailwindcss(inlineStyle, isRem)
+    const [after, noMap] = transformStyleToTailwindcss(
+      inlineStyle,
+      isRem,
+      debug,
+    )
 
     // transform inline-style
 
@@ -41,7 +46,7 @@ export function transformInlineStyle(
             .replace(
               `class="${matcher[1]}"`,
               noMap.length
-                ? `class="${matcher[1]} ${after}" style="${noMap.join(';')}"`
+                ? `class="${matcher[1]} ${after}" style="${noMap.map(item => item && item.trim()).join(';')}"`
                 : `class="${matcher[1]} ${after}"`,
             ),
         ))
@@ -54,7 +59,7 @@ export function transformInlineStyle(
           .replace(
             `<${tag}`,
             noMap.length
-              ? `<${tag} class="${after}" style="${noMap.join(';')}`
+              ? `<${tag} class="${after}" style="${noMap.map(item => item && item.trim()).join(';')}"`
               : `<${tag} class="${after}"`,
           ),
       ))
@@ -67,7 +72,7 @@ export function transformInlineStyle(
         .replace(
           `<${tag}`,
           noMap.length
-            ? `<${tag} ${after} style="${noMap.join(';')}"`
+            ? `<${tag} ${after} style="${noMap.map(item => item && item.trim()).join(';')}"`
             : `<${tag} ${after}`,
         ),
     ))

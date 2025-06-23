@@ -51,6 +51,7 @@ interface Options {
   isJsx?: boolean
   filepath?: string
   isRem?: boolean
+  debug?: boolean
 }
 
 export async function transformCss(
@@ -59,8 +60,13 @@ export async function transformCss(
   media = '',
   options: Options,
 ): Promise<string> {
-  const { isJsx, isRem: _isRem, filepath } = options || {}
+  const { isJsx, isRem: _isRem, filepath, debug } = options || {}
   isRem = _isRem
+  if (debug) {
+    console.log(
+      `[transform-to-tailwindcss] Transforming CSS in ${filepath || 'unknown file'}`,
+    )
+  }
   const allChanges: AllChange[] = []
   let newCode = (await importCss(code, style, filepath, isJsx)) as string
   const { parse } = await getVueCompilerSfc()
@@ -74,7 +80,11 @@ export async function transformCss(
 
       const originClassName = name
       const before = trim(value.replace(/\n\s*/g, ''))
-      const [transfer, noTransfer] = transformStyleToTailwindcss(before, isRem)
+      const [transfer, noTransfer] = transformStyleToTailwindcss(
+        before,
+        isRem,
+        debug,
+      )
       const tailMatcher = name.match(tailReg)
 
       const prefix = tailMatcher
@@ -82,6 +92,9 @@ export async function transformCss(
         : ''
       // :deep()
       if (prefix === 'group-deep')
+        return
+      // hover .xxx 这种没办法处理因为 tailwind 只支持 hover:[&:xxx] 在当前的元素下
+      if (prefix.includes(' '))
         return
 
       const after
@@ -224,7 +237,13 @@ export async function transformCss(
     },
   )
   deferRun.forEach(run => run())
-  return await resolveConflictClass(allChanges, newCode, isJsx, updateOffsetMap)
+  return await resolveConflictClass(
+    allChanges,
+    newCode,
+    isJsx,
+    updateOffsetMap,
+    debug,
+  )
 }
 
 async function importCss(
@@ -527,6 +546,7 @@ async function resolveConflictClass(
   code: string,
   isJsx: boolean = true,
   updateOffset: Record<number, number>,
+  debug?: boolean,
 ) {
   const originCode = code
   const changes = findSameSource(allChange)
@@ -542,7 +562,7 @@ async function resolveConflictClass(
       end: { offset: offsetEnd },
     } = value[0]
 
-    let [after, transform] = await getConflictClass(value)
+    let [after, transform] = await getConflictClass(value, debug)
     if (!after)
       continue
 
@@ -600,7 +620,8 @@ async function resolveConflictClass(
 
     if (isJsx || after.replace(/[\w\-]+=("{1})(.*?)\1/g, '').includes('[')) {
       const newReg = new RegExp(
-        `<${tag}.*\\sclass=["']([^"']+)["'][^\\/>]*\/?>`,
+        `^<${tag}(?:[^\/'">]|"[^"]*"|'[^']*')*[^:]class=["']([^"']+)["']([^\/'">]|"[^"]*"|'[^']*')*\/?>`,
+        's',
       )
       const matcher = target.match(newReg)
 
@@ -677,6 +698,7 @@ function findSameSource(allChange: AllChange[]) {
 const skipTransformFlag = Symbol('skipTransformFlag')
 async function getConflictClass(
   allChange: AllChange[],
+  debug?: boolean,
 ): Promise<[string, (code: string) => string]> {
   let map: Record<string, Array<number | string | symbol>> = {}
   let transform = (code: string) => code
@@ -746,7 +768,7 @@ async function getConflictClass(
     // map 赋值新 newStyle
     map = newStyle.split(';').reduce(
       (acc: Record<string, Array<number | string | symbol>>, item: string) => {
-        const [key, value] = item.split(':')
+        const [key, value] = item.trim().split(':')
         if (value !== undefined) {
           acc[key] = [map[key][0], value]
         }
@@ -769,6 +791,7 @@ async function getConflictClass(
             : transformStyleToTailwindcss(
               `${key}:${map[key][1] as string}`,
               isRem,
+              debug,
             )[0]
 
         const match = transferCss.match(/(\S*)="\[([^\]]*)\]"/)

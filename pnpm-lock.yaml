@@ -56,8 +56,8 @@ importers:
         specifier: ^0.63.0
         version: 0.63.0
       transform-to-tailwindcss-core:
-        specifier: ^0.0.37
-        version: 0.0.37
+        specifier: ^0.0.38
+        version: 0.0.38
       unplugin:
         specifier: ^2.3.5
         version: 2.3.5
@@ -4212,8 +4212,9 @@ packages:
     resolution: {integrity: sha512-l7FvfAHlcmulp8kr+flpQZmVwtu7nfRV7NZujtN0OqES8EL4O4e0qqzL0DC5gAvx/ZC/9lk6rhcUwYvkBnBnYA==}
     engines: {node: '>=12'}
 
-  transform-to-tailwindcss-core@0.0.37:
-    resolution: {integrity: sha512-vVFU+ty/tajKWPL2IGEM3E9bCuGtLBe339xkPdGyb45Wt6SDOShkqkYIW/tZT2jzJL2c2m09Xt8VMdGLi7l4ZA==}
+  transform-to-tailwindcss-core@0.0.38:
+    resolution: {integrity: sha512-D+so2vaWd6E7SlhoSlis4Q/uHN0+Mlx3c2fNMKwA0asmOG0ZNcpm0moQojJ7I9z/Xh/WO58XcgXMsBA3UrfzKw==}
+    engines: {node: '>=14.0.0'}
     hasBin: true
 
   trim-lines@3.0.1:
@@ -9213,7 +9214,7 @@ snapshots:
     dependencies:
       punycode: 2.3.1
 
-  transform-to-tailwindcss-core@0.0.37: {}
+  transform-to-tailwindcss-core@0.0.38: {}
 
   trim-lines@3.0.1: {}
 

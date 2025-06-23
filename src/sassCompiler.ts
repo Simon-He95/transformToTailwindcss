@@ -6,9 +6,16 @@ export async function sassCompiler(
   css: string,
   filepath?: string,
   globalCss?: string,
+  debug?: boolean,
 ) {
   if (typeof window !== 'undefined')
     throw new Error('sassCompiler is not supported in this browser')
+
+  if (debug) {
+    console.log(
+      `[transform-to-tailwindcss] Compiling SCSS file: ${filepath || 'unknown file'}`,
+    )
+  }
 
   const baseDir = filepath ? path.dirname(filepath) : process.cwd()
 

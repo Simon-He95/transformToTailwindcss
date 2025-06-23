@@ -31,6 +31,7 @@ const unplugin = createUnplugin((options?: Options): any => {
           filepath: id,
           type: suffix,
           isRem: options?.isRem,
+          debug: options?.debug,
         })
       },
     },

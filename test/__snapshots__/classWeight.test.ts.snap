@@ -1,0 +1,8 @@
+<script setup lang="ts"></script>
+<template>
+  <div class="red bg-yellow w-[100%]">
+    nihao
+  </div>
+  <div>hi</div>
+</template>
+<style scoped></style>

@@ -10,10 +10,11 @@ interface Options {
   isJsx?: boolean
   filepath?: string
   isRem?: boolean
+  debug?: boolean
 }
 
 export async function transformVue(code: string, options?: Options) {
-  const { isRem, isJsx, filepath } = options || {}
+  const { isRem, isJsx, filepath, debug } = options || {}
   const { parse } = await getVueCompilerSfc()
   const {
     descriptor: { template, styles },
@@ -23,7 +24,7 @@ export async function transformVue(code: string, options?: Options) {
   if (errors.length)
     return code
   // transform inline-style
-  code = transformInlineStyle(code, isJsx, isRem)
+  code = transformInlineStyle(code, isJsx, isRem, debug)
 
   if (errors.length || !template)
     return code
@@ -32,6 +33,7 @@ export async function transformVue(code: string, options?: Options) {
     code,
     isJsx,
     isRem,
+    debug,
   )
 
   code = transferMediaCode
@@ -43,13 +45,24 @@ export async function transformVue(code: string, options?: Options) {
       lang = 'css',
     } = styles[0]
 
-    const css = await compilerCss(style, lang as CssType)
+    const css = await compilerCss(style, lang as CssType, debug)
     if (css) {
       code = code.replace(style, `\n${css}\n`).replace(` lang="${lang}"`, '')
 
       // 只针对scoped css处理
-      if (scoped)
-        code = await transformCss(css, code, '', { isJsx, filepath, isRem })
+      if (scoped) {
+        if (debug) {
+          console.log(
+            `[transform-to-tailwindcss] Processing scoped CSS in ${filepath}`,
+          )
+        }
+        code = await transformCss(css, code, '', {
+          isJsx,
+          filepath,
+          isRem,
+          debug,
+        })
+      }
     }
   }
   // 还原@media 未匹配到的class

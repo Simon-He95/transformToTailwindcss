@@ -8,4 +8,5 @@ export interface Options {
   include?: FilterPattern
   exclude?: FilterPattern
   isRem?: boolean
+  debug?: boolean
 }

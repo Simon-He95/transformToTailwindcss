@@ -27,239 +27,9 @@ describe('transformCode', () => {
       }),
     )
 
-    expect(contents.filter(Boolean)).toMatchInlineSnapshot(`
-      [
-        "
-
-      -----    classAdd.vue     -------
-
-      <script setup lang="ts"></script>
-      <template>
-        <div class="red bg-red w-[100%] leading-[20px]">
-          nihao
-        </div>
-        <div class="yellow !bg-yellow w-[100%] h-[100%]">
-          hi
-        </div>
-      </template>
-      <style scoped></style>
-      ",
-        "
-
-      -----    classAttribute.vue     -------
-
-      <script setup lang="ts"></script>
-
-      <template>
-        <div class="red w-[100%] h-[100%]" name="hi" haha>
-          nihao
-        </div>
-        <div class="yellow h-[100%]">
-          hi
-        </div>
-      </template>
-
-      <style scoped>
-      .red[haha] {
-        background-color: red;
-      }
-      </style>
-      ",
-        "
-
-      -----    classChild.vue     -------
-
-      <script setup lang="ts"></script>
-      <template>
-        <div class="red bg-red w-[100%] leading-[20px]">
-          <div class="yellow bg-red w-[100%]">
-            hi
-          </div>
-        </div>
-      </template>
-      <style scoped></style>
-      ",
-        "
-
-      -----    classCombine.vue     -------
-
-      <script setup lang="ts"></script>
-      <template>
-        <div class="bg-red w-[100%] leading-[20px]">
-          <div class="red yellow bg-red w-[100%]">
-            hi
-          </div>
-        </div>
-      </template>
-      <style scoped></style>
-      ",
-        "
-
-      -----    classSpace.vue     -------
-
-      <script setup lang="ts"></script>
-      <template>
-        <div class="red bg-red w-[100%] leading-[20px]">
-          <div class="yellow !bg-red w-[100%]">
-            hi
-          </div>
-        </div>
-      </template>
-      <style scoped></style>
-      ",
-        "
-
-      -----    classTail.vue     -------
-
-      <script setup lang="ts"></script>
-      <template>
-        <div class="container focus-within:bg-red focus-within:w-[100%]">
-          <div class="red bg-red w-[100%] leading-[20px]">
-            nihao
-          </div>
-          <div class="yellow">
-            hi
-          </div>
-        </div>
-      </template>
-      <style scoped></style>
-      ",
-        "
-
-      -----    classWeight.vue     -------
-
-      <script setup lang="ts"></script>
-      <template>
-        <div class="red bg-yellow w-[100%]">
-          nihao
-        </div>
-        <div>hi</div>
-      </template>
-      <style scoped></style>
-      ",
-        "
-
-      -----    hover.vue     -------
-
-      <script setup lang="ts"></script>
-      <template>
-        <div class="bg-red w-[100%] leading-[20px]">
-          <div class="red hover:text-yellow">
-            hi
-          </div>
-        </div>
-      </template>
-      <style scoped></style>
-      ",
-        "
-
-      -----    media.vue     -------
-
-      <script setup lang="ts"></script>
-
-      <template>
-        <div class="red sm:bg-red max-2xl:bg-red bg-red">
-          nihao
-        </div>
-      </template>
-
-      <style scoped>
-      @media (min-width: 120px) {
-        .red {
-          background-color: red;
-        }
-      }
-      </style>
-      ",
-        "
-
-      -----    styleWeight.vue     -------
-
-      <script setup lang="ts"></script>
-      <template>
-        <div class="red bg-pink bg-red" style="hi:123">
-          nihao
-        </div>
-        <div class="yellow bg-yellow">
-          hi
-        </div>
-      </template>
-      <style scoped></style>
-      ",
-        "
-
-      -----    test-1.vue     -------
-
-      <script setup lang="ts"></script>
-      <template>
-        <div bg="red" w="[100%]" leading20px>
-          <div
-            flex
-            flex-1
-            h-100px
-            bg-red
-            class="container scale-[0.8_0.9]"
-           
-          >
-            <div flex-1 h-100px bg-red />
-            <div />
-          </div>
-        </div>
-      </template>
-      <style scoped></style>
-      ",
-        "
-
-      -----    test.vue     -------
-
-      <script setup lang="ts"></script>
-      <template>
-        <div class="w-[100%] flex flex-1 h-[100px] bg-red"
-          class="container bg-red w-[100%] leading-[20px]"
-         
-        >
-          <div class="flex-1 h-[100px] bg-red" />
-          <div class="flex-1 h-[100px] bg-red" />
-        </div>
-      </template>
-      <style scoped></style>
-      ",
-        "
-
-      -----    vue.tsx     -------
-
-      import { defineComponent, ref } from 'vue'
-      import './index.css'
-
-      export const component = defineComponent({
-        name: 'Component',
-        props: {
-          title: {
-            type: String,
-            default: '',
-          },
-          content: {
-            type: String,
-            default: '',
-          },
-        },
-        setup(props) {
-          const count = ref(0)
-          const increment = () => count.value++
-          return () => (
-            <div>
-              <h1 className="red bg-red" style="hi:123">{props.title}</h1>
-              <p>{props.content}</p>
-              <div onClick={increment}>
-                count: {count.value}
-              </div>
-            </div>
-          )
-        },
-      })
-      ",
-      ]
-    `)
+    await expect(contents.filter(Boolean)).toMatchFileSnapshot(
+      './__snapshots__/all.test.ts.snap',
+    )
   })
 })
 
@@ -267,221 +37,157 @@ describe('single demo classWeight', async () => {
   const demo = await fsp.readFile('./test/demo/classWeight.vue', 'utf-8')
   const filepath = path.resolve(process.cwd(), './test/demo/classWeight.vue')
   it('classWeight.vue', async () => {
-    expect(await transfromCode(demo, { filepath, type: 'vue' }))
-      .toMatchInlineSnapshot(`
-      "<script setup lang="ts"></script>
-      <template>
-        <div class="red bg-yellow w-[100%]">
-          nihao
-        </div>
-        <div>hi</div>
-      </template>
-      <style scoped></style>
-      "
-    `)
+    expect(
+      await transfromCode(demo, { filepath, type: 'vue' }),
+    ).toMatchFileSnapshot('./__snapshots__/classWeight.test.ts.snap')
   })
 })
 
-describe('single demo classCombine', async () => {
-  const demo = await fsp.readFile('./test/demo/classCombine.vue', 'utf-8')
-  const filepath = path.resolve(process.cwd(), './test/demo/classCombine.vue')
+describe('single demo classCombine', () => {
   it('classCombine.vue', async () => {
-    expect(await transfromCode(demo, { filepath, type: 'vue' }))
-      .toMatchInlineSnapshot(`
-      "<script setup lang="ts"></script>
-      <template>
-        <div class="bg-red w-[100%] leading-[20px]">
-          <div class="red yellow bg-red w-[100%]">
-            hi
-          </div>
-        </div>
-      </template>
-      <style scoped></style>
-      "
-    `)
+    const demo = await fsp.readFile('./test/demo/classCombine.vue', 'utf-8')
+    const filepath = path.resolve(process.cwd(), './test/demo/classCombine.vue')
+    await expect(
+      await transfromCode(demo, { filepath, type: 'vue' }),
+    ).toMatchFileSnapshot('./__snapshots__/classCombine.test.ts.snap')
   })
 })
 
-describe('single demo classTail', async () => {
-  const demo = await fsp.readFile('./test/demo/classTail.vue', 'utf-8')
-  const filepath = path.resolve(process.cwd(), './test/demo/classTail.vue')
+describe('single demo classTail', () => {
   it('classTail.vue', async () => {
-    expect(await transfromCode(demo, { filepath, type: 'vue' }))
-      .toMatchInlineSnapshot(`
-      "<script setup lang="ts"></script>
-      <template>
-        <div class="container focus-within:bg-red focus-within:w-[100%]">
-          <div class="red bg-red w-[100%] leading-[20px]">
-            nihao
-          </div>
-          <div class="yellow">
-            hi
-          </div>
-        </div>
-      </template>
-      <style scoped></style>
-      "
-    `)
+    const demo = await fsp.readFile('./test/demo/classTail.vue', 'utf-8')
+    const filepath = path.resolve(process.cwd(), './test/demo/classTail.vue')
+    await expect(
+      await transfromCode(demo, { filepath, type: 'vue' }),
+    ).toMatchFileSnapshot('./__snapshots__/classTail.test.ts.snap')
   })
 })
 
-describe('single demo Media', async () => {
-  const demo = await fsp.readFile('./test/demo/media.vue', 'utf-8')
-  const filepath = path.resolve(process.cwd(), './test/demo/media.vue')
+describe('single demo Media', () => {
   it('media.vue', async () => {
-    expect(await transfromCode(demo, { filepath, type: 'vue' }))
-      .toMatchInlineSnapshot(`
-      "<script setup lang="ts"></script>
-
-      <template>
-        <div class="red sm:bg-red max-2xl:bg-red bg-red">
-          nihao
-        </div>
-      </template>
-
-      <style scoped>
-      @media (min-width: 120px) {
-        .red {
-          background-color: red;
-        }
-      }
-      </style>
-      "
-    `)
+    const demo = await fsp.readFile('./test/demo/media.vue', 'utf-8')
+    const filepath = path.resolve(process.cwd(), './test/demo/media.vue')
+    await expect(
+      await transfromCode(demo, { filepath, type: 'vue' }),
+    ).toMatchFileSnapshot('./__snapshots__/media.test.ts.snap')
   })
 })
 
-describe('classSpace.vue', async () => {
-  const demo = await fsp.readFile('./test/demo/classSpace.vue', 'utf-8')
-  const filepath = path.resolve(process.cwd(), './test/demo/classSpace.vue')
+describe('classSpace.vue', () => {
   it('classSpace.vue', async () => {
-    expect(await transfromCode(demo, { filepath, type: 'vue' }))
-      .toMatchInlineSnapshot(`
-      "<script setup lang="ts"></script>
-      <template>
-        <div class="red bg-red w-[100%] leading-[20px]">
-          <div class="yellow !bg-red w-[100%]">
-            hi
-          </div>
-        </div>
-      </template>
-      <style scoped></style>
-      "
-    `)
+    const demo = await fsp.readFile('./test/demo/classSpace.vue', 'utf-8')
+    const filepath = path.resolve(process.cwd(), './test/demo/classSpace.vue')
+    await expect(
+      await transfromCode(demo, { filepath, type: 'vue' }),
+    ).toMatchFileSnapshot('./__snapshots__/classSpace.test.ts.snap')
   })
 })
 
-describe('single demo styleWeight', async () => {
-  const demo = await fsp.readFile('./test/demo/styleWeight.vue', 'utf-8')
-  const filepath = path.resolve(process.cwd(), './test/demo/styleWeight.vue')
+describe('single demo styleWeight', () => {
   it('styleWeight.vue', async () => {
-    expect(await transfromCode(demo, { filepath, type: 'vue' }))
-      .toMatchInlineSnapshot(`
-      "<script setup lang="ts"></script>
-      <template>
-        <div class="red bg-pink bg-red" style="hi:123">
-          nihao
-        </div>
-        <div class="yellow bg-yellow">
-          hi
-        </div>
-      </template>
-      <style scoped></style>
-      "
-    `)
+    const demo = await fsp.readFile('./test/demo/styleWeight.vue', 'utf-8')
+    const filepath = path.resolve(process.cwd(), './test/demo/styleWeight.vue')
+    await expect(
+      await transfromCode(demo, { filepath, type: 'vue' }),
+    ).toMatchFileSnapshot('./__snapshots__/styleWeight.test.ts.snap')
   })
 })
 
-describe('single test', async () => {
-  const demo = await fsp.readFile('./test/demo/test.vue', 'utf-8')
-  const filepath = path.resolve(process.cwd(), './test/demo/test.vue')
+describe('single test', () => {
   it('single.vue', async () => {
-    expect(await transfromCode(demo, { filepath, type: 'vue' }))
-      .toMatchInlineSnapshot(`
-        "<script setup lang="ts"></script>
-        <template>
-          <div class="w-[100%] flex flex-1 h-[100px] bg-red"
-            class="container bg-red w-[100%] leading-[20px]"
-           
-          >
-            <div class="flex-1 h-[100px] bg-red" />
-            <div class="flex-1 h-[100px] bg-red" />
-          </div>
-        </template>
-        <style scoped></style>
-        "
-      `)
+    const demo = await fsp.readFile('./test/demo/test.vue', 'utf-8')
+    const filepath = path.resolve(process.cwd(), './test/demo/test.vue')
+    await expect(
+      await transfromCode(demo, { filepath, type: 'vue' }),
+    ).toMatchFileSnapshot('./__snapshots__/test.test.ts.snap')
   })
 })
 
-describe('single demo vue.tsx', async () => {
-  const _path = './test/demo/vue.tsx'
-  const demo = await fsp.readFile(_path, 'utf-8')
-
+describe('single demo vue.tsx', () => {
   it('vue.tsx', async () => {
+    const _path = './test/demo/vue.tsx'
+    const demo = await fsp.readFile(_path, 'utf-8')
     const filepath = path.resolve(process.cwd(), _path)
-    expect(await transfromCode(demo, { filepath, type: 'tsx' }))
-      .toMatchInlineSnapshot(`
-        "import { defineComponent, ref } from 'vue'
-        import './index.css'
-
-        export const component = defineComponent({
-          name: 'Component',
-          props: {
-            title: {
-              type: String,
-              default: '',
-            },
-            content: {
-              type: String,
-              default: '',
-            },
-          },
-          setup(props) {
-            const count = ref(0)
-            const increment = () => count.value++
-            return () => (
-              <div>
-                <h1 className="red bg-red" style="hi:123">{props.title}</h1>
-                <p>{props.content}</p>
-                <div onClick={increment}>
-                  count: {count.value}
-                </div>
-              </div>
-            )
-          },
-        })
-        "
-      `)
+    await expect(
+      await transfromCode(demo, { filepath, type: 'tsx' }),
+    ).toMatchFileSnapshot('./__snapshots__/vue.test.ts.snap')
   })
 })
 
-describe('single demo test-1.vue', async () => {
-  const _path = './test/demo/test-1.vue'
+describe('single demo test-1.vue', () => {
+  it('test-1.vue', async () => {
+    const _path = './test/demo/test-1.vue'
+    const demo = await fsp.readFile(_path, 'utf-8')
+    const filepath = path.resolve(process.cwd(), _path)
+    expect(
+      await transfromCode(demo, { filepath, type: 'vue' }),
+    ).toMatchFileSnapshot('./__snapshots__/test-1.test.ts.snap')
+  })
+})
+
+describe('single demo complex1.vue', () => {
+  it('complex.vue', async () => {
+    const _path = './test/demo/complex1.vue'
+    const demo = await fsp.readFile(_path, 'utf-8')
+    const filepath = path.resolve(process.cwd(), _path)
+    await expect(
+      await transfromCode(demo, { filepath, type: 'vue' }),
+    ).toMatchFileSnapshot('./__snapshots__/complex1.test.ts.snap')
+  })
+})
+
+describe('single demo complex2.vue', () => {
+  it('complex.vue', async () => {
+    const _path = './test/demo/complex2.vue'
+    const demo = await fsp.readFile(_path, 'utf-8')
+    const filepath = path.resolve(process.cwd(), _path)
+    expect(
+      await transfromCode(demo, { filepath, type: 'vue' }),
+    ).toMatchFileSnapshot('./__snapshots__/complex2.test.ts.snap')
+  })
+})
+
+describe('single demo complex3.vue', () => {
+  it('complex.vue', async () => {
+    const _path = './test/demo/complex3.vue'
+    const demo = await fsp.readFile(_path, 'utf-8')
+    const filepath = path.resolve(process.cwd(), _path)
+    await expect(
+      await transfromCode(demo, { filepath, type: 'vue' }),
+    ).toMatchFileSnapshot('./__snapshots__/complex3.test.ts.snap')
+  })
+})
+
+describe('single demo complex4.vue', () => {
+  it('complex.vue', async () => {
+    const _path = './test/demo/complex4.vue'
+    const demo = await fsp.readFile(_path, 'utf-8')
+    const filepath = path.resolve(process.cwd(), _path)
+    expect(
+      await transfromCode(demo, { filepath, type: 'vue' }),
+    ).toMatchFileSnapshot('./__snapshots__/complex4.test.ts.snap')
+  })
+})
+
+describe('single demo complex5.vue', () => {
+  it('complex.vue', async () => {
+    const _path = './test/demo/complex5.vue'
+    const demo = await fsp.readFile(_path, 'utf-8')
+    const filepath = path.resolve(process.cwd(), _path)
+    await expect(
+      await transfromCode(demo, { filepath, type: 'vue' }),
+    ).toMatchFileSnapshot('./__snapshots__/complex5.test.ts.snap')
+  })
+})
+
+describe('single demo complex6.vue', async () => {
+  const _path = './test/demo/complex6.vue'
   const demo = await fsp.readFile(_path, 'utf-8')
 
-  it('test-1.vue', async () => {
+  it('complex.vue', async () => {
     const filepath = path.resolve(process.cwd(), _path)
-    expect(await transfromCode(demo, { filepath, type: 'vue' }))
-      .toMatchInlineSnapshot(`
-        "<script setup lang="ts"></script>
-        <template>
-          <div bg="red" w="[100%]" leading20px>
-            <div
-              flex
-              flex-1
-              h-100px
-              bg-red
-              class="container scale-[0.8_0.9]"
-             
-            >
-              <div flex-1 h-100px bg-red />
-              <div />
-            </div>
-          </div>
-        </template>
-        <style scoped></style>
-        "
-      `)
+    await expect(
+      await transfromCode(demo, { filepath, type: 'vue' }),
+    ).toMatchFileSnapshot('./__snapshots__/complex6.test.ts.snap')
   })
 })

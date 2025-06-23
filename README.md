@@ -100,6 +100,36 @@ build({
 
 </details>
 
+## 🔧 Options
+
+### `debug`
+
+- **Type:** `boolean`
+- **Default:** `false`
+
+Enable debug mode to output detailed logs during the transformation process. This is useful for troubleshooting and understanding how styles are being converted.
+
+```ts
+// Example usage with debug enabled
+vitePluginTransformTotailwindcss({
+  debug: true,
+  isRem: false,
+})
+```
+
+### `isRem`
+
+- **Type:** `boolean`
+- **Default:** `false`
+
+Convert px units to rem units during transformation.
+
+### `include`/`exclude`
+
+- **Type:** `FilterPattern`
+
+Filter patterns to include or exclude files during transformation.
+
 ## ⭐ Feature
 
 - support css in '.html' | '.tsx' | '.vue' | '.astro' | '.svelte' to tailwindcss

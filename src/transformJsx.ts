@@ -7,9 +7,10 @@ import { transformVue } from './transformVue'
 interface Options {
   filepath?: string
   isRem?: boolean
+  debug?: boolean
 }
 export async function transformJsx(code: string, options: Options = {}) {
-  const { filepath, isRem } = options
+  const { filepath, isRem, debug } = options
   const ast = babelParse(code, {
     babelrc: false,
     comments: true,
@@ -51,6 +52,7 @@ export async function transformJsx(code: string, options: Options = {}) {
     isJsx: true,
     isRem,
     filepath,
+    debug,
   })
   vueTransfer = vueTransfer.replace(/class/g, 'className')
   if (cssPath) {
