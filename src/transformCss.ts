@@ -8,6 +8,7 @@ import {
 } from 'transform-to-tailwindcss-core'
 import { classCollector } from './classCollector'
 import { compilerCss } from './compilerCss'
+import { nodeHtmlParser } from './node-html-parser'
 import { tail } from './tail'
 import { transformVue } from './transformVue'
 import {
@@ -97,7 +98,7 @@ export async function transformCss(
   const updateOffsetMap: any = {}
   const deferRun: any[] = []
   style.replace(
-    /(.*)\{([#\\\s\w\-.:;,%()+'"!]*)\}/g,
+    /([.#\w](?:[^{}]|\n)*)\{([#\\\s\w\-.:;,%@/()+'"!]*)\}/g,
     (all: any, name: any, value: any = '') => {
       name = trim(name.replace(/\s+/g, ' '))
 
@@ -138,9 +139,7 @@ export async function transformCss(
         name = name.replace(tailMatcher[0], '')
 
       // 找template > ast
-      const names = name.replace(/\s*\+\s*/, '+').split(' ')
-
-      const result = findDeepChild(names, stack)
+      const result = nodeHtmlParser(newCode, originClassName, stack?.children)
 
       if (!result.length)
         return
@@ -335,244 +334,6 @@ async function importCss(
     continue
   }
   return code
-}
-
-// 查找下一级的
-function findChild(
-  list: any[],
-  stack: any,
-  deps = Infinity,
-  targets: any = undefined,
-  result: any[] = [],
-) {
-  for (let j = 0; j < list.length; j++) {
-    const curFirst = list[j]
-    if (targets) {
-      targets.forEach((t: any) =>
-        findChild(list.slice(j), t, deps, undefined, result),
-      )
-      continue
-    }
-    const combineMatch = curFirst.match(combineReg)
-    const addMatch = curFirst.match(addReg)
-
-    targets = combineMatch
-      ? astFindTag(stack, combineMatch[1], deps, combineMatch[2])
-      : addMatch
-        ? astFindTag(stack, addMatch[2], deps, undefined, addMatch[1])
-        : astFindTag(stack, curFirst, deps)
-    if (list.length === 1) {
-      result.push(...targets)
-      return result
-    }
-  }
-  return result
-}
-
-// 查找下无限级的
-function findDeepChild(list: any[], stack: any, result: any[] = []) {
-  if (list.length) {
-    let cur = list.shift()
-    while (cur === '>') {
-      cur = list.shift()
-    }
-
-    const curs = cur.split('>')
-
-    const combineMatch = cur.match(combineReg)
-    const addMatch = cur.match(addReg)
-
-    let found: any[] = []
-    if (curs.length > 1) {
-      found = findChild(curs, stack, 1)
-    }
-    else if (combineMatch) {
-      found = astFindTag(stack, combineMatch[1], Infinity, combineMatch[2])
-    }
-    else if (addMatch) {
-      found = astFindTag(stack, addMatch[2], Infinity, undefined, addMatch[1])
-    }
-    else {
-      found = astFindTag(stack, cur, Infinity)
-    }
-
-    // 递归查找下一级
-    if (found.length) {
-      found.forEach((item: any) => {
-        findDeepChild(list, item, result)
-      })
-    }
-  }
-  else {
-    result.push(stack)
-  }
-  return sort(result)
-}
-
-function sort(data: any[]) {
-  const result: any[] = []
-  data.forEach((item) => {
-    if (
-      !result.some(
-        k =>
-          k.loc.start.offset === item.loc.start.offset
-          && k.loc.end.offset === item.loc.end.offset,
-      )
-    ) {
-      result.push(item)
-    }
-  })
-  return result
-}
-
-function matchCombine(
-  props: any[],
-  combineClass: string[],
-  combineId: string[],
-) {
-  const classPassed = combineClass.length
-    ? props.some(
-        (prop: any) =>
-          prop.name === 'class'
-          && combineClass.every((c) => {
-            const className = prop.value.content?.split(' ').filter(Boolean)
-            return className?.some((item: string) => item.includes(c))
-          }),
-      )
-    : true
-  const idPassed = combineId.length
-    ? props.some(
-        (prop: any) =>
-          prop.name === 'id'
-          && combineId.every((i) => {
-            const idName = prop.value.content?.split(' ').filter(Boolean)
-            return idName?.some((item: string) => item.includes(i))
-          }),
-      )
-    : true
-  return classPassed && idPassed
-}
-
-export function astFindTag(
-  ast: any,
-  tag = '',
-  deps = Infinity,
-  combine: string | undefined = undefined,
-  add: string | undefined = undefined,
-  result: any = [],
-  siblings: any = [],
-) {
-  // type: 3 是注释
-  if (ast.type === 3)
-    return result
-
-  const tagMatch = tag.match(tagReg)
-
-  const selector = tagMatch
-    ? tagMatch[2]
-      ? tagMatch[1]
-      : tagMatch[1]
-    : tag.startsWith('.')
-      ? 'class'
-      : tag.startsWith('#')
-        ? 'id'
-        : ''
-  // combine 可能包含多个 .xxx#xxx.### , 需要一个个一个的去匹配
-  const combineClass: string[] = []
-  const combineId: string[] = []
-  if (combine) {
-    combine
-      .split('.')
-      .filter(Boolean)
-      .forEach((item) => {
-        if (item.includes('#')) {
-          const classNames = item.replace(/#([^.#]+)/g, (_, id) => {
-            combineId.push(id)
-            return ''
-          })
-          combineClass.push(...classNames.split('.').filter(Boolean))
-        }
-        else {
-          combineClass.push(item)
-        }
-      })
-  }
-  const combineSelector = combine
-    ? combine.startsWith('.')
-      ? 'class'
-      : combine.startsWith('#')
-        ? 'id'
-        : undefined
-    : undefined
-  const addSelector = add
-    ? add.startsWith('.')
-      ? 'class'
-      : add.startsWith('#')
-        ? 'id'
-        : undefined
-    : undefined
-  if (selector) {
-    if (
-      ast.props
-      && ast.props.length
-      && ast.props.some(
-        (prop: any) =>
-          prop.name === selector
-          && ((tagMatch && !tagMatch[0].indexOf('=') && !tagMatch[2])
-            || prop.value?.content
-              .split(' ')
-              .includes(tagMatch && tagMatch[2] ? tagMatch[2] : tag.slice(1))),
-      )
-      && (combine === undefined
-        || (ast.props
-          && ast.props.length
-          && matchCombine(ast.props, combineClass, combineId)))
-        && (add === undefined
-          || siblings.some(
-            (sib: any) =>
-              sib !== ast
-              && sib.props
-              && sib.props.length
-              && sib.props.some(
-                (prop: any) =>
-                  prop.name === addSelector
-                  && prop.value.content?.includes(add.slice(1)),
-              ),
-          ))
-    ) {
-      result.push(ast)
-    }
-  }
-  else if (
-    ast.tag === tag
-    && (combine === undefined
-      || (ast.props
-        && ast.props.length
-        && matchCombine(ast.props, combineClass, combineId)))
-      && (add === undefined
-        || siblings.some(
-          (sib: any) =>
-            sib !== ast
-            && sib.props
-            && sib.props.length
-            && sib.props.some(
-              (prop: any) =>
-                prop.name === addSelector
-                && prop.value.content?.includes(add.slice(1)),
-            ),
-        ))
-  ) {
-    result.push(ast)
-  }
-
-  if (ast.children && ast.children.length && deps) {
-    deps--
-    ast.children.forEach((child: any) => {
-      child.parent = ast
-      astFindTag(child, tag, deps, combine, add, result, ast.children)
-    })
-  }
-  return result
 }
 
 // 查找是否存在冲突样式按照names

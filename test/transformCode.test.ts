@@ -191,3 +191,15 @@ describe('single demo complex6.vue', async () => {
     ).toMatchFileSnapshot('./__snapshots__/complex6.test.ts.snap')
   })
 })
+
+describe('single demo complex7.vue', async () => {
+  const _path = './test/demo/complex7.vue'
+  const demo = await fsp.readFile(_path, 'utf-8')
+
+  it('complex.vue', async () => {
+    const filepath = path.resolve(process.cwd(), _path)
+    await expect(
+      await transformCode(demo, { filepath, type: 'vue' }),
+    ).toMatchFileSnapshot('./__snapshots__/complex7.test.ts.snap')
+  })
+})

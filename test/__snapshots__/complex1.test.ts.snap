@@ -338,14 +338,14 @@ export default {
     <template v-if="overlayVisible && linkParams">
       <div
         ref="floatsRef"
-        class="vue-inspector-floats vue-inspector-card font-[family-name:Arial,_Helvetica,_sans-serif] px-[8px] py-[5px] rounded-[4px] text-left text-[#e9e9e9] text-[11px] bg-[#42b883] shadow-[0_1px_3px_0_rgba(0,0,0,0.1),0_1px_2px_-1px_rgba(0,0,0,0.1)] op-70 z-2147483647 fixed translate-x-[-50%] pointer-events-none"
+        class="vue-inspector-floats vue-inspector-card font-[family-name:Arial,_Helvetica,_sans-serif] px-[8px] py-[5px] rounded-[4px] text-left text-[#e9e9e9] text-[14px] bg-[#42b883] shadow-[0_1px_3px_0_rgba(0,0,0,0.1),0_1px_2px_-1px_rgba(0,0,0,0.1)] z-2147483647 fixed translate-x-[-50%] pointer-events-none"
         :class="[{ 'vue-inspector-animated': animation }]"
         :style="floatsStyle"
       >
         <div>
           {{ linkParams.title }}:{{ linkParams.line }}:{{ linkParams.column }}
         </div>
-        <div class="tip">Click to go to the file</div>
+        <div class="tip text-[11px] op-70">Click to go to the file</div>
       </div>
       <div
         class="vue-inspector-size-indicator z-2147483646 fixed bg-[#42b88325] border-[1px] border-solid border-[#42b88350] rounded-[5px] pointer-events-none"
