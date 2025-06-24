@@ -1,4 +1,5 @@
 import type { CssType } from './type'
+import process from 'node:process'
 import { lessCompiler } from './lessCompiler'
 import { sassCompiler } from './sassCompiler'
 import { stylusCompiler } from './stylusCompiler'
@@ -6,7 +7,7 @@ import { stylusCompiler } from './stylusCompiler'
 export function compilerCss(
   css: string,
   lang: CssType,
-  filepath?: string,
+  filepath: string = process.cwd(),
   globalCss?: string,
   debug?: boolean,
 ) {

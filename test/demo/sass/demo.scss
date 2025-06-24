@@ -1,0 +1,22 @@
+// Test file that demonstrates various Sass features
+@use './variables' as vars;
+@use './mixins' as mx;
+@use './theme';
+
+.demo-component {
+  // Using variables
+  color: vars.$primary-color;
+  background: vars.$card-bg;
+
+  // Using mixins
+  @include mx.card-style;
+
+  .button {
+    @include mx.button-style(theme.$primary-color);
+  }
+
+  .header {
+    @include mx.flex-center;
+    color: vars.$header-color;
+  }
+}

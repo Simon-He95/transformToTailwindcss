@@ -1,0 +1,15 @@
+// Theme configuration with default values
+$primary-color: #007bff !default;
+$secondary-color: #6c757d !default;
+$success-color: #28a745 !default;
+$warning-color: #ffc107 !default;
+$danger-color: #dc3545 !default;
+
+// Export theme variables for @use
+:export {
+  primary-color: $primary-color;
+  secondary-color: $secondary-color;
+  success-color: $success-color;
+  warning-color: $warning-color;
+  danger-color: $danger-color;
+}

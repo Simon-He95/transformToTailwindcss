@@ -43,6 +43,23 @@ yarn global add transform-to-tailwindcss
 pnpm add -g transform-to-tailwindcss
 ```
 
+### 🎯 CSS Preprocessor Dependencies
+
+From v0.0.49+, install CSS preprocessors you use in your project:
+
+```bash
+# For Sass/SCSS support
+npm install sass
+
+# For Less support
+npm install less less-plugin-module-resolver
+
+# For Stylus support
+npm install stylus
+```
+
+> **Why?** Using `peerDependencies` ensures compatibility with your project's preprocessor versions and avoids conflicts.
+
 ### CLI Usage
 
 ```bash

@@ -103,6 +103,26 @@
     "test": "vitest",
     "typecheck": "tsc --noEmit"
   },
+  "peerDependencies": {
+    "less": "^3.0.0 || ^4.0.0",
+    "less-plugin-module-resolver": "^1.0.0",
+    "sass": "^1.0.0",
+    "stylus": "^0.50.0 || ^0.60.0"
+  },
+  "peerDependenciesMeta": {
+    "less": {
+      "optional": true
+    },
+    "less-plugin-module-resolver": {
+      "optional": true
+    },
+    "sass": {
+      "optional": true
+    },
+    "stylus": {
+      "optional": true
+    }
+  },
   "dependencies": {
     "@babel/core": "^7.27.4",
     "@rollup/pluginutils": "^5.1.4",
@@ -112,11 +132,7 @@
     "@vue/babel-plugin-jsx": "^1.4.0",
     "@vue/compiler-sfc": "^3.5.17",
     "fast-glob": "^3.3.3",
-    "less": "^4.3.0",
-    "less-plugin-module-resolver": "^1.0.3",
     "picocolors": "^1.1.1",
-    "sass": "^1.89.2",
-    "stylus": "^0.63.0",
     "transform-to-tailwindcss-core": "^0.0.38",
     "unplugin": "^2.3.5"
   },
@@ -130,10 +146,14 @@
     "bumpp": "^8.2.1",
     "eslint": "^9.28.0",
     "find-up": "^7.0.0",
+    "less": "^4.3.0",
+    "less-plugin-module-resolver": "^1.0.3",
     "lint-staged": "^13.3.0",
     "magic-string": "^0.30.17",
     "prettier": "^3.5.3",
+    "sass": "^1.89.2",
     "simple-git-hooks": "^2.13.0",
+    "stylus": "^0.63.0",
     "transform-to-tailwindcss": "workspace:^",
     "tsdown": "^0.9.9",
     "tsx": "^3.14.0",

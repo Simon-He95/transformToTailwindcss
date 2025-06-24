@@ -1,10 +1,6 @@
-import path from 'node:path'
-import process from 'node:process'
-import * as Url from 'node:url'
-
 export async function lessCompiler(
   css: string,
-  filepath?: string,
+  filepath: string,
   globalCss?: string,
   debug?: boolean,
 ) {
@@ -17,19 +13,17 @@ export async function lessCompiler(
     )
   }
 
-  const { LessPluginModuleResolver } = await import(
-    'less-plugin-module-resolver'
-  )
+  let result = globalCss ? `${globalCss}${css}` : css
 
-  let result = globalCss
-    ? `${globalCss.replace(/@(?:include|import)\s+["']([^"']*)['"]/g, (_, v) =>
-      _.replace(v, Url.pathToFileURL(path.resolve(process.cwd(), v)) as any))}${css}`
-    : css
   try {
+    // 使用用户项目中的 less 版本（通过 peerDependencies）
+    const less = await import('less')
+    const { LessPluginModuleResolver } = await import(
+      'less-plugin-module-resolver'
+    )
+
     result = (
-      await (
-        await import('less')
-      ).default.render(result, {
+      await less.default.render(result, {
         filename: filepath,
         plugins: [
           new LessPluginModuleResolver({
@@ -41,6 +35,24 @@ export async function lessCompiler(
     return result
   }
   catch (error: any) {
+    if (
+      error.code === 'MODULE_NOT_FOUND'
+      || error.message.includes('Cannot resolve module')
+    ) {
+      const missingModule = error.message.includes(
+        'less-plugin-module-resolver',
+      )
+        ? 'less-plugin-module-resolver'
+        : 'less'
+      throw new Error(
+        `${missingModule} not found. Please install it in your project:\n`
+        + `npm install ${missingModule}\n`
+        + `or\n`
+        + `yarn add ${missingModule}\n`
+        + `or\n`
+        + `pnpm add ${missingModule}`,
+      )
+    }
     console.error(
       `Error:\n transform-to-unocss(lessCompiler) ${error.toString()}`,
     )
