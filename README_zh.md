@@ -113,6 +113,7 @@ module.exports = {
 ```ts
 // vite.config.ts
 import { vitePluginTransformTotailwindcss } from 'transform-to-tailwindcss'
+
 export default defineConfig({
   plugins: [vitePluginTransformTotailwindcss(/* options */)],
 })
@@ -127,6 +128,7 @@ export default defineConfig({
 // rollup.config.js
 import { resolve } from 'node:path'
 import { rollupTransformTotailwindcss } from 'transform-to-tailwindcss'
+
 export default {
   plugins: [rollupTransformTotailwindcss(/* options */)],
 }

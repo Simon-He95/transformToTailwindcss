@@ -1,6 +1,6 @@
 /**
  * Auto-generated safelist classes for Tailwind CSS
- * Generated at: 2025-06-24T05:35:58.316Z
+ * Generated at: 2025-06-24T06:14:03.325Z
  * Total classes: 2
  * Skip if no changes: true
  *

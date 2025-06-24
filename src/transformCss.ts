@@ -102,6 +102,18 @@ export async function transformCss(
     (all: any, name: any, value: any = '') => {
       name = trim(name.replace(/\s+/g, ' '))
 
+      // 过滤掉特殊的CSS选择器
+      if (
+        name.includes(':deep(')
+        || name.includes('>>>')
+        || name.includes('/deep/')
+        || name.includes('::v-deep')
+        || name.includes(':global(')
+        || name.includes('@') // 过滤 @media, @keyframes 等
+      ) {
+        return
+      }
+
       const originClassName = name
       const before = trim(value.replace(/\n\s*/g, ''))
       const [transfer, noTransfer] = transformStyleToTailwindcss(
@@ -220,7 +232,7 @@ export async function transformCss(
         }
 
         const {
-          loc: { source, start, end },
+          loc: { start, end },
           tag,
           props,
         } = r
@@ -396,7 +408,7 @@ async function resolveConflictClass(
             .replace(/-(rgba?([^)]+))/g, '-[$1]')
             .replace(
               /([\w\-]+(?:-\[[^\]]*\])?)=(['"]{1})(.*?)\2/g,
-              (_all, prefix, _, content) => {
+              (_all, prefix, quote, content) => {
                 // 拆分 content 中的空格，但是要忽略 ( ) [] 中的空格, 然后用 prefix 连接
                 const splitContent: string[] = content
                   .split(/(?<!\[[^\]]*)\s+/)
@@ -606,7 +618,7 @@ async function getConflictClass(
         }
 
         // transferCss = `${match[1]}-${joinWithUnderLine(match[2])}`
-
+        transferCss = transferCss.replace(/"/g, '\'')
         const _transferCss = prefix
           ? isNot(prefix)
             ? `class="${prefix}${transferCss

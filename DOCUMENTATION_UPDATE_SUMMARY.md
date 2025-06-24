@@ -63,6 +63,7 @@ Added comprehensive safelist configuration examples:
 ```ts
 // TailwindCSS configuration
 const { safelistClasses } = require('./safelist-classes.js')
+
 module.exports = {
   safelist: [...safelistClasses],
   // ... rest of config
