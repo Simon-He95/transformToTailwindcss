@@ -646,6 +646,11 @@ async function resolveConflictClass(
             )
         : after
 
+    // 收集最终生成的类名到 classCollector
+    if (returnValue) {
+      classCollector.addClasses(returnValue)
+    }
+
     // (["]{1})(.*?)\1
     const getUpdateOffset = getCalculateOffset(updateOffset, offset)
     const start = originCode.slice(

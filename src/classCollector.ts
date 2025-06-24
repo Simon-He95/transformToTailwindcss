@@ -67,7 +67,7 @@ export class ClassCollector {
   /**
    * 添加转换后的类名
    */
-  addClasses(classes: string | string[]): void {
+  addClasses(classes: string | string[], source?: string): void {
     if (!this.isEnabled)
       return
 
@@ -95,7 +95,7 @@ export class ClassCollector {
         const [, prefix, classStr]
           = match.match(/(\w+(?:-\w+)*):?="([^"]+)"/) || []
         if (classStr) {
-          const classNames = classStr.split(/\s+/).filter(Boolean)
+          const classNames = this.parseComplexClassString(classStr)
           classNames.forEach((cls) => {
             if (prefix && prefix !== 'class') {
               classes.push(`${prefix}:${cls}`)
@@ -110,13 +110,96 @@ export class ClassCollector {
     }
 
     // 处理普通的类名字符串
-    return input
-      .split(/\s+/)
-      .filter(Boolean)
-      .filter((cls) => {
-        // 过滤掉非法的类名
-        return /^[\w-]+(:[\w-]+)*(\[[\w\-%.#]+\])?$/.test(cls)
-      })
+    return this.parseComplexClassString(input)
+  }
+
+  /**
+   * 解析复杂的类名字符串，支持方括号内的复杂内容
+   */
+  private parseComplexClassString(input: string): string[] {
+    if (!input)
+      return []
+
+    const classes: string[] = []
+    let current = ''
+    let bracketDepth = 0
+    let inBrackets = false
+
+    for (let i = 0; i < input.length; i++) {
+      const char = input[i]
+
+      if (char === '[') {
+        bracketDepth++
+        inBrackets = true
+        current += char
+      }
+      else if (char === ']') {
+        bracketDepth--
+        current += char
+        if (bracketDepth === 0) {
+          inBrackets = false
+        }
+      }
+      else if (char === ' ' && !inBrackets) {
+        // 只有在不在方括号内时才分割
+        if (current.trim()) {
+          const trimmed = current.trim()
+          if (this.isValidTailwindClass(trimmed)) {
+            classes.push(trimmed)
+          }
+        }
+        current = ''
+      }
+      else {
+        current += char
+      }
+    }
+
+    // 处理最后一个类名
+    if (current.trim()) {
+      const trimmed = current.trim()
+      if (this.isValidTailwindClass(trimmed)) {
+        classes.push(trimmed)
+      }
+    }
+
+    return classes
+  }
+
+  /**
+   * 验证是否是有效的 Tailwind CSS 类名
+   */
+  private isValidTailwindClass(cls: string): boolean {
+    if (!cls)
+      return false
+
+    // 支持复杂的 Tailwind 类名，包括：
+    // - 普通类名: bg-red-500, text-lg
+    // - 带伪类: hover:bg-red-500, focus:text-blue-600
+    // - 多重伪类: hover:focus:bg-red-500, md:hover:focus:bg-blue-600
+    // - 响应式: md:bg-red-500, lg:hover:text-blue-600
+    // - 暗色模式: dark:bg-gray-800, dark:hover:bg-gray-700
+    // - group/peer: group-hover:bg-red-500, peer-checked:text-green-500
+    // - data 属性: data-state:open:bg-red-500
+    // - 带方括号的任意值: bg-[#ff0000], w-[calc(100%-20px)], bg-[var(--white,#fff)]
+    // - 复杂任意值: bg-[hsl(var(--hue),50%,50%)], transform-[translateX(var(--x))]
+    // - 特殊字符: bg-[var(--my-color\:primary,#000)], content-[var(--text,"Hello")]
+
+    // 匹配修饰符部分 (可选，可以有多个，用冒号分隔)
+    const modifierPattern = '(?:[\\w-]+(?:\\[[^\\]]*\\])?:)*'
+
+    // 匹配基础类名部分
+    const baseClassPattern = '[\\w-]+'
+
+    // 匹配任意值部分 (可选，支持各种复杂内容)
+    const arbitraryValuePattern = '(?:\\[[^\\]]*\\])?'
+
+    // 完整的类名正则
+    const tailwindClassRegex = new RegExp(
+      `^${modifierPattern}${baseClassPattern}${arbitraryValuePattern}$`,
+    )
+
+    return tailwindClassRegex.test(cls)
   }
 
   /**
