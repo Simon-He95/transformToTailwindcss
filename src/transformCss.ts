@@ -1,6 +1,7 @@
 import fsp from 'node:fs/promises'
 import path from 'node:path'
 import process from 'node:process'
+import { escapeRegExp } from 'lazy-js-utils'
 import {
   transformStyleToTailwindcss,
   transformStyleToTailwindPre,
@@ -15,6 +16,7 @@ import {
   getStyleScoped,
   getVueCompilerSfc,
   isEmptyStyle,
+  isNodeEnvironment,
   isNot,
   joinWithUnderLine,
   TRANSFER_FLAG,
@@ -72,7 +74,8 @@ export async function transformCss(
     debug,
   } = options || {}
   // 理论上filepath应该总是从plugin中获取id，但提供process.cwd()作为后备默认值
-  const filepath = _filepath || process.cwd()
+  // 在浏览器环境中使用空字符串或原始filepath
+  const filepath = _filepath || (isNodeEnvironment() ? process.cwd() : '')
   isRem = _isRem
   if (debug) {
     console.log(
@@ -862,20 +865,23 @@ async function getConflictClass(
         }
 
         if (prefix) {
-          const prefixReg1 = new RegExp(`(?<!\\S)${prefix}(?!\\S)`)
+          const prefixReg1 = new RegExp(
+            `(?<!\\S)${escapeRegExp(prefix)}(?!\\S)`,
+          )
           if (prefixReg1.test(result)) {
             return result.replace(prefixReg1, all =>
               all.replace(prefix, _transferCss))
           }
-          const prefixReg2 = new RegExp(`(?<!\\S)${prefix}=`)
+          const prefixReg2 = new RegExp(`(?<!\\S)${escapeRegExp(prefix)}=`)
 
           if (prefixReg2.test(result)) {
             if (isNot(prefix)) {
-              const newPrefix = prefix.replace(/[[\]()]/g, all => `\\${all}`)
-              const reg = new RegExp(`${newPrefix}([\\w\\:\\-;\\[\\]\\/\\+%]+)`)
+              const reg = new RegExp(
+                `${escapeRegExp(prefix)}([\\w\\:\\-;\\[\\]\\/\\+%]+)`,
+              )
               return result.replace(reg, all => `${all}:${transferCss}`)
             }
-            const reg = new RegExp(`${prefix}=(["]{1})(.*?)\\1`)
+            const reg = new RegExp(`${escapeRegExp(prefix)}=(["]{1})(.*?)\\1`)
             return result.replace(reg, (all, _, v) => {
               const unique = [
                 ...new Set(

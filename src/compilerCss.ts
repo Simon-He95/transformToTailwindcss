@@ -3,11 +3,12 @@ import process from 'node:process'
 import { lessCompiler } from './lessCompiler'
 import { sassCompiler } from './sassCompiler'
 import { stylusCompiler } from './stylusCompiler'
+import { isNodeEnvironment } from './utils'
 
 export function compilerCss(
   css: string,
   lang: CssType,
-  filepath: string = process.cwd(),
+  filepath: string = isNodeEnvironment() ? process.cwd() : '',
   globalCss?: string,
   debug?: boolean,
 ) {

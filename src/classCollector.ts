@@ -1,5 +1,19 @@
-import { promises as fs } from 'node:fs'
 import path from 'node:path'
+import { isNodeEnvironment } from './utils'
+
+// 动态导入 fs，在浏览器环境中避免导入错误
+let fs: typeof import('node:fs').promises | null = null
+
+// 只在 Node.js 环境中导入 fs
+if (isNodeEnvironment()) {
+  try {
+    // eslint-disable-next-line ts/no-require-imports
+    fs = require('node:fs').promises
+  }
+  catch {
+    // 静默失败，在某些环境中可能无法导入
+  }
+}
 
 /**
  * 类名收集器 - 用于收集所有转换生成的 Tailwind CSS 类名
@@ -145,6 +159,13 @@ export class ClassCollector {
    * 检查输出文件是否存在
    */
   private async fileExists(): Promise<boolean> {
+    if (!fs || !isNodeEnvironment()) {
+      console.warn(
+        '[transform-to-tailwindcss] File operations not available in browser environment',
+      )
+      return false
+    }
+
     try {
       await fs.access(this.outputPath)
       return true
@@ -159,6 +180,18 @@ export class ClassCollector {
    */
   async generateSafelistFile(): Promise<void> {
     if (!this.isEnabled || this.collectedClasses.size === 0) {
+      return
+    }
+
+    // 检查是否在支持文件操作的环境中
+    if (!fs || !isNodeEnvironment()) {
+      console.warn(
+        '[transform-to-tailwindcss] File operations not available in browser environment. Safelist generation skipped.',
+      )
+      console.log(
+        `[transform-to-tailwindcss] Collected ${this.collectedClasses.size} unique classes:`,
+      )
+      console.log(this.getCollectedClasses().join(', '))
       return
     }
 
