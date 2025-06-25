@@ -57,6 +57,8 @@ totailwindcss playground --revert
 
 仅需 3 步即可转换 CSS 并自动为 TailwindCSS 生成 safelist：
 
+> ⚠️ **Tailwind CSS v3.x 及以下版本用户注意**：首次启动开发前需要运行一次 `npm run build` 来生成初始 safelist 文件。
+
 ```ts
 // 1. 配置构建工具
 // vite.config.ts
@@ -202,11 +204,22 @@ build({
 
 </div>
 
+> ⚠️ **不同 Tailwind CSS 版本的重要说明**：
+>
+> - **Tailwind CSS v4.x+**：开箱即用，支持动态类名生成
+> - **Tailwind CSS v3.x 及以下版本**：需要初始构建步骤
+>   1. 配置插件：`collectClasses: true`
+>   2. 运行构建：`npm run build`（生成 safelist 文件）
+>   3. 启动开发：`npm run dev`（使用生成的 safelist）
+>   4. 添加新的 CSS 转换时重复步骤 2
+
 ### 🆕 类名收集功能
 
 > 🎯 **新功能**：自动收集所有生成的 TailwindCSS 类名，用于 `safelist` 配置！
 
 当使用动态 CSS 转换时，TailwindCSS 在清除阶段可能无法检测到生成的类名。类名收集功能通过自动生成包含所有转换类名的 safelist 文件来解决这个问题。
+
+> ⚠️ **Tailwind CSS v3.x 及以下版本用户重要提示**：您需要**先运行一次构建**来生成 safelist 文件，然后再启动开发服务器才能正常工作。这是因为 Tailwind CSS v3.x 及以下版本在初始编译过程中需要 safelist 可用。
 
 <details>
 <summary><strong>📝 自动生成 Safelist - 再也不丢失类名</strong></summary>
@@ -272,6 +285,13 @@ export { safelistClasses }
 - ⚡ **性能优化**：只在类名实际变化时重新生成
 - 🛡️ **构建安全**：多重保护防止重复生成
 - 📊 **全面覆盖**：收集所有转换过程中的类名
+
+> ⚠️ **Tailwind CSS v3.x 及以下版本工作流程**：
+>
+> 1. 配置插件启用 `collectClasses: true`
+> 2. 运行 `npm run build`（**首次必须**）生成 safelist 文件
+> 3. 启动开发服务器 `npm run dev`
+> 4. 生成的类名现在可以在开发过程中正常使用
 
 </details>
 

@@ -74,6 +74,8 @@ totailwindcss playground --revert
 
 Transform your CSS and automatically generate a safelist for TailwindCSS in just 3 steps:
 
+> ⚠️ **For Tailwind CSS v3.x and below users**: Run `npm run build` once before starting development to generate the initial safelist file.
+
 ```ts
 // 1. Configure your build tool
 // vite.config.ts
@@ -219,11 +221,22 @@ build({
 
 </div>
 
+> ⚠️ **Important Notes for Different Tailwind CSS Versions**:
+>
+> - **Tailwind CSS v4.x+**: Works out of the box with dynamic class generation
+> - **Tailwind CSS v3.x and below**: Requires initial build step
+>   1. Configure plugin: `collectClasses: true`
+>   2. Run build: `npm run build` (generates safelist file)
+>   3. Start dev: `npm run dev` (uses generated safelist)
+>   4. Repeat step 2 when adding new CSS transformations
+
 ### 🆕 Class Collection Feature
 
 > 🎯 **New Feature**: Automatically collect all generated TailwindCSS class names for `safelist` configuration!
 
 When using dynamic CSS transformations, TailwindCSS might not detect the generated classes during purging. The class collection feature solves this by automatically generating a safelist file containing all transformed classes.
+
+> ⚠️ **Important for Tailwind CSS v3.x and below users**: You need to run a **build once** first to generate the safelist file, then start your dev server for normal behavior. This is because Tailwind CSS v3.x and below require the safelist to be available during the initial compilation process.
 
 <details>
 <summary><strong>📝 Auto-Generate Safelist - Never Lose Classes Again</strong></summary>
@@ -289,6 +302,13 @@ export { safelistClasses }
 - ⚡ **Performance Optimized**: Only regenerates when classes actually change
 - 🛡️ **Build-Safe**: Multiple safeguards prevent duplicate generations
 - 📊 **Comprehensive**: Collects classes from all transformation processes
+
+> ⚠️ **Workflow for Tailwind CSS v3.x and below**:
+>
+> 1. Configure the plugin with `collectClasses: true`
+> 2. Run `npm run build` (or your build command) **once** to generate safelist
+> 3. Start your dev server with `npm run dev`
+> 4. The generated classes will now be available during development
 
 </details>
 
