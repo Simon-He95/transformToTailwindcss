@@ -386,7 +386,7 @@ export default {
     <div
       v-if="containerVisible"
       ref="containerRef"
-      class="vue-inspector-container cursor-pointer fixed text-center z-2147483647 font-[family-name:Arial,_Helvetica,_sans-serif]"
+      class="vue-inspector-container cursor-pointer fixed text-center z-[2147483647] font-[family-name:Arial,_Helvetica,_sans-serif]"
       :style="containerPosition"
       :class="{ 'vue-inspector-container--disabled': !enabled }"
     >
@@ -445,7 +445,7 @@ export default {
     <template v-if="overlayVisible && linkParams">
       <div
         ref="floatsRef"
-        class="vue-inspector-floats vue-inspector-card font-[family-name:Arial,_Helvetica,_sans-serif] px-[8px] py-[5px] rounded-[4px] text-left text-[#e9e9e9] text-[14px] bg-[#42b883] shadow-[0_1px_3px_0_rgba(0,0,0,0.1),0_1px_2px_-1px_rgba(0,0,0,0.1)] z-2147483647 fixed translate-x-[-50%] pointer-events-none"
+        class="vue-inspector-floats vue-inspector-card font-[family-name:Arial,_Helvetica,_sans-serif] px-[8px] py-[5px] rounded-[4px] text-left text-[#e9e9e9] text-[14px] bg-[#42b883] shadow-[0_1px_3px_0_rgba(0,0,0,0.1),0_1px_2px_-1px_rgba(0,0,0,0.1)] z-[2147483647] fixed translate-x-[-50%] pointer-events-none"
         :class="[{ 'vue-inspector-animated': animation }]"
         :style="floatsStyle"
       >
@@ -455,7 +455,7 @@ export default {
         <div class="tip text-[11px] op-70">Click to go to the file</div>
       </div>
       <div
-        class="vue-inspector-size-indicator z-2147483646 fixed bg-[#42b88325] border-[1px] border-solid border-[#42b88350] rounded-[5px] pointer-events-none"
+        class="vue-inspector-size-indicator z-[2147483646] fixed bg-[#42b88325] border-[1px] border-solid border-[#42b88350] rounded-[5px] pointer-events-none"
         :class="[{ 'vue-inspector-animated': animation }]"
         :style="sizeIndicatorStyle"
       />
@@ -483,6 +483,155 @@ export default {
 ",
   "
 
+-----    complex10.vue     -------
+
+<template>
+  <div class="dialog-app select-none p-[24px] pb-[32px] overflow-hidden">
+    <div class="content overflow-hidden p-[24px] pb-[20px] flex flex-col bg-[#fff] shadow-[0px_0px_16px_rgba(0,0,0,0.1)] rounded-[6px]" draggable="false">
+      <div class="title overflow-hidden flex flex-row items-start mb-[24px] font-[weight:500] text-[16px] text-[#25262a]">
+        <!-- <ShieldExclamationIcon
+          v-if="iconType"
+          class="title-icon"
+          :class="[iconType]"
+        /> -->
+        <div class="txt leading-[24px] text-ellipsis h-auto line-clamp-3">{{ title }}</div>
+      </div>
+      <div class="detail overflow-hidden font-[weight:normal] text-[14px] leading-[22px] text-[#4a4e59] mb-[24px] grow-1 h-[100%]">
+        {{ detail }}
+      </div>
+      <div class="actions overflow-hidden flex justify-end flex-row gap-[16px]" :class="[buttonGrid]">
+        <div class="overflow-hidden"
+          v-for="(action, idx) in actions"
+          :key="idx"
+          :class="['button', action.type]"
+          @click="onButtonClick(action)"
+        >
+          {{ action.name }}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { onBeforeMount, onMounted, onUnmounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
+
+import ShieldExclamationIcon from '@heroicons/vue/24/outline/ShieldExclamationIcon.svg?component'
+
+import { xpcRenderer } from '@src/preload'
+import { usePresenter } from '@renderer/common/usePresenter'
+const dialogPresenter = usePresenter('dialogPresenter')
+
+const route = useRoute()
+
+const title = ref('')
+const detail = ref('')
+const actions = ref([])
+const dialogId = ref('')
+const iconType = ref('')
+const buttonGrid = ref('')
+
+onMounted(() => {
+  // xpcRenderer.handle('dialog/options', async function (payload: any) {
+  //   console.log('dialog/options', payload.params)
+  //   getOption(payload.params)
+  // })
+  console.log('dialog  route.query--', route.query)
+  dialogId.value = (route.query as any).id
+  dialogPresenter.setDialogDefaultBoundsById(dialogId.value)
+  const params = (route.query as any).params
+  getOption(params)
+})
+
+function getOption(params: any) {
+  if (params) {
+    const options = JSON.parse(params)
+    actions.value = options.actions
+    title.value = options.title
+    detail.value = options.content
+    iconType.value = options.iconType
+    buttonGrid.value = options.buttonGrid
+  }
+}
+
+function onButtonClick(action: any) {
+  xpcRenderer.send({
+    handleName: `dialog/action`,
+    params: JSON.stringify({ action, dialogId: dialogId.value }),
+  })
+}
+</script>
+
+<style scoped>.dialog-app .content .title .title-icon {
+  color: rgb(244, 173, 85);
+  padding: 0px;
+  margin: 0px 12px 0px 0px;
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+.dialog-app .content .title .title-icon.error {
+  color: #f75a5a;
+}
+.dialog-app .content .title .title-icon.warning {
+  color: rgb(244, 173, 85);
+}.dialog-app .content .actions.between {
+  justify-content: space-between;
+}
+.dialog-app .button {
+  -webkit-app-region: none;
+  min-width: 128px;
+  width: fit-content;
+  height: 38px;
+  padding: 0 22px;
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  align-content: center;
+  box-sizing: border-box;
+  border-radius: 4px;
+  font-weight: 500;
+  background: rgba(245, 246, 248, 0.8);
+  color: #25262a;
+  font-size: 14px;
+  cursor: default;
+  user-select: none;
+  cursor: pointer;
+}
+.dialog-app .button:hover {
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), rgba(245, 246, 248, 0.8);
+}
+.dialog-app .button:hover.primary {
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), #4b7bff;
+}
+.dialog-app .button:hover.warning {
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), #f75a5a;
+}
+.dialog-app .button:hover.tip {
+  color: #4a4e59;
+}
+.dialog-app .button.primary {
+  color: #fff;
+  background: #4b7bff;
+}
+.dialog-app .button.warning {
+  color: #fff;
+  background: #f75a5a;
+}
+.dialog-app .button.tip {
+  color: #8b91a0;
+  background: transparent;
+  padding: 0;
+  width: fit-content;
+  min-width: 56px;
+  min-width: 56px;
+}
+</style>
+",
+  "
+
 -----    complex2.vue     -------
 
 <script lang="ts" setup>
@@ -499,9 +648,9 @@ const props = withDefaults(
 
 <template>
   <div class="z-loading relative w-[100%] top-0 bottom-0">
-    <div class="z-loading__bg absolute bg-[rgba(255,255,255,0)] w-[100%] h-[100%] z-999" v-if="loading"></div>
+    <div class="z-loading__bg absolute bg-[rgba(255,255,255,0)] w-[100%] h-[100%] z-[999]" v-if="loading"></div>
     <div
-      class="-z-loader bg-slate-950/80 rounded-md h-[84px] flex flex-col justify-center items-center p-4 z-1000 absolute top-[50%] left-[50%] min-w-[88px] h-[84px] translate-x-[-50%] translate-y-[-50%]"
+      class="-z-loader bg-slate-950/80 rounded-md h-[84px] flex flex-col justify-center items-center p-4 z-[1000] absolute top-[50%] left-[50%] min-w-[88px] h-[84px] translate-x-[-50%] translate-y-[-50%]"
       v-if="loading"
     >
       <img
@@ -1345,7 +1494,7 @@ function onTagClick() {
 
 <template>
   <div
-    class="control-bar drag-disable w-[100%] h-[86px] flex justify-between items-center px-[20px] py-[14px] box-border bg-transparent shadow-[0px_-1px_6px_rgba(70,71,79,0.05)] z-9"
+    class="control-bar drag-disable w-[100%] h-[86px] flex justify-between items-center px-[20px] py-[14px] box-border bg-transparent shadow-[0px_-1px_6px_rgba(70,71,79,0.05)] z-[9]"
     :class="[viewType === 'gallery' ? 'black' : '']"
     :style="style"
     @mouseover="onOver"
@@ -1667,6 +1816,600 @@ function checkSummaryTip() {
   border-radius: 50%;
   width: 16px;
 }</style>
+",
+  "
+
+-----    complex8.vue     -------
+
+<template>
+  <div class="mermaid-artifact">
+    <div
+      v-show="activeTab == 'preview'"
+      class="preview-container relative overflow-auto select-none"
+      ref="containerRef"
+      @wheel="onWheel"
+    >
+      <!-- 缩放控制按钮 -->
+      <div
+        class="zoom-controls fixed bottom-4 right-4 flex flex-col gap-2 z-50"
+      >
+        <Button
+          variant="outline"
+          size="sm"
+          class="zoom-button p-2 rounded-md bg-background/80 hover:bg-muted backdrop-blur-sm shadow-lg"
+          @click="handleZoomIn"
+          :disabled="isMaxScale"
+          title="放大"
+        >
+          <Icon icon="lucide:zoom-in" class="w-4 h-4" />
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          class="zoom-button p-2 rounded-md bg-background/80 hover:bg-muted backdrop-blur-sm shadow-lg"
+          @click="handleZoomOut"
+          :disabled="isMinScale"
+          title="缩小"
+        >
+          <Icon icon="lucide:zoom-out" class="w-4 h-4" />
+        </Button>
+      </div>
+
+      <div
+        ref="mermaidWrapperRef"
+        class="mermaid-wrapper w-full h-full"
+        :style="mermaidRectStyle"
+      >
+        <div
+          ref="mermaidRef"
+          class="mermaid h-full flex items-center justify-center"
+        ></div>
+      </div>
+    </div>
+    <CodePreview
+      v-show="activeTab == 'code'"
+      :content="block.content"
+      :language="block.artifact.language"
+      :type="block.artifact.type"
+      :title="block.artifact.title"
+    ></CodePreview>
+  </div>
+</template>
+
+<script setup lang="ts">
+import {
+  ref,
+  onMounted,
+  watch,
+  nextTick,
+  inject,
+  computed,
+  type Ref,
+  onUnmounted,
+  watchEffect,
+} from 'vue'
+import mermaid from 'mermaid'
+import { useI18n } from 'vue-i18n'
+
+import { debounce } from 'lodash-es'
+import { useElementBounding, useDebounceFn } from '@vueuse/core'
+import { zUnsafePreload } from '@src/preload'
+import { Icon } from '@iconify/vue'
+import CodePreview from './CodePreview.vue'
+import { Button } from '@src/renderer/common/shadcn/components/ui/button'
+
+const artifactStatus = inject('artifactStatus') as Ref<
+  'generating' | 'completed'
+>
+
+const { t } = useI18n()
+
+const props = defineProps<{
+  block: {
+    artifact: {
+      type: string
+      title: string
+      language: string
+    }
+    content: string
+  }
+  id: string
+}>()
+const activeTab = inject('activeTab') as Ref<'preview' | 'code'>
+
+const containerRef = ref<HTMLElement | null>(null)
+const mermaidWrapperRef = ref<HTMLElement | null>(null)
+const mermaidRef = ref<HTMLElement | null>(null)
+const mermaidRectStyle = ref('')
+
+const isMaxScale = ref(false)
+const isMinScale = ref(false)
+
+// 初始化基础尺寸
+const initBaseSize = () => {
+  if (!containerRef.value || !mermaidWrapperRef.value) return
+  mermaidRectStyle.value = `width:${containerRef.value.offsetWidth}px;height:${containerRef.value.offsetHeight}px;`
+
+  // 添加最大和最小缩放判断逻辑
+  isMaxScale.value =
+    artifactStatus.value == 'generating'
+      ? true
+      : mermaidWrapperRef.value && containerRef.value
+        ? mermaidWrapperRef.value.offsetWidth >=
+          containerRef.value.offsetWidth * 4
+        : false
+
+  isMinScale.value =
+    artifactStatus.value == 'generating'
+      ? true
+      : mermaidWrapperRef.value && containerRef.value
+        ? mermaidWrapperRef.value.offsetWidth <=
+          containerRef.value.offsetWidth * 0.5
+        : true
+}
+
+// 处理滚轮事件
+const onWheel = (event: WheelEvent) => {
+  if (!event.ctrlKey || !containerRef.value) return
+  event.preventDefault()
+  if (artifactStatus.value == 'generating') return
+
+  if (event.deltaY < 0) {
+    scaleUp(-event.deltaY)
+  } else {
+    scaleDown(event.deltaY)
+  }
+}
+
+// 放大
+const scaleUp = (deltaY: number) => {
+  if (!mermaidWrapperRef.value || !containerRef.value) return
+  if (artifactStatus.value == 'generating') return
+
+  const wd = mermaidWrapperRef.value.offsetWidth
+  const ht = mermaidWrapperRef.value.offsetHeight
+
+  // 检查最大尺寸限制
+  if (wd >= containerRef.value.offsetWidth * 4) return
+
+  // 计算目标尺寸
+  const newWidth = wd + deltaY * 20
+  const newHeight = ht + deltaY * 20
+
+  // 计算当前视口中心点
+  const viewportCenterX =
+    containerRef.value.scrollLeft + containerRef.value.offsetWidth / 2
+  const viewportCenterY =
+    containerRef.value.scrollTop + containerRef.value.offsetHeight / 2
+
+  // 计算中心点相对于当前尺寸的比例
+  const ratioX = viewportCenterX / wd
+  const ratioY = viewportCenterY / ht
+
+  // 更新尺寸（移除transition以避免动画）
+  mermaidWrapperRef.value.style.transition = 'none'
+  mermaidRectStyle.value = `width:${newWidth}px;height:${newHeight}px;`
+
+  // 立即计算并设置新的滚动位置
+  const newScrollLeft = newWidth * ratioX - containerRef.value.offsetWidth / 2
+  const newScrollTop = newHeight * ratioY - containerRef.value.offsetHeight / 2
+
+  // 同步更新滚动位置
+  containerRef.value.scrollLeft = newScrollLeft
+  containerRef.value.scrollTop = newScrollTop
+
+  // 恢复transition（使用 requestAnimationFrame 确保在下一帧恢复）
+  requestAnimationFrame(() => {
+    if (mermaidWrapperRef.value) {
+      mermaidWrapperRef.value.style.transition = 'transform 0.2s ease'
+    }
+  })
+}
+
+// 缩小
+const scaleDown = (deltaY: number) => {
+  if (!mermaidWrapperRef.value || !containerRef.value) return
+  if (artifactStatus.value == 'generating') return
+
+  const wd = mermaidWrapperRef.value.offsetWidth
+  const ht = mermaidWrapperRef.value.offsetHeight
+
+  if (
+    wd <= containerRef.value.offsetWidth &&
+    ht <= containerRef.value.offsetHeight
+  ) {
+    return
+  }
+
+  // 计算目标尺寸
+  const newWidth = Math.max(containerRef.value.offsetWidth, wd - deltaY * 20)
+  const newHeight = Math.max(containerRef.value.offsetHeight, ht - deltaY * 20)
+
+  // 计算当前视口中心点
+  const viewportCenterX =
+    containerRef.value.scrollLeft + containerRef.value.offsetWidth / 2
+  const viewportCenterY =
+    containerRef.value.scrollTop + containerRef.value.offsetHeight / 2
+
+  // 计算中心点相对于当前尺寸的比例
+  const ratioX = viewportCenterX / wd
+  const ratioY = viewportCenterY / ht
+
+  // 更新尺寸（移除transition以避免动画）
+  mermaidWrapperRef.value.style.transition = 'none'
+  mermaidRectStyle.value = `width:${newWidth}px;height:${newHeight}px;`
+
+  // 立即计算并设置新的滚动位置
+  const newScrollLeft = newWidth * ratioX - containerRef.value.offsetWidth / 2
+  const newScrollTop = newHeight * ratioY - containerRef.value.offsetHeight / 2
+
+  // 同步更新滚动位置
+  containerRef.value.scrollLeft = newScrollLeft
+  containerRef.value.scrollTop = newScrollTop
+
+  // 恢复transition
+  requestAnimationFrame(() => {
+    if (mermaidWrapperRef.value) {
+      mermaidWrapperRef.value.style.transition = 'transform 0.2s ease'
+    }
+  })
+}
+
+// 按钮点击处理
+const handleZoomIn = () => scaleUp(10)
+const handleZoomOut = () => scaleDown(10)
+
+const isLoaded = ref(false)
+const renderDiagram = debounce(async () => {
+  if (isLoaded.value) return
+
+  if (!mermaidRef.value || !props.block.content) return
+
+  // console.log('开始渲染 Mermaid 图表');
+  await nextTick()
+  initBaseSize() // 初始化尺寸
+  try {
+    // 清空之前的内容
+    mermaidRef.value.innerHTML = ''
+    mermaidRef.value.innerHTML = props.block.content
+    isLoaded.value = true
+
+    // 使用 mermaid API 重新渲染
+    await mermaid.run({
+      nodes: [mermaidRef.value],
+    })
+  } catch (error) {
+    isLoaded.value = false
+    console.error('Failed to render mermaid diagram:', error)
+    if (mermaidRef.value) {
+      mermaidRef.value.innerHTML = `<div class="text-destructive p-4">渲染失败: ${error instanceof Error ? error.message : '未知错误'}</div>`
+    }
+  }
+}, 300)
+
+watchEffect(() => {
+  if (artifactStatus.value == 'completed' && activeTab.value == 'preview') {
+    nextTick(() => {
+      renderDiagram()
+    })
+  }
+})
+watch(
+  () => props.id,
+  () => {
+    isLoaded.value = false
+
+    nextTick(() => {
+      renderDiagram()
+      if (artifactStatus.value == 'completed' && activeTab.value == 'preview') {
+        window.location.reload()
+      }
+    })
+  },
+)
+
+onMounted(() => {
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: document.documentElement.classList.contains('dark')
+      ? 'dark'
+      : 'default',
+    securityLevel: 'loose',
+    fontFamily: 'inherit',
+  })
+
+  if (artifactStatus.value == 'completed') {
+    nextTick(() => {
+      renderDiagram()
+    })
+  }
+
+  // window.addEventListener('wheel', onWheel, { passive: false });
+})
+
+onUnmounted(() => {
+  // window.removeEventListener('wheel', onWheel);
+})
+</script>
+
+<style scoped>
+.mermaid :deep(svg) {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: calc(100vh - 120px);
+  object-fit: contain;
+  will-change: transform;
+}
+</style>
+",
+  "
+
+-----    complex9.vue     -------
+
+<template>
+  <div
+    :id="`${participant?.id}_user_video`"
+    class="participant-card"
+    ref="participantCardRef"
+    :style="itemStyle"
+  >
+    <div class="item-header">
+      <div
+        v-if="needPermission"
+        class="permission"
+        @click.stop="onPermissionClick"
+      ></div>
+    </div>
+    <div class="relative user-cont flex items-center justify-center">
+      <img
+        v-show="!participant?.isCameraEnabled"
+        :src="avatar"
+        loading="lazy"
+        alt=""
+        class="avatar rounded-lg"
+        draggable="false"
+      />
+      <!-- loading -->
+      <img
+        class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+        v-show="enableCamera"
+        src="@renderer/apps/meeting/assets/common/loading.svg"
+        alt=""
+      />
+      <video
+        v-show="enableCamera"
+        :id="`video_palyer_${activeCameraDid}`"
+        class="absolute w-full h-full object-contain"
+        ref="videoRef"
+      ></video>
+      <!-- <audio ref="audioRef"></audio> -->
+    </div>
+    <div class="user-info">
+      <div class="info-left w-[100%] h-[32px] flex items-end">
+        <img v-if="userTypeIcon" class="type" :src="userTypeIcon" />
+        <div class="name truncate" :class="{ pl: userTypeIcon }">
+          {{ participant?.name || participant?.uid }}
+        </div>
+      </div>
+      <div
+        v-if="
+          !participant?.isMicrophoneEnabled || participant?.isScreenShareEnabled
+        "
+        class="info-right w-fit h-[28px] flex items-center justify-end px-[12px] py-0 box-border leading-[28px] bg-[rgba(7,7,7,0.5)] backdrop-blur-[2px] rounded-[9px_0_9px_0]"
+      >
+        <img
+          v-if="!participant?.isMicrophoneEnabled"
+          class="audio"
+          src="@renderer/apps/meeting/assets/meetingRoom/user/grid_audio_mute.png"
+        />
+        <div
+          v-if="
+            !participant?.isMicrophoneEnabled &&
+            participant?.isScreenShareEnabled &&
+            !isGrid
+          "
+          class="line"
+        ></div>
+        <img
+          v-if="participant?.isScreenShareEnabled && !isGrid"
+          class="screen"
+          src="@renderer/apps/meeting/assets/meetingRoom/user/share_screen.svg"
+        />
+      </div>
+    </div>
+    <div v-show="participant?.isSpeaking" class="speaking"></div>
+  </div>
+</template>
+<script setup lang="ts">
+import {
+  ref,
+  nextTick,
+  watch,
+  computed,
+  inject,
+  type Ref,
+  onMounted,
+  onUnmounted,
+} from 'vue'
+import { useElementBounding } from '@vueuse/core'
+import bus from '@renderer/apps/meeting/utils/bus'
+import { getUserAvatar, getUserTypeIcon } from '../../utils/participants'
+import type { IRendererParticipant } from '../../composables/useParticipants'
+const activeCameraDid = inject('activeCameraDid') as Ref<string>
+const props = withDefaults(
+  defineProps<{
+    participant: IRendererParticipant | null
+    itemStyle?: any
+    needPermission?: boolean
+    isGrid?: boolean
+  }>(),
+  {
+    participant: null,
+    itemStyle: null,
+    needPermission: true,
+    isGrid: true,
+  },
+)
+const participantCardRef = ref(null)
+const videoRef = ref(null)
+// const audioRef = ref(null);
+const avatar = computed(() => {
+  return getUserAvatar(
+    props.participant?.avatar || '',
+    props.participant?.userType,
+  )
+})
+const userTypeIcon = computed(() => {
+  return getUserTypeIcon(
+    props.participant?.roleType,
+    props.participant?.userType,
+  )
+})
+const isLocal = computed(() => {
+  return props.participant?.isLocal
+})
+const enableCamera = computed(() => {
+  const cameraPub = props.participant?.cameraPublication
+  return !!(
+    cameraPub &&
+    cameraPub.isSubscribed &&
+    !cameraPub.isMuted &&
+    cameraPub.videoTrack
+  )
+})
+// const enableMic = computed(() => {
+//   const micPub = props.participant?.micPublication;
+//   return !!(micPub && micPub.isSubscribed && !micPub.isMuted && micPub.audioTrack);
+// });
+watch(
+  () => props.participant?.id,
+  (nv: string) => {
+    if (nv) {
+      attachTracks()
+    }
+  },
+)
+watch(
+  () => enableCamera.value,
+  (nv: boolean) => {
+    attachTracks()
+  },
+)
+watch(
+  () => activeCameraDid.value,
+  (nv: string) => {
+    if (nv) {
+      // nextTick(() => {
+      attachTracks()
+      // });
+    }
+  },
+)
+// watch(
+//   () => enableMic.value,
+//   (nv: boolean) => {
+//     attachTracks();
+//   }
+// );
+watch(
+  () => props.participant?.isCameraEnabled,
+  (nv: boolean) => {
+    attachTracks()
+  },
+)
+// watch(
+//   () => props.participant?.isMicrophoneEnabled,
+//   (nv: boolean) => {
+//     attachTracks();
+//   }
+// );
+onMounted(() => {
+  attachTracks()
+})
+onUnmounted(() => {
+  clearMediaSources()
+})
+// Method to attach video and audio tracks
+const attachTracks = () => {
+  nextTick(() => {
+    const videoElm = videoRef.value
+    // const audioElm = audioRef.value;
+    // if (!videoElm || !audioElm) return;
+    if (!videoElm) return
+    const cameraPub = props.participant?.cameraPublication
+    // const micPub = props.participant?.micPublication;
+    // Attach camera track
+    if (
+      cameraPub &&
+      cameraPub.isSubscribed &&
+      !cameraPub.isMuted &&
+      cameraPub.videoTrack
+    ) {
+      console.log('aaaaaaaaaaaa---cam', props.participant.id)
+      cameraPub.videoTrack.attach(videoElm)
+      // Handle local participant video flip
+      if (isLocal.value) {
+        ;(videoElm as any).style.transform = 'scale(-1, 1)'
+      }
+    } else {
+      ;(videoElm as any).srcObject = null
+      ;(videoElm as any).src = ''
+    }
+    // Attach microphone track
+    // if (
+    //   micPub &&
+    //   micPub.isSubscribed &&
+    //   !micPub.isMuted &&
+    //   micPub.audioTrack &&
+    //   !isLocal.value
+    // ) {
+    //   console.log('aaaaaaaaaaaa---mic');
+    //   micPub.audioTrack.attach(audioElm);
+    // } else {
+    //   (audioElm as any).srcObject = null;
+    //   (audioElm as any).src = '';
+    // }
+  })
+}
+// Method to clear video and audio sources
+const clearMediaSources = () => {
+  const videoElm = videoRef.value
+  // const audioElm = audioRef.value;
+  // if (!videoElm || !audioElm) return;
+  if (!videoElm) return
+  if (videoElm) {
+    ;(videoElm as any).srcObject = null
+    ;(videoElm as any).src = ''
+  }
+  // if (audioElm) {
+  //   (audioElm as any).srcObject = null;
+  //   (audioElm as any).src = '';
+  // }
+}
+function onPermissionClick(e: any) {
+  e.stopPropagation()
+  // if (props.participant?.userType === 'DEVICE') return
+  doPermissionFloatShow()
+}
+function doPermissionFloatShow() {
+  const { top, left } = useElementBounding(participantCardRef)
+  // showPermissionFloat.value = true;
+  // permissionFloatPos.value = {
+  //   x: left.value,
+  //   y: top.value
+  // };
+  // targetParticipant.value = props.participant;
+  bus.emit('on-permission-click', {
+    showFloat: true,
+    floatPos: {
+      x: left.value,
+      y: top.value,
+    },
+    targetUser: props.participant,
+  })
+}
+</script>
+<style scoped></style>
 ",
   "
 

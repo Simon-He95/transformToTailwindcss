@@ -1,6 +1,6 @@
 <template>
   <div
-    class="control-bar drag-disable w-[100%] h-[86px] flex justify-between items-center px-[20px] py-[14px] box-border bg-transparent shadow-[0px_-1px_6px_rgba(70,71,79,0.05)] z-9"
+    class="control-bar drag-disable w-[100%] h-[86px] flex justify-between items-center px-[20px] py-[14px] box-border bg-transparent shadow-[0px_-1px_6px_rgba(70,71,79,0.05)] z-[9]"
     :class="[viewType === 'gallery' ? 'black' : '']"
     :style="style"
     @mouseover="onOver"

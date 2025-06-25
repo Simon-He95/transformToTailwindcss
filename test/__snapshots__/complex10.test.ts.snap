@@ -1,0 +1,144 @@
+<template>
+  <div class="dialog-app select-none p-[24px] pb-[32px] overflow-hidden">
+    <div class="content overflow-hidden p-[24px] pb-[20px] flex flex-col bg-[#fff] shadow-[0px_0px_16px_rgba(0,0,0,0.1)] rounded-[6px]" draggable="false">
+      <div class="title overflow-hidden flex flex-row items-start mb-[24px] font-[weight:500] text-[16px] text-[#25262a]">
+        <!-- <ShieldExclamationIcon
+          v-if="iconType"
+          class="title-icon"
+          :class="[iconType]"
+        /> -->
+        <div class="txt leading-[24px] text-ellipsis h-auto line-clamp-3">{{ title }}</div>
+      </div>
+      <div class="detail overflow-hidden font-[weight:normal] text-[14px] leading-[22px] text-[#4a4e59] mb-[24px] grow-1 h-[100%]">
+        {{ detail }}
+      </div>
+      <div class="actions overflow-hidden flex justify-end flex-row gap-[16px]" :class="[buttonGrid]">
+        <div class="overflow-hidden"
+          v-for="(action, idx) in actions"
+          :key="idx"
+          :class="['button', action.type]"
+          @click="onButtonClick(action)"
+        >
+          {{ action.name }}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { onBeforeMount, onMounted, onUnmounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
+
+import ShieldExclamationIcon from '@heroicons/vue/24/outline/ShieldExclamationIcon.svg?component'
+
+import { xpcRenderer } from '@src/preload'
+import { usePresenter } from '@renderer/common/usePresenter'
+const dialogPresenter = usePresenter('dialogPresenter')
+
+const route = useRoute()
+
+const title = ref('')
+const detail = ref('')
+const actions = ref([])
+const dialogId = ref('')
+const iconType = ref('')
+const buttonGrid = ref('')
+
+onMounted(() => {
+  // xpcRenderer.handle('dialog/options', async function (payload: any) {
+  //   console.log('dialog/options', payload.params)
+  //   getOption(payload.params)
+  // })
+  console.log('dialog  route.query--', route.query)
+  dialogId.value = (route.query as any).id
+  dialogPresenter.setDialogDefaultBoundsById(dialogId.value)
+  const params = (route.query as any).params
+  getOption(params)
+})
+
+function getOption(params: any) {
+  if (params) {
+    const options = JSON.parse(params)
+    actions.value = options.actions
+    title.value = options.title
+    detail.value = options.content
+    iconType.value = options.iconType
+    buttonGrid.value = options.buttonGrid
+  }
+}
+
+function onButtonClick(action: any) {
+  xpcRenderer.send({
+    handleName: `dialog/action`,
+    params: JSON.stringify({ action, dialogId: dialogId.value }),
+  })
+}
+</script>
+
+<style scoped>.dialog-app .content .title .title-icon {
+  color: rgb(244, 173, 85);
+  padding: 0px;
+  margin: 0px 12px 0px 0px;
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+.dialog-app .content .title .title-icon.error {
+  color: #f75a5a;
+}
+.dialog-app .content .title .title-icon.warning {
+  color: rgb(244, 173, 85);
+}.dialog-app .content .actions.between {
+  justify-content: space-between;
+}
+.dialog-app .button {
+  -webkit-app-region: none;
+  min-width: 128px;
+  width: fit-content;
+  height: 38px;
+  padding: 0 22px;
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  align-content: center;
+  box-sizing: border-box;
+  border-radius: 4px;
+  font-weight: 500;
+  background: rgba(245, 246, 248, 0.8);
+  color: #25262a;
+  font-size: 14px;
+  cursor: default;
+  user-select: none;
+  cursor: pointer;
+}
+.dialog-app .button:hover {
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), rgba(245, 246, 248, 0.8);
+}
+.dialog-app .button:hover.primary {
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), #4b7bff;
+}
+.dialog-app .button:hover.warning {
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), #f75a5a;
+}
+.dialog-app .button:hover.tip {
+  color: #4a4e59;
+}
+.dialog-app .button.primary {
+  color: #fff;
+  background: #4b7bff;
+}
+.dialog-app .button.warning {
+  color: #fff;
+  background: #f75a5a;
+}
+.dialog-app .button.tip {
+  color: #8b91a0;
+  background: transparent;
+  padding: 0;
+  width: fit-content;
+  min-width: 56px;
+  min-width: 56px;
+}
+</style>

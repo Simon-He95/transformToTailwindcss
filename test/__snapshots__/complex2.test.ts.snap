@@ -12,9 +12,9 @@ const props = withDefaults(
 
 <template>
   <div class="z-loading relative w-[100%] top-0 bottom-0">
-    <div class="z-loading__bg absolute bg-[rgba(255,255,255,0)] w-[100%] h-[100%] z-999" v-if="loading"></div>
+    <div class="z-loading__bg absolute bg-[rgba(255,255,255,0)] w-[100%] h-[100%] z-[999]" v-if="loading"></div>
     <div
-      class="-z-loader bg-slate-950/80 rounded-md h-[84px] flex flex-col justify-center items-center p-4 z-1000 absolute top-[50%] left-[50%] min-w-[88px] h-[84px] translate-x-[-50%] translate-y-[-50%]"
+      class="-z-loader bg-slate-950/80 rounded-md h-[84px] flex flex-col justify-center items-center p-4 z-[1000] absolute top-[50%] left-[50%] min-w-[88px] h-[84px] translate-x-[-50%] translate-y-[-50%]"
       v-if="loading"
     >
       <img
