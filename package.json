@@ -1,7 +1,7 @@
 {
   "name": "transform-to-tailwindcss",
   "type": "module",
-  "version": "0.0.50-beta.1",
+  "version": "0.0.50",
   "packageManager": "pnpm@10.12.2",
   "description": "🎨 Revolutionary CSS-to-TailwindCSS migration tool with surgical precision. Transform legacy stylesheets to utility-first classes instantly across Vue, React, Svelte, and Astro projects.",
   "author": {
