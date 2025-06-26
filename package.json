@@ -107,7 +107,7 @@
     "less": "^3.0.0 || ^4.0.0",
     "less-plugin-module-resolver": "^1.0.0",
     "sass": "^1.0.0",
-    "stylus": "^0.50.0 || ^0.60.0"
+    "stylus": "^0.50.0 || ^0.60.0 || ^0.64.0"
   },
   "peerDependenciesMeta": {
     "less": {
@@ -153,7 +153,7 @@
     "prettier": "^3.6.0",
     "sass": "^1.89.2",
     "simple-git-hooks": "^2.13.0",
-    "stylus": "^0.63.0",
+    "stylus": "^0.64.0",
     "transform-to-tailwindcss": "workspace:^",
     "tsdown": "^0.9.9",
     "tsx": "^3.14.0",
