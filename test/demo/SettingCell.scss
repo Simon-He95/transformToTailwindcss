@@ -1,0 +1,20 @@
+@tailwind components;
+@layer components {
+  .setting-cell {
+    /*setting是flex布局，setting__left在最左边，setting__right在最右边*/
+    @apply flex items-center justify-between w-full h-6;
+    .setting__left {
+      @apply pr-3;
+      .setting__left__title {
+        @apply font-medium text-gray-900 text-sm w-full flex-1 line-clamp-1;
+      }
+      .setting__left__subtitle {
+        @apply text-xs text-gray-500 mt-1;
+      }
+    }
+    .setting-cell__right {
+      /**在setting中的最右边*/
+      @apply flex-shrink-0;
+    }
+  }
+}

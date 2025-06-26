@@ -26,11 +26,7 @@ import {
 } from './utils'
 import { wrapperVueTemplate } from './wrapperVueTemplate'
 
-const combineReg = /([.#]?[\w\-]+)((?:[.#]\w+)+)/ // xx.xx
-
-const addReg = /([.#\w\-]+)\s*\+\s*([.#\w]+)/ // xx + xx
 const tailReg = /:?:(.+)/ // :after
-const tagReg = /\[([\w\-]*)[='" ]*([\w-]*)['" ]*\]/ // [class="xxx"]
 const emptyClass = /[,\w>.#\-+:[\]="'\s()]+\{\}\n/g
 
 interface Position {
@@ -335,6 +331,9 @@ async function importCss(
     }
     // 否则剩余的生成新的@import css
     const restStyle = getStyleScoped(transfer)
+    if (restStyle.replace(/\s+|;/g, '') === css!.replace(/(\s+|;)/g, '')) {
+      return originCode
+    }
 
     fsp.writeFile(
       url.replace(`.${type}`, `${TRANSFER_FLAG}.${type}`),

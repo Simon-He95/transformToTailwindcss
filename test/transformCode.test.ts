@@ -125,117 +125,13 @@ describe('single demo test-1.vue', () => {
   })
 })
 
-describe('single demo complex1.vue', () => {
-  it('complex.vue', async () => {
-    const _path = './test/demo/complex1.vue'
+describe('sass-import.vue', () => {
+  it('sass-import.vue', async () => {
+    const _path = './test/demo/sass-import.vue'
     const demo = await fsp.readFile(_path, 'utf-8')
     const filepath = path.resolve(process.cwd(), _path)
     await expect(
       await transformCode(demo, { filepath, type: 'vue' }),
-    ).toMatchFileSnapshot('./__snapshots__/complex1.test.ts.snap')
-  })
-})
-
-describe('single demo complex2.vue', () => {
-  it('complex.vue', async () => {
-    const _path = './test/demo/complex2.vue'
-    const demo = await fsp.readFile(_path, 'utf-8')
-    const filepath = path.resolve(process.cwd(), _path)
-    await expect(
-      await transformCode(demo, { filepath, type: 'vue' }),
-    ).toMatchFileSnapshot('./__snapshots__/complex2.test.ts.snap')
-  })
-})
-
-describe('single demo complex3.vue', () => {
-  it('complex.vue', async () => {
-    const _path = './test/demo/complex3.vue'
-    const demo = await fsp.readFile(_path, 'utf-8')
-    const filepath = path.resolve(process.cwd(), _path)
-    await expect(
-      await transformCode(demo, { filepath, type: 'vue' }),
-    ).toMatchFileSnapshot('./__snapshots__/complex3.test.ts.snap')
-  })
-})
-
-describe('single demo complex4.vue', () => {
-  it('complex.vue', async () => {
-    const _path = './test/demo/complex4.vue'
-    const demo = await fsp.readFile(_path, 'utf-8')
-    const filepath = path.resolve(process.cwd(), _path)
-    await expect(
-      await transformCode(demo, { filepath, type: 'vue' }),
-    ).toMatchFileSnapshot('./__snapshots__/complex4.test.ts.snap')
-  })
-})
-
-describe('single demo complex5.vue', () => {
-  it('complex.vue', async () => {
-    const _path = './test/demo/complex5.vue'
-    const demo = await fsp.readFile(_path, 'utf-8')
-    const filepath = path.resolve(process.cwd(), _path)
-    await expect(
-      await transformCode(demo, { filepath, type: 'vue' }),
-    ).toMatchFileSnapshot('./__snapshots__/complex5.test.ts.snap')
-  })
-})
-
-describe('single demo complex6.vue', async () => {
-  const _path = './test/demo/complex6.vue'
-  const demo = await fsp.readFile(_path, 'utf-8')
-
-  it('complex.vue', async () => {
-    const filepath = path.resolve(process.cwd(), _path)
-    await expect(
-      await transformCode(demo, { filepath, type: 'vue' }),
-    ).toMatchFileSnapshot('./__snapshots__/complex6.test.ts.snap')
-  })
-})
-
-describe('single demo complex7.vue', async () => {
-  const _path = './test/demo/complex7.vue'
-  const demo = await fsp.readFile(_path, 'utf-8')
-
-  it('complex.vue', async () => {
-    const filepath = path.resolve(process.cwd(), _path)
-    await expect(
-      await transformCode(demo, { filepath, type: 'vue' }),
-    ).toMatchFileSnapshot('./__snapshots__/complex7.test.ts.snap')
-  })
-})
-
-describe('single demo complex8.vue', async () => {
-  const _path = './test/demo/complex8.vue'
-  const demo = await fsp.readFile(_path, 'utf-8')
-
-  it('complex.vue', async () => {
-    const filepath = path.resolve(process.cwd(), _path)
-    await expect(
-      await transformCode(demo, { filepath, type: 'vue' }),
-    ).toMatchFileSnapshot('./__snapshots__/complex8.test.ts.snap')
-  })
-})
-
-describe('single demo complex9.vue', async () => {
-  const _path = './test/demo/complex9.vue'
-  const demo = await fsp.readFile(_path, 'utf-8')
-
-  it('complex.vue', async () => {
-    const filepath = path.resolve(process.cwd(), _path)
-    await expect(
-      await transformCode(demo, { filepath, type: 'vue' }),
-    ).toMatchFileSnapshot('./__snapshots__/complex9.test.ts.snap')
-  })
-})
-
-describe('single demo complex10.vue', async () => {
-  const _path = './test/demo/complex10.vue'
-  const demo = await fsp.readFile(_path, 'utf-8')
-
-  it('complex.vue', async () => {
-    const filepath = path.resolve(process.cwd(), _path)
-    await expect(
-      await transformCode(demo, { filepath, type: 'vue' }),
-    ).toMatchFileSnapshot('./__snapshots__/complex10.test.ts.snap')
+    ).toMatchFileSnapshot('./__snapshots__/sass-import.test.ts.snap')
   })
 })

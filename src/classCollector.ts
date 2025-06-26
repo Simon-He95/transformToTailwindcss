@@ -40,11 +40,25 @@ export class ClassCollector {
   }
 
   /**
+   * 验证输出路径是否为有效的.js、.ts、.cjs或.mjs文件
+   */
+  private validateOutputPath(outputPath: string): boolean {
+    const validExtensions = ['.js', '.ts', '.cjs', '.mjs']
+    const ext = path.extname(outputPath).toLowerCase()
+    return validExtensions.includes(ext)
+  }
+
+  /**
    * 启用类名收集功能
    */
   enable(outputPath?: string, skipIfNoChanges?: boolean): void {
     this.isEnabled = true
     if (outputPath) {
+      if (!this.validateOutputPath(outputPath)) {
+        throw new Error(
+          `[transform-to-tailwindcss] Invalid output path: "${outputPath}". Only .js, .ts, .cjs, and .mjs files are allowed.`,
+        )
+      }
       this.outputPath = outputPath
     }
     if (skipIfNoChanges !== undefined) {
@@ -337,7 +351,110 @@ export class ClassCollector {
    */
   private generateFileContent(classes: string[]): string {
     const timestamp = new Date().toISOString()
+    const ext = path.extname(this.outputPath).toLowerCase()
 
+    // TypeScript 文件格式
+    if (ext === '.ts') {
+      return `/**
+ * Auto-generated safelist classes for Tailwind CSS
+ * Generated at: ${timestamp}
+ * Total classes: ${classes.length}
+ * Skip if no changes: ${this.skipIfNoChanges}
+ * 
+ * ⚠️  WARNING: This file is auto-generated. Do not edit manually!
+ * ⚠️  To prevent infinite build loops, avoid importing this file in any source files
+ *     that are processed by transform-to-tailwindcss during the build process.
+ * 
+ * Usage in tailwind.config.js:
+ * import { safelistClasses } from './safelist-classes.ts'
+ * 
+ * export default {
+ *   // ... your other config
+ *   safelist: [
+ *     ...safelistClasses,
+ *     // ... your other safelist items
+ *   ]
+ * }
+ */
+
+// All collected classes from transform-to-tailwindcss
+export const safelistClasses: string[] = ${JSON.stringify(classes, null, 2)}
+
+// Default export
+export default safelistClasses
+`
+    }
+
+    // ES Module 文件格式 (.mjs)
+    if (ext === '.mjs') {
+      return `/**
+ * Auto-generated safelist classes for Tailwind CSS
+ * Generated at: ${timestamp}
+ * Total classes: ${classes.length}
+ * Skip if no changes: ${this.skipIfNoChanges}
+ * 
+ * ⚠️  WARNING: This file is auto-generated. Do not edit manually!
+ * ⚠️  To prevent infinite build loops, avoid importing this file in any source files
+ *     that are processed by transform-to-tailwindcss during the build process.
+ * 
+ * Usage in tailwind.config.js:
+ * import { safelistClasses } from './safelist-classes.mjs'
+ * 
+ * export default {
+ *   // ... your other config
+ *   safelist: [
+ *     ...safelistClasses,
+ *     // ... your other safelist items
+ *   ]
+ * }
+ */
+
+// All collected classes from transform-to-tailwindcss
+export const safelistClasses = ${JSON.stringify(classes, null, 2)}
+
+// Default export
+export default safelistClasses
+`
+    }
+
+    // CommonJS 文件格式 (.cjs)
+    if (ext === '.cjs') {
+      return `/**
+ * Auto-generated safelist classes for Tailwind CSS
+ * Generated at: ${timestamp}
+ * Total classes: ${classes.length}
+ * Skip if no changes: ${this.skipIfNoChanges}
+ * 
+ * ⚠️  WARNING: This file is auto-generated. Do not edit manually!
+ * ⚠️  To prevent infinite build loops, avoid importing this file in any source files
+ *     that are processed by transform-to-tailwindcss during the build process.
+ * 
+ * Usage in tailwind.config.js:
+ * const { safelistClasses } = require('./safelist-classes.cjs')
+ * 
+ * module.exports = {
+ *   // ... your other config
+ *   safelist: [
+ *     ...safelistClasses,
+ *     // ... your other safelist items
+ *   ]
+ * }
+ */
+
+// All collected classes from transform-to-tailwindcss
+const safelistClasses = ${JSON.stringify(classes, null, 2)}
+
+// Export for CommonJS
+module.exports = {
+  safelistClasses
+}
+
+// Named export for CommonJS
+module.exports.safelistClasses = safelistClasses
+`
+    }
+
+    // JavaScript 文件格式 (.js) - 默认混合格式，兼容性最好
     return `/**
  * Auto-generated safelist classes for Tailwind CSS
  * Generated at: ${timestamp}
@@ -350,6 +467,8 @@ export class ClassCollector {
  * 
  * Usage in tailwind.config.js:
  * const { safelistClasses } = require('./safelist-classes.js')
+ * // or
+ * import { safelistClasses } from './safelist-classes.js'
  * 
  * module.exports = {
  *   // ... your other config
