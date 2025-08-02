@@ -132,7 +132,7 @@ importers:
         version: 1.2.9
       '@iconify/json':
         specifier: ^2.2.348
-        version: 2.2.348
+        version: 2.2.365
       '@simon_he/git-fork-vue':
         specifier: ^0.0.17
         version: 0.0.17(typescript@4.9.5)
@@ -960,8 +960,8 @@ packages:
   '@iconify-json/carbon@1.2.9':
     resolution: {integrity: sha512-RyeSAuFTzhs1GX4yrzVEKEbNQGt95p9zMR4S2F63vbThtNoUr5OKwaWbhO/GbHQCSgdbKuZv2ApAOsY2fLxLbQ==}
 
-  '@iconify/json@2.2.348':
-    resolution: {integrity: sha512-rfGlyB/MrZKVIUod6DKH+McF/81rpC8RoqbEXG3BT4AGLV0ZcnxsbtBnfT/921RsOqudUr5PPKRxbO+rs+Sjng==}
+  '@iconify/json@2.2.365':
+    resolution: {integrity: sha512-9ZLdIXnswa1XCssYqnCjmXtuxj0l4nkY33FTs8PYCj5rTfPrJlRiPWUDzZOocNsSqjssr5fVPo0ME1hO9h0/IQ==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -5462,7 +5462,7 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify/json@2.2.348':
+  '@iconify/json@2.2.365':
     dependencies:
       '@iconify/types': 2.0.0
       pathe: 1.1.2
