@@ -154,7 +154,7 @@
     "sass": "^1.89.2",
     "simple-git-hooks": "^2.13.0",
     "stylus": "^0.63.0",
-    "transform-to-tailwindcss": "workspace:^",
+    "transform-to-tailwindcss": "^0.0.51",
     "tsdown": "^0.9.9",
     "tsx": "^3.14.0",
     "typescript": "^5.8.3",
