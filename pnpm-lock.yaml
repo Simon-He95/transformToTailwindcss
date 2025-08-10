@@ -94,8 +94,8 @@ importers:
         specifier: ^0.63.0
         version: 0.63.0
       transform-to-tailwindcss:
-        specifier: workspace:^
-        version: 'link:'
+        specifier: ^0.0.51
+        version: 0.0.51(less-plugin-module-resolver@1.0.3)(less@4.3.0)(rollup@4.40.0)(sass@1.89.2)(stylus@0.63.0)
       tsdown:
         specifier: ^0.9.9
         version: 0.9.9(typescript@5.8.3)
@@ -192,7 +192,7 @@ importers:
         version: 3.5.17(typescript@4.9.5)
       vue-i18n:
         specifier: ^9.14.4
-        version: 9.14.4(vue@3.5.17(typescript@4.9.5))
+        version: 9.14.5(vue@3.5.17(typescript@4.9.5))
       vue-router:
         specifier: ^4.5.1
         version: 4.5.1(vue@3.5.17(typescript@4.9.5))
@@ -969,16 +969,16 @@ packages:
   '@iconify/utils@2.3.0':
     resolution: {integrity: sha512-GmQ78prtwYW6EtzXRU1rY+KwOKfz32PD7iJh6Iyqw68GiKuoZ2A6pRtzWONz5VQJbp50mEjXh/7NkumtrAgRKA==}
 
-  '@intlify/core-base@9.14.4':
-    resolution: {integrity: sha512-vtZCt7NqWhKEtHa3SD/322DlgP5uR9MqWxnE0y8Q0tjDs9H5Lxhss+b5wv8rmuXRoHKLESNgw9d+EN9ybBbj9g==}
+  '@intlify/core-base@9.14.5':
+    resolution: {integrity: sha512-5ah5FqZG4pOoHjkvs8mjtv+gPKYU0zCISaYNjBNNqYiaITxW8ZtVih3GS/oTOqN8d9/mDLyrjD46GBApNxmlsA==}
     engines: {node: '>= 16'}
 
-  '@intlify/message-compiler@9.14.4':
-    resolution: {integrity: sha512-vcyCLiVRN628U38c3PbahrhbbXrckrM9zpy0KZVlDk2Z0OnGwv8uQNNXP3twwGtfLsCf4gu3ci6FMIZnPaqZsw==}
+  '@intlify/message-compiler@9.14.5':
+    resolution: {integrity: sha512-IHzgEu61/YIpQV5Pc3aRWScDcnFKWvQA9kigcINcCBXN8mbW+vk9SK+lDxA6STzKQsVJxUPg9ACC52pKKo3SVQ==}
     engines: {node: '>= 16'}
 
-  '@intlify/shared@9.14.4':
-    resolution: {integrity: sha512-P9zv6i1WvMc9qDBWvIgKkymjY2ptIiQ065PjDv7z7fDqH3J/HBRBN5IoiR46r/ujRcU7hCuSIZWvCAFCyuOYZA==}
+  '@intlify/shared@9.14.5':
+    resolution: {integrity: sha512-9gB+E53BYuAEMhbCAxVgG38EZrk59sxBtv3jSizNL2hEWlgjBjAw1AwpLHtNaeda12pe6W20OGEa0TwuMSRbyQ==}
     engines: {node: '>= 16'}
 
   '@isaacs/cliui@8.0.2':
@@ -1324,6 +1324,15 @@ packages:
 
   '@rollup/pluginutils@5.1.4':
     resolution: {integrity: sha512-USm05zrsFxYLPdWWq+K3STlWiT/3ELn3RcV5hJMghpeAIhxfsUIg6mt12CBJBInWMV4VneoV7SfGv8xIwo2qNQ==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+
+  '@rollup/pluginutils@5.2.0':
+    resolution: {integrity: sha512-qWJ2ZTbmumwiLFomfzTyt5Kng4hwPi9rwCYN4SHb6eaRU1KNO4ccxINHr/VhH4GgPlt1XfSTLX2LBTme8ne4Zw==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
@@ -4275,6 +4284,24 @@ packages:
     engines: {node: '>=14.0.0'}
     hasBin: true
 
+  transform-to-tailwindcss@0.0.51:
+    resolution: {integrity: sha512-PvI8LK2pD3bK77ifeu4ZhdtWwl7NxfSYJ/eW/2GV1uGBqBhC7iKdBqKvQZpg+7Lulki89N17q9t22ACN8JogcQ==}
+    hasBin: true
+    peerDependencies:
+      less: ^3.0.0 || ^4.0.0
+      less-plugin-module-resolver: ^1.0.0
+      sass: ^1.0.0
+      stylus: ^0.50.0 || ^0.60.0
+    peerDependenciesMeta:
+      less:
+        optional: true
+      less-plugin-module-resolver:
+        optional: true
+      sass:
+        optional: true
+      stylus:
+        optional: true
+
   trim-lines@3.0.1:
     resolution: {integrity: sha512-kRj8B+YHZCc9kQYdWfJB2/oUl9rA99qbowYYBtr4ui4mZyAQ2JpvVBd/6U2YloATfqBhBTSMhTpgBHtU0Mf3Rg==}
 
@@ -4620,8 +4647,8 @@ packages:
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
 
-  vue-i18n@9.14.4:
-    resolution: {integrity: sha512-B934C8yUyWLT0EMud3DySrwSUJI7ZNiWYsEEz2gknTthqKiG4dzWE/WSa8AzCuSQzwBEv4HtG1jZDhgzPfWSKQ==}
+  vue-i18n@9.14.5:
+    resolution: {integrity: sha512-0jQ9Em3ymWngyiIkj0+c/k7WgaPO+TNzjKSNq9BvBQaKJECqn9cd9fL4tkDhB5G1QBskGl9YxxbDAhgbFtpe2g==}
     engines: {node: '>= 16'}
     peerDependencies:
       vue: ^3.0.0
@@ -5482,17 +5509,17 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@intlify/core-base@9.14.4':
+  '@intlify/core-base@9.14.5':
     dependencies:
-      '@intlify/message-compiler': 9.14.4
-      '@intlify/shared': 9.14.4
+      '@intlify/message-compiler': 9.14.5
+      '@intlify/shared': 9.14.5
 
-  '@intlify/message-compiler@9.14.4':
+  '@intlify/message-compiler@9.14.5':
     dependencies:
-      '@intlify/shared': 9.14.4
+      '@intlify/shared': 9.14.5
       source-map-js: 1.2.1
 
-  '@intlify/shared@9.14.4': {}
+  '@intlify/shared@9.14.5': {}
 
   '@isaacs/cliui@8.0.2':
     dependencies:
@@ -5739,13 +5766,21 @@ snapshots:
 
   '@rollup/plugin-inject@5.0.5(rollup@4.40.0)':
     dependencies:
-      '@rollup/pluginutils': 5.1.4(rollup@4.40.0)
+      '@rollup/pluginutils': 5.2.0(rollup@4.40.0)
       estree-walker: 2.0.2
       magic-string: 0.30.17
     optionalDependencies:
       rollup: 4.40.0
 
   '@rollup/pluginutils@5.1.4(rollup@4.40.0)':
+    dependencies:
+      '@types/estree': 1.0.7
+      estree-walker: 2.0.2
+      picomatch: 4.0.2
+    optionalDependencies:
+      rollup: 4.40.0
+
+  '@rollup/pluginutils@5.2.0(rollup@4.40.0)':
     dependencies:
       '@types/estree': 1.0.7
       estree-walker: 2.0.2
@@ -6247,7 +6282,7 @@ snapshots:
   '@unocss/cli@0.50.8(rollup@4.40.0)':
     dependencies:
       '@ampproject/remapping': 2.3.0
-      '@rollup/pluginutils': 5.1.4(rollup@4.40.0)
+      '@rollup/pluginutils': 5.2.0(rollup@4.40.0)
       '@unocss/config': 0.50.8
       '@unocss/core': 0.50.8
       '@unocss/preset-uno': 0.50.8
@@ -6354,7 +6389,7 @@ snapshots:
   '@unocss/vite@0.50.8(rollup@4.40.0)(vite@6.3.5(@types/node@22.17.0)(jiti@2.4.2)(less@4.3.0)(lightningcss@1.29.3)(sass@1.89.2)(stylus@0.63.0)(tsx@3.14.0)(yaml@2.7.1))':
     dependencies:
       '@ampproject/remapping': 2.3.0
-      '@rollup/pluginutils': 5.1.4(rollup@4.40.0)
+      '@rollup/pluginutils': 5.2.0(rollup@4.40.0)
       '@unocss/config': 0.50.8
       '@unocss/core': 0.50.8
       '@unocss/inspector': 0.50.8
@@ -9363,6 +9398,27 @@ snapshots:
 
   transform-to-tailwindcss-core@0.0.41: {}
 
+  transform-to-tailwindcss@0.0.51(less-plugin-module-resolver@1.0.3)(less@4.3.0)(rollup@4.40.0)(sass@1.89.2)(stylus@0.63.0):
+    dependencies:
+      '@babel/core': 7.27.4
+      '@rollup/pluginutils': 5.1.4(rollup@4.40.0)
+      '@unocss/core': 0.50.8
+      '@unocss/preset-uno': 0.50.8
+      '@vue/babel-plugin-jsx': 1.4.0(@babel/core@7.27.4)
+      '@vue/compiler-sfc': 3.5.17
+      fast-glob: 3.3.3
+      node-html-parser: 7.0.1
+      transform-to-tailwindcss-core: 0.0.41
+      unplugin: 2.3.5
+    optionalDependencies:
+      less: 4.3.0
+      less-plugin-module-resolver: 1.0.3
+      sass: 1.89.2
+      stylus: 0.63.0
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
+
   trim-lines@3.0.1: {}
 
   ts-api-utils@2.1.0(typescript@4.9.5):
@@ -9784,10 +9840,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vue-i18n@9.14.4(vue@3.5.17(typescript@4.9.5)):
+  vue-i18n@9.14.5(vue@3.5.17(typescript@4.9.5)):
     dependencies:
-      '@intlify/core-base': 9.14.4
-      '@intlify/shared': 9.14.4
+      '@intlify/core-base': 9.14.5
+      '@intlify/shared': 9.14.5
       '@vue/devtools-api': 6.6.4
       vue: 3.5.17(typescript@4.9.5)
 
