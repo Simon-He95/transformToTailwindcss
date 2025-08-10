@@ -94,8 +94,8 @@ importers:
         specifier: ^0.63.0
         version: 0.63.0
       transform-to-tailwindcss:
-        specifier: workspace:^
-        version: 'link:'
+        specifier: ^0.0.51
+        version: 0.0.51(less-plugin-module-resolver@1.0.3)(less@4.3.0)(rollup@4.40.0)(sass@1.89.2)(stylus@0.63.0)
       tsdown:
         specifier: ^0.9.9
         version: 0.9.9(typescript@5.8.3)
@@ -161,8 +161,8 @@ importers:
         specifier: ^0.1.45
         version: 0.1.45
       rollup-plugin-polyfill-node:
-        specifier: ^0.12.0
-        version: 0.12.0(rollup@4.40.0)
+        specifier: ^0.13.0
+        version: 0.13.0(rollup@4.40.0)
       typescript:
         specifier: ^4.9.5
         version: 4.9.5
@@ -3970,10 +3970,10 @@ packages:
   rollup-plugin-node-polyfills@0.2.1:
     resolution: {integrity: sha512-4kCrKPTJ6sK4/gLL/U5QzVT8cxJcofO0OU74tnB19F40cmuAKSzH5/siithxlofFEjwvw1YAhPmbvGNA6jEroA==}
 
-  rollup-plugin-polyfill-node@0.12.0:
-    resolution: {integrity: sha512-PWEVfDxLEKt8JX1nZ0NkUAgXpkZMTb85rO/Ru9AQ69wYW8VUCfDgP4CGRXXWYni5wDF0vIeR1UoF3Jmw/Lt3Ug==}
+  rollup-plugin-polyfill-node@0.13.0:
+    resolution: {integrity: sha512-FYEvpCaD5jGtyBuBFcQImEGmTxDTPbiHjJdrYIp+mFIwgXiXabxvKUK7ZT9P31ozu2Tqm9llYQMRWsfvTMTAOw==}
     peerDependencies:
-      rollup: ^1.20.0 || ^2.0.0 || ^3.0.0
+      rollup: ^1.20.0 || ^2.0.0 || ^3.0.0 || ^4.0.0
 
   rollup-pluginutils@2.8.2:
     resolution: {integrity: sha512-EEp9NhnUkwY8aif6bxgovPHMoMoNr2FulJziTndpt5H9RdwC47GSGuII9XxpSdzVGM0GWrNPHV6ie1LTNJPaLQ==}
@@ -4274,6 +4274,24 @@ packages:
     resolution: {integrity: sha512-0XPiyiBKhMBuQtsbrywu43nerMSeXX2H3s2Blz95GfB4nfBviShwXofc+XIC/ob0f/EkDg2LzhB/Jm8dFrN5Wg==}
     engines: {node: '>=14.0.0'}
     hasBin: true
+
+  transform-to-tailwindcss@0.0.51:
+    resolution: {integrity: sha512-PvI8LK2pD3bK77ifeu4ZhdtWwl7NxfSYJ/eW/2GV1uGBqBhC7iKdBqKvQZpg+7Lulki89N17q9t22ACN8JogcQ==}
+    hasBin: true
+    peerDependencies:
+      less: ^3.0.0 || ^4.0.0
+      less-plugin-module-resolver: ^1.0.0
+      sass: ^1.0.0
+      stylus: ^0.50.0 || ^0.60.0
+    peerDependenciesMeta:
+      less:
+        optional: true
+      less-plugin-module-resolver:
+        optional: true
+      sass:
+        optional: true
+      stylus:
+        optional: true
 
   trim-lines@3.0.1:
     resolution: {integrity: sha512-kRj8B+YHZCc9kQYdWfJB2/oUl9rA99qbowYYBtr4ui4mZyAQ2JpvVBd/6U2YloATfqBhBTSMhTpgBHtU0Mf3Rg==}
@@ -9039,7 +9057,7 @@ snapshots:
     dependencies:
       rollup-plugin-inject: 3.0.2
 
-  rollup-plugin-polyfill-node@0.12.0(rollup@4.40.0):
+  rollup-plugin-polyfill-node@0.13.0(rollup@4.40.0):
     dependencies:
       '@rollup/plugin-inject': 5.0.5(rollup@4.40.0)
       rollup: 4.40.0
@@ -9362,6 +9380,27 @@ snapshots:
       punycode: 2.3.1
 
   transform-to-tailwindcss-core@0.0.41: {}
+
+  transform-to-tailwindcss@0.0.51(less-plugin-module-resolver@1.0.3)(less@4.3.0)(rollup@4.40.0)(sass@1.89.2)(stylus@0.63.0):
+    dependencies:
+      '@babel/core': 7.27.4
+      '@rollup/pluginutils': 5.1.4(rollup@4.40.0)
+      '@unocss/core': 0.50.8
+      '@unocss/preset-uno': 0.50.8
+      '@vue/babel-plugin-jsx': 1.4.0(@babel/core@7.27.4)
+      '@vue/compiler-sfc': 3.5.17
+      fast-glob: 3.3.3
+      node-html-parser: 7.0.1
+      transform-to-tailwindcss-core: 0.0.41
+      unplugin: 2.3.5
+    optionalDependencies:
+      less: 4.3.0
+      less-plugin-module-resolver: 1.0.3
+      sass: 1.89.2
+      stylus: 0.63.0
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
 
   trim-lines@3.0.1: {}
 
