@@ -94,8 +94,8 @@ importers:
         specifier: ^0.63.0
         version: 0.63.0
       transform-to-tailwindcss:
-        specifier: workspace:^
-        version: 'link:'
+        specifier: ^0.0.51
+        version: 0.0.51(less-plugin-module-resolver@1.0.3)(less@4.3.0)(rollup@4.40.0)(sass@1.89.2)(stylus@0.63.0)
       tsdown:
         specifier: ^0.9.9
         version: 0.9.9(typescript@5.8.3)
@@ -132,7 +132,7 @@ importers:
         version: 1.2.9
       '@iconify/json':
         specifier: ^2.2.348
-        version: 2.2.348
+        version: 2.2.382
       '@simon_he/git-fork-vue':
         specifier: ^0.0.17
         version: 0.0.17(typescript@4.9.5)
@@ -960,8 +960,8 @@ packages:
   '@iconify-json/carbon@1.2.9':
     resolution: {integrity: sha512-RyeSAuFTzhs1GX4yrzVEKEbNQGt95p9zMR4S2F63vbThtNoUr5OKwaWbhO/GbHQCSgdbKuZv2ApAOsY2fLxLbQ==}
 
-  '@iconify/json@2.2.348':
-    resolution: {integrity: sha512-rfGlyB/MrZKVIUod6DKH+McF/81rpC8RoqbEXG3BT4AGLV0ZcnxsbtBnfT/921RsOqudUr5PPKRxbO+rs+Sjng==}
+  '@iconify/json@2.2.382':
+    resolution: {integrity: sha512-1UT0ouWPVXNteS+kaQjtDvxKy/swWqB84fq9b+xbpE7nhgfak7ljYneWSXTDU+SyfL112F9978p7Mf3C3Q/8LQ==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -1324,6 +1324,15 @@ packages:
 
   '@rollup/pluginutils@5.1.4':
     resolution: {integrity: sha512-USm05zrsFxYLPdWWq+K3STlWiT/3ELn3RcV5hJMghpeAIhxfsUIg6mt12CBJBInWMV4VneoV7SfGv8xIwo2qNQ==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+
+  '@rollup/pluginutils@5.3.0':
+    resolution: {integrity: sha512-5EdhGZtnu3V88ces7s53hhfK5KSASnJZv8Lulpc04cWO3REESroJXg73DFsOmgbU2BhwV0E20bu2IDZb3VKW4Q==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
@@ -4275,6 +4284,24 @@ packages:
     engines: {node: '>=14.0.0'}
     hasBin: true
 
+  transform-to-tailwindcss@0.0.51:
+    resolution: {integrity: sha512-PvI8LK2pD3bK77ifeu4ZhdtWwl7NxfSYJ/eW/2GV1uGBqBhC7iKdBqKvQZpg+7Lulki89N17q9t22ACN8JogcQ==}
+    hasBin: true
+    peerDependencies:
+      less: ^3.0.0 || ^4.0.0
+      less-plugin-module-resolver: ^1.0.0
+      sass: ^1.0.0
+      stylus: ^0.50.0 || ^0.60.0
+    peerDependenciesMeta:
+      less:
+        optional: true
+      less-plugin-module-resolver:
+        optional: true
+      sass:
+        optional: true
+      stylus:
+        optional: true
+
   trim-lines@3.0.1:
     resolution: {integrity: sha512-kRj8B+YHZCc9kQYdWfJB2/oUl9rA99qbowYYBtr4ui4mZyAQ2JpvVBd/6U2YloATfqBhBTSMhTpgBHtU0Mf3Rg==}
 
@@ -5462,7 +5489,7 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify/json@2.2.348':
+  '@iconify/json@2.2.382':
     dependencies:
       '@iconify/types': 2.0.0
       pathe: 1.1.2
@@ -5739,13 +5766,21 @@ snapshots:
 
   '@rollup/plugin-inject@5.0.5(rollup@4.40.0)':
     dependencies:
-      '@rollup/pluginutils': 5.1.4(rollup@4.40.0)
+      '@rollup/pluginutils': 5.3.0(rollup@4.40.0)
       estree-walker: 2.0.2
       magic-string: 0.30.17
     optionalDependencies:
       rollup: 4.40.0
 
   '@rollup/pluginutils@5.1.4(rollup@4.40.0)':
+    dependencies:
+      '@types/estree': 1.0.7
+      estree-walker: 2.0.2
+      picomatch: 4.0.2
+    optionalDependencies:
+      rollup: 4.40.0
+
+  '@rollup/pluginutils@5.3.0(rollup@4.40.0)':
     dependencies:
       '@types/estree': 1.0.7
       estree-walker: 2.0.2
@@ -6247,7 +6282,7 @@ snapshots:
   '@unocss/cli@0.50.8(rollup@4.40.0)':
     dependencies:
       '@ampproject/remapping': 2.3.0
-      '@rollup/pluginutils': 5.1.4(rollup@4.40.0)
+      '@rollup/pluginutils': 5.3.0(rollup@4.40.0)
       '@unocss/config': 0.50.8
       '@unocss/core': 0.50.8
       '@unocss/preset-uno': 0.50.8
@@ -6354,7 +6389,7 @@ snapshots:
   '@unocss/vite@0.50.8(rollup@4.40.0)(vite@6.3.5(@types/node@22.17.0)(jiti@2.4.2)(less@4.3.0)(lightningcss@1.29.3)(sass@1.89.2)(stylus@0.63.0)(tsx@3.14.0)(yaml@2.7.1))':
     dependencies:
       '@ampproject/remapping': 2.3.0
-      '@rollup/pluginutils': 5.1.4(rollup@4.40.0)
+      '@rollup/pluginutils': 5.3.0(rollup@4.40.0)
       '@unocss/config': 0.50.8
       '@unocss/core': 0.50.8
       '@unocss/inspector': 0.50.8
@@ -9362,6 +9397,27 @@ snapshots:
       punycode: 2.3.1
 
   transform-to-tailwindcss-core@0.0.41: {}
+
+  transform-to-tailwindcss@0.0.51(less-plugin-module-resolver@1.0.3)(less@4.3.0)(rollup@4.40.0)(sass@1.89.2)(stylus@0.63.0):
+    dependencies:
+      '@babel/core': 7.27.4
+      '@rollup/pluginutils': 5.1.4(rollup@4.40.0)
+      '@unocss/core': 0.50.8
+      '@unocss/preset-uno': 0.50.8
+      '@vue/babel-plugin-jsx': 1.4.0(@babel/core@7.27.4)
+      '@vue/compiler-sfc': 3.5.17
+      fast-glob: 3.3.3
+      node-html-parser: 7.0.1
+      transform-to-tailwindcss-core: 0.0.41
+      unplugin: 2.3.5
+    optionalDependencies:
+      less: 4.3.0
+      less-plugin-module-resolver: 1.0.3
+      sass: 1.89.2
+      stylus: 0.63.0
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
 
   trim-lines@3.0.1: {}
 
