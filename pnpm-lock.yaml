@@ -94,8 +94,8 @@ importers:
         specifier: ^0.63.0
         version: 0.63.0
       transform-to-tailwindcss:
-        specifier: ^0.0.52
-        version: 0.0.52(less-plugin-module-resolver@1.0.3)(less@4.4.2)(rollup@4.40.0)(sass@1.94.2)(stylus@0.63.0)
+        specifier: ^0.0.53
+        version: 0.0.53(less-plugin-module-resolver@1.0.3)(less@4.4.2)(rollup@4.40.0)(sass@1.94.2)(stylus@0.63.0)
       tsdown:
         specifier: ^0.17.0
         version: 0.17.4(typescript@5.9.3)
@@ -1549,9 +1549,6 @@ packages:
     resolution: {integrity: sha512-/vCt4AXnJ4p4Ow6xqsYwdrelF9533yhZjzkg3SQmL3rKeSkicPayKpeq8nkYECdhDI03VTCVD+6oh5Y/26Hg7A==}
     engines: {node: '>=14'}
 
-  '@unocss/core@0.50.8':
-    resolution: {integrity: sha512-rWmyeNE0Na8dJPDynLVar0X22qMHFNhO+/F2FZDpG4tubTavXJJo9uvhZr/D381kiWxt+XZ38y6EAD4UMdBqMA==}
-
   '@unocss/core@0.65.4':
     resolution: {integrity: sha512-a2JOoFutrhqd5RgPhIR5FIXrDoHDU3gwCbPrpT6KYTjsqlSc/fv02yZ+JGOZFN3MCFhCmaPTs+idDFtwb3xU8g==}
 
@@ -1573,9 +1570,6 @@ packages:
   '@unocss/preset-icons@0.65.4':
     resolution: {integrity: sha512-5sSzTN72X2Ag3VH48xY1pYudeWnql9jqdMiwgZuLJcmvETBNGelXy2wGxm7tsUUEx/l40Yr04Ck8XRPGT9jLBw==}
 
-  '@unocss/preset-mini@0.50.8':
-    resolution: {integrity: sha512-/4sbOdyaqJMvFkw1xzo2+h6bZJHw6WCYw1mF+f0ydHzj8ruvwaj9ClDDOweW5cdrk3wzDzRZ6NPRahKqLwv6/Q==}
-
   '@unocss/preset-mini@0.65.4':
     resolution: {integrity: sha512-dcO2PzSl87qN1KdQWcfZDIKEhpdFeImWbYfiXtE7k6pi1393FJkdHEopgI/1ZciIQN1CkTvQJ5c7EpEVWftYRA==}
 
@@ -1585,17 +1579,11 @@ packages:
   '@unocss/preset-typography@0.65.4':
     resolution: {integrity: sha512-Dl940ATrviWD9Vh+4fcN0QZXb6wA7al+c7QkdVAzW7I+NtdN2ELvLcN0cY22KnLRpwztzmg52Qp2J/1QnqrLTw==}
 
-  '@unocss/preset-uno@0.50.8':
-    resolution: {integrity: sha512-BVgGpv+G9dauX6oRuno8ATOx6bjykiTGuy9NWZCG+/0vux0wplylQm/nSWYsEZZoxRwGOaAoNx93TeOPoofrXQ==}
-
   '@unocss/preset-uno@0.65.4':
     resolution: {integrity: sha512-56bdBtf476i+soQCQmT36uGzcF2z+7DGCnG1hwWiw6XAbL6gmRMQsubwi1c8z8TcTQNBsOFUnOziFil0gbWufw==}
 
   '@unocss/preset-web-fonts@0.65.4':
     resolution: {integrity: sha512-UB/MvXHUTqMNVH1bbiKZ/ZtZUI5tsYlTYAvBrnXPO1Cztuwr8hJKSi4RCfI9g+YYtKHX4uYuxUbW5bcN85gmBQ==}
-
-  '@unocss/preset-wind@0.50.8':
-    resolution: {integrity: sha512-lF6MAJm2HVF8GJoBIIus1cpZL1ybisj8fl3KYEzVUFUWCwmNnxG4rr+CGnck3bDRYk2zmEvTwX+cISTCwq2u1Q==}
 
   '@unocss/preset-wind@0.65.4':
     resolution: {integrity: sha512-0rbNbw5E8Lvh2yf4R1Mq+lxI/wL5Tm6+r+crE0uAAhCPe9kxPHW4k+x1cWKDIwq6Vudlm3cNX85N49wN5tYgdA==}
@@ -4231,18 +4219,13 @@ packages:
     resolution: {integrity: sha512-l7FvfAHlcmulp8kr+flpQZmVwtu7nfRV7NZujtN0OqES8EL4O4e0qqzL0DC5gAvx/ZC/9lk6rhcUwYvkBnBnYA==}
     engines: {node: '>=12'}
 
-  transform-to-tailwindcss-core@0.0.41:
-    resolution: {integrity: sha512-0XPiyiBKhMBuQtsbrywu43nerMSeXX2H3s2Blz95GfB4nfBviShwXofc+XIC/ob0f/EkDg2LzhB/Jm8dFrN5Wg==}
-    engines: {node: '>=14.0.0'}
-    hasBin: true
-
   transform-to-tailwindcss-core@0.0.42:
     resolution: {integrity: sha512-XbtMZUEuhuPWkIO0OwAluxy6n4BATyTnDBOYccReE9FcpFKwjhZbNKy3cz1X9ENg56R/q/cnJJdA7fvxzc7Oiw==}
     engines: {node: '>=14.0.0'}
     hasBin: true
 
-  transform-to-tailwindcss@0.0.52:
-    resolution: {integrity: sha512-BSfuZK0IzMykQ6DkCP40Nj21gMQTvavaEFRBeJ/eN9VX3NIPLHbe1/NStFdv17xCnBukOQ4jWHk01mWz9jWMdA==}
+  transform-to-tailwindcss@0.0.53:
+    resolution: {integrity: sha512-a/nnJySd4gXa2nKKYaQPVCsj7qhQfHEvtZi6QERX/L+58EvbzusuLVQoGkpRbBV38scHUjWurYa6ObKAgUdFEA==}
     hasBin: true
     peerDependencies:
       less: ^3.0.0 || ^4.0.0
@@ -6212,8 +6195,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@unocss/core@0.50.8': {}
-
   '@unocss/core@0.65.4': {}
 
   '@unocss/extractor-arbitrary-variants@0.65.4':
@@ -6254,10 +6235,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@unocss/preset-mini@0.50.8':
-    dependencies:
-      '@unocss/core': 0.50.8
-
   '@unocss/preset-mini@0.65.4':
     dependencies:
       '@unocss/core': 0.65.4
@@ -6273,12 +6250,6 @@ snapshots:
       '@unocss/core': 0.65.4
       '@unocss/preset-mini': 0.65.4
 
-  '@unocss/preset-uno@0.50.8':
-    dependencies:
-      '@unocss/core': 0.50.8
-      '@unocss/preset-mini': 0.50.8
-      '@unocss/preset-wind': 0.50.8
-
   '@unocss/preset-uno@0.65.4':
     dependencies:
       '@unocss/core': 0.65.4
@@ -6290,11 +6261,6 @@ snapshots:
     dependencies:
       '@unocss/core': 0.65.4
       ofetch: 1.4.1
-
-  '@unocss/preset-wind@0.50.8':
-    dependencies:
-      '@unocss/core': 0.50.8
-      '@unocss/preset-mini': 0.50.8
 
   '@unocss/preset-wind@0.65.4':
     dependencies:
@@ -9364,21 +9330,19 @@ snapshots:
     dependencies:
       punycode: 2.3.1
 
-  transform-to-tailwindcss-core@0.0.41: {}
-
   transform-to-tailwindcss-core@0.0.42: {}
 
-  transform-to-tailwindcss@0.0.52(less-plugin-module-resolver@1.0.3)(less@4.4.2)(rollup@4.40.0)(sass@1.94.2)(stylus@0.63.0):
+  transform-to-tailwindcss@0.0.53(less-plugin-module-resolver@1.0.3)(less@4.4.2)(rollup@4.40.0)(sass@1.94.2)(stylus@0.63.0):
     dependencies:
       '@babel/core': 7.28.5
       '@rollup/pluginutils': 5.3.0(rollup@4.40.0)
-      '@unocss/core': 0.50.8
-      '@unocss/preset-uno': 0.50.8
+      '@unocss/core': 0.65.4
+      '@unocss/preset-uno': 0.65.4
       '@vue/babel-plugin-jsx': 1.5.0(@babel/core@7.28.5)
       '@vue/compiler-sfc': 3.5.24
       fast-glob: 3.3.3
       node-html-parser: 7.0.1
-      transform-to-tailwindcss-core: 0.0.41
+      transform-to-tailwindcss-core: 0.0.42
       unplugin: 2.3.10
     optionalDependencies:
       less: 4.4.2
