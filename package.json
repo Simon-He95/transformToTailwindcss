@@ -155,7 +155,7 @@
     "simple-git-hooks": "^2.13.1",
     "stylus": "^0.63.0",
     "transform-to-tailwindcss": "^0.0.52",
-    "tsdown": "^0.15.0",
+    "tsdown": "^0.17.0",
     "tsx": "^3.14.0",
     "typescript": "^5.9.3",
     "vitest": "^3.2.4"
