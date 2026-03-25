@@ -546,6 +546,16 @@ function findSameSource(allChange: AllChange[]) {
   return result
 }
 
+export function splitCssDeclaration(
+  item: string,
+): [string, string | undefined] {
+  const trimmed = item.trim()
+  const index = trimmed.indexOf(':')
+  if (index === -1)
+    return [trimmed, undefined]
+  return [trimmed.slice(0, index), trimmed.slice(index + 1)]
+}
+
 const skipTransformFlag = Symbol('skipTransformFlag')
 async function getConflictClass(
   allChange: AllChange[],
@@ -566,8 +576,8 @@ async function getConflictClass(
     } = item
     const pre = prefix ? `${prefix}|` : ''
     const beforeArr = before.split(';').filter(Boolean)
-    const data = beforeArr.map((item) => {
-      const [key, value] = item.split(':')
+    const data: Array<[string, string | undefined]> = beforeArr.map((item) => {
+      const [key, value] = splitCssDeclaration(item)
       return [`${pre}${key}`, value]
     })
 
@@ -631,7 +641,7 @@ async function getConflictClass(
     // map 赋值新 newStyle
     map = newStyle.split(';').reduce(
       (acc: Record<string, Array<number | string | symbol>>, item: string) => {
-        const [key, value] = item.trim().split(':')
+        const [key, value] = splitCssDeclaration(item)
         if (value !== undefined) {
           acc[key] = [map[key][0], value]
         }
