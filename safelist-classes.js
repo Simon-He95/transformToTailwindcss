@@ -1,6 +1,6 @@
 /**
  * Auto-generated safelist classes for Tailwind CSS
- * Generated at: 2025-06-26T03:05:27.049Z
+ * Generated at: 2026-03-25T14:24:34.710Z
  * Total classes: 2
  * Skip if no changes: true
  *
@@ -10,6 +10,8 @@
  *
  * Usage in tailwind.config.js:
  * const { safelistClasses } = require('./safelist-classes.js')
+ * // or
+ * import { safelistClasses } from './safelist-classes.js'
  *
  * module.exports = {
  *   // ... your other config
