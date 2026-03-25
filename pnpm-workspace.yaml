@@ -1,2 +1,66 @@
+catalogMode: prefer
+cleanupUnusedCatalogs: true
+shellEmulator: true
+trustPolicy: no-downgrade
+trustPolicyExclude:
+  - vite@6.4.1
 packages:
   - playground
+catalog:
+  '@antfu/eslint-config': ^6.0.0
+  '@babel/core': ^7.28.5
+  '@esbuild-plugins/node-globals-polyfill': ^0.2.3
+  '@esbuild-plugins/node-modules-polyfill': ^0.2.2
+  '@iconify-json/carbon': ^1.2.14
+  '@iconify/json': ^2.2.409
+  '@rollup/pluginutils': ^5.3.0
+  '@simon_he/clack-prompts': ^0.8.11
+  '@simon_he/colorize': ^0.0.1
+  '@simon_he/git-fork-vue': ^0.0.18
+  '@types/babel__core': ^7.20.5
+  '@types/less': ^3.0.8
+  '@types/node': ^22.19.1
+  '@types/stylus': ^0.48.43
+  '@unocss/core': ^0.65.0
+  '@unocss/preset-uno': ^0.65.0
+  '@unocss/reset': ^0.65.0
+  '@vitejs/plugin-vue': ^3.2.0
+  '@vue/babel-plugin-jsx': ^1.5.0
+  '@vue/compiler-sfc': ^3.5.24
+  '@vue/test-utils': ^2.4.6
+  '@vueuse/core': ^13.9.0
+  ant-design-vue: ^4.2.6
+  bumpp: ^8.2.1
+  eslint: ^9.39.1
+  fast-glob: ^3.3.3
+  find-up: ^7.0.0
+  jsdom: ^19.0.0
+  lazy-js-utils: ^0.1.49
+  less: ^4.4.2
+  less-plugin-module-resolver: ^1.0.3
+  lint-staged: ^13.3.0
+  node-html-parser: ^7.0.1
+  picocolors: ^1.1.1
+  prettier: ^3.6.2
+  rollup-plugin-polyfill-node: ^0.12.0
+  sass: ^1.94.2
+  simple-git-hooks: ^2.13.1
+  stylus: ^0.63.0
+  transform-to-tailwindcss: ^0.0.53
+  transform-to-tailwindcss-core: ^0.0.42
+  tsdown: ^0.17.0
+  tsx: ^3.14.0
+  typescript: ^5.9.3
+  unocss: ^0.65.0
+  unplugin: ^2.3.10
+  unplugin-auto-import: ^19.3.0
+  unplugin-vue-components: ^28.8.0
+  vite: ^6.4.1
+  vite-plugin-pages: ^0.28.0
+  vitest: ^3.2.4
+  vivid-typing: ^1.1.47
+  vue: ^3.5.24
+  vue-i18n: ^9.14.5
+  vue-router: ^4.6.3
+  vue-tsc: ^1.8.27
+  vue-use-monaco: ^0.0.7
