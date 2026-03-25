@@ -6,10 +6,8 @@
   </div>
 </template>
 
-<style scoped>
-@media (min-width: 120px) {
+<style scoped>@media (min-width: 120px) {
   .red {
     background-color: red;
   }
-}
-</style>
+}</style>

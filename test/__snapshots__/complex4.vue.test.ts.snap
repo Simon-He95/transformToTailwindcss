@@ -429,8 +429,7 @@ const onElementVisibility = async (state: any) => {
     </div>
   </div>
 </template>
-<style>
-.file-item {
+<style>.file-item {
   display: flex;
   flex-direction: row;
   width: 240px;
@@ -485,5 +484,4 @@ const onElementVisibility = async (state: any) => {
 .file-item .info .info__status .info__status__download .info__status__download__opt {
   display: flex;
   margin-left: auto;
-}
-</style>
+}</style>

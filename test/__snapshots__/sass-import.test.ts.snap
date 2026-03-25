@@ -26,6 +26,4 @@ const click = () => {
 }
 </script>
 
-<style scoped>
-@import './SettingCell.scss';
-</style>
+<style scoped>@import './SettingCell.scss';</style>

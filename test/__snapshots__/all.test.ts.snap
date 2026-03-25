@@ -127,13 +127,11 @@
   </div>
 </template>
 
-<style scoped>
-@media (min-width: 120px) {
+<style scoped>@media (min-width: 120px) {
   .red {
     background-color: red;
   }
-}
-</style>
+}</style>
 ",
   "
 
@@ -167,9 +165,7 @@ const click = () => {
 }
 </script>
 
-<style scoped>
-@import './SettingCell.scss';
-</style>
+<style scoped>@import './SettingCell.scss';</style>
 ",
   "
 

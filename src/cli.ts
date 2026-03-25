@@ -27,69 +27,74 @@ export async function cli() {
     ['**.vue', '**.tsx', '**.html', '**.svelte', '**.astro'],
     { cwd: fileDir },
   )
-  entries
-    .filter(entry => !entry.endsWith(TRANSFER_FLAG))
-    .forEach(async (entry) => {
-      const filepath = `${fileDir}/${entry}`
-      const suffix = entry.slice(entry.lastIndexOf('.') + 1) as SuffixType
+  await Promise.all(
+    entries
+      .filter(entry => !entry.endsWith(TRANSFER_FLAG))
+      .map(async (entry) => {
+        const filepath = `${fileDir}/${entry}`
+        const suffix = entry.slice(entry.lastIndexOf('.') + 1) as SuffixType
 
-      const newfilepath = filepath.endsWith(TRANSFER_FLAG)
-        ? filepath
-        : filepath.replace(`.${suffix}`, `${TRANSFER_FLAG}.${suffix}`)
-      if (fs.existsSync(newfilepath)) {
-        if (isRevert) {
-          // 删除
-          try {
-            await fs.promises.unlink(newfilepath)
-            log(
-              colorize({
-                text: `${newfilepath} already revert`,
-                color: 'green',
-              }),
-            )
+        const newfilepath = filepath.endsWith(TRANSFER_FLAG)
+          ? filepath
+          : filepath.replace(`.${suffix}`, `${TRANSFER_FLAG}.${suffix}`)
+        if (fs.existsSync(newfilepath)) {
+          if (isRevert) {
+            // 删除
+            try {
+              await fs.promises.unlink(newfilepath)
+              log(
+                colorize({
+                  text: `${newfilepath} already revert`,
+                  color: 'green',
+                }),
+              )
+            }
+            catch (error) {
+              log(
+                colorize({
+                  text: `revert failed: ${error}`,
+                  color: 'red',
+                }),
+              )
+            }
+            return
           }
-          catch (error) {
-            log(
-              colorize({
-                text: `revert failed: ${error}`,
-                color: 'red',
-              }),
-            )
-          }
+          log(
+            colorize({
+              text: `${newfilepath} has transferred`,
+              color: 'yellow',
+            }),
+          )
           return
         }
-        log(
-          colorize({
-            text: `${newfilepath} has transferred`,
-            color: 'yellow',
-          }),
-        )
-        return
-      }
-      else if (isRevert) {
-        return
-      }
-      const code = await fs.promises.readFile(filepath, 'utf-8')
-      const codeTransfer = await transformCode(code, { filepath, type: suffix })
-      // 创建新文件
-      try {
-        await fs.promises.writeFile(newfilepath, codeTransfer)
-        log(
-          colorize({
-            text: `${newfilepath} transfer succeed`,
-            color: 'green',
-          }),
-        )
-      }
-      catch (error) {
-        log(
-          colorize({
-            text: `${newfilepath} transfer failed: ${error}`,
-            color: 'red',
-          }),
-        )
-      }
-    })
+        else if (isRevert) {
+          return
+        }
+        const code = await fs.promises.readFile(filepath, 'utf-8')
+        const codeTransfer = await transformCode(code, {
+          filepath,
+          type: suffix,
+        })
+        // 创建新文件
+        try {
+          await fs.promises.writeFile(newfilepath, codeTransfer)
+          log(
+            colorize({
+              text: `${newfilepath} transfer succeed`,
+              color: 'green',
+            }),
+          )
+        }
+        catch (error) {
+          log(
+            colorize({
+              text: `${newfilepath} transfer failed: ${error}`,
+              color: 'red',
+            }),
+          )
+        }
+      }),
+  )
 }
 
 cli()

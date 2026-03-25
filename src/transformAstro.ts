@@ -10,7 +10,7 @@ interface Options {
   collectClasses?: boolean
 }
 export async function transformAstro(code: string, options: Options) {
-  const { isRem, filepath, globalCss, debug } = options || {}
+  const { isRem, filepath, globalCss, debug, collectClasses } = options || {}
   const match = code.match(/(---.*---)?(.*(?=<style>))(<style>.*<\/style>)?/s)
   if (!match)
     return code
@@ -24,6 +24,7 @@ export async function transformAstro(code: string, options: Options) {
     filepath,
     globalCss,
     debug,
+    collectClasses,
   })
   vue.replace(
     /<template>(.*)<\/template>\s*<style scoped>(.*)<\/style>/s,

@@ -10,7 +10,7 @@ interface Options {
   collectClasses?: boolean
 }
 export async function transformSvelte(code: string, options: Options = {}) {
-  const { filepath, globalCss, isRem, debug } = options
+  const { filepath, globalCss, isRem, debug, collectClasses } = options
   const match = code.match(
     /(<script.*<\/script>)?(.*(?=<style>))(<style>.*<\/style>)?/s,
   )
@@ -26,6 +26,7 @@ export async function transformSvelte(code: string, options: Options = {}) {
     filepath,
     globalCss,
     debug,
+    collectClasses,
   })
 
   vue.replace(

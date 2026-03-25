@@ -4,7 +4,7 @@ import { prettierCode } from './prettierCode'
 import { transformCss } from './transformCss'
 import { transformInlineStyle } from './transformInlineStyle'
 import { transformMedia } from './transformMedia'
-import { getVueCompilerSfc } from './utils'
+import { cleanupEmptyStyles, getVueCompilerSfc } from './utils'
 
 interface Options {
   isJsx?: boolean
@@ -79,6 +79,7 @@ export async function transformVue(code: string, options?: Options) {
   }
   // 还原@media 未匹配到的class
   code = transformBack(code)
+  code = cleanupEmptyStyles(code)
 
   return prettierCode(code)
 }

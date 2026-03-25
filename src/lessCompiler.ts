@@ -19,7 +19,7 @@ export async function lessCompiler(
     // 使用用户项目中的 less 版本（通过 peerDependencies）
     const less = await import('less')
     const { LessPluginModuleResolver } = await import(
-      'less-plugin-module-resolver'
+      'less-plugin-module-resolver',
     )
 
     result = (

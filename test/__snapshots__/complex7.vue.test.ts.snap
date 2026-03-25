@@ -297,10 +297,12 @@ function checkSummaryTip() {
 .control-bar.black .user .button:hover .icon {
   background-image: url("@renderer/apps/meeting/assets/meetingRoom/bar/user_active_black_hover.svg") !important;
   background-size: cover;
-}.control-bar .control-center .user .button:hover .icon {
+}
+.control-bar .control-center .user .button:hover .icon {
   background-image: url("@renderer/apps/meeting/assets/meetingRoom/bar/user_active_hover.svg");
   background-size: cover;
-}.control-bar .control-center .user .button .num {
+}
+.control-bar .control-center .user .button .num {
   position: absolute;
   right: -8px;
   top: -8px;

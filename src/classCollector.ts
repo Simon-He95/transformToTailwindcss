@@ -352,6 +352,7 @@ export class ClassCollector {
   private generateFileContent(classes: string[]): string {
     const timestamp = new Date().toISOString()
     const ext = path.extname(this.outputPath).toLowerCase()
+    const formattedClasses = this.formatClasses(classes)
 
     // TypeScript 文件格式
     if (ext === '.ts') {
@@ -360,14 +361,14 @@ export class ClassCollector {
  * Generated at: ${timestamp}
  * Total classes: ${classes.length}
  * Skip if no changes: ${this.skipIfNoChanges}
- * 
+ *
  * ⚠️  WARNING: This file is auto-generated. Do not edit manually!
  * ⚠️  To prevent infinite build loops, avoid importing this file in any source files
  *     that are processed by transform-to-tailwindcss during the build process.
- * 
+ *
  * Usage in tailwind.config.js:
  * import { safelistClasses } from './safelist-classes.ts'
- * 
+ *
  * export default {
  *   // ... your other config
  *   safelist: [
@@ -378,7 +379,7 @@ export class ClassCollector {
  */
 
 // All collected classes from transform-to-tailwindcss
-export const safelistClasses: string[] = ${JSON.stringify(classes, null, 2)}
+export const safelistClasses: string[] = ${formattedClasses}
 
 // Default export
 export default safelistClasses
@@ -392,14 +393,14 @@ export default safelistClasses
  * Generated at: ${timestamp}
  * Total classes: ${classes.length}
  * Skip if no changes: ${this.skipIfNoChanges}
- * 
+ *
  * ⚠️  WARNING: This file is auto-generated. Do not edit manually!
  * ⚠️  To prevent infinite build loops, avoid importing this file in any source files
  *     that are processed by transform-to-tailwindcss during the build process.
- * 
+ *
  * Usage in tailwind.config.js:
  * import { safelistClasses } from './safelist-classes.mjs'
- * 
+ *
  * export default {
  *   // ... your other config
  *   safelist: [
@@ -410,7 +411,7 @@ export default safelistClasses
  */
 
 // All collected classes from transform-to-tailwindcss
-export const safelistClasses = ${JSON.stringify(classes, null, 2)}
+export const safelistClasses = ${formattedClasses}
 
 // Default export
 export default safelistClasses
@@ -424,14 +425,14 @@ export default safelistClasses
  * Generated at: ${timestamp}
  * Total classes: ${classes.length}
  * Skip if no changes: ${this.skipIfNoChanges}
- * 
+ *
  * ⚠️  WARNING: This file is auto-generated. Do not edit manually!
  * ⚠️  To prevent infinite build loops, avoid importing this file in any source files
  *     that are processed by transform-to-tailwindcss during the build process.
- * 
+ *
  * Usage in tailwind.config.js:
  * const { safelistClasses } = require('./safelist-classes.cjs')
- * 
+ *
  * module.exports = {
  *   // ... your other config
  *   safelist: [
@@ -442,11 +443,11 @@ export default safelistClasses
  */
 
 // All collected classes from transform-to-tailwindcss
-const safelistClasses = ${JSON.stringify(classes, null, 2)}
+const safelistClasses = ${formattedClasses}
 
 // Export for CommonJS
 module.exports = {
-  safelistClasses
+  safelistClasses,
 }
 
 // Named export for CommonJS
@@ -460,16 +461,16 @@ module.exports.safelistClasses = safelistClasses
  * Generated at: ${timestamp}
  * Total classes: ${classes.length}
  * Skip if no changes: ${this.skipIfNoChanges}
- * 
+ *
  * ⚠️  WARNING: This file is auto-generated. Do not edit manually!
  * ⚠️  To prevent infinite build loops, avoid importing this file in any source files
  *     that are processed by transform-to-tailwindcss during the build process.
- * 
+ *
  * Usage in tailwind.config.js:
  * const { safelistClasses } = require('./safelist-classes.js')
  * // or
  * import { safelistClasses } from './safelist-classes.js'
- * 
+ *
  * module.exports = {
  *   // ... your other config
  *   safelist: [
@@ -480,14 +481,14 @@ module.exports.safelistClasses = safelistClasses
  */
 
 // All collected classes from transform-to-tailwindcss
-const safelistClasses = ${JSON.stringify(classes, null, 2)}
+const safelistClasses = ${formattedClasses}
 
 // Export for CommonJS
 module.exports = {
-  safelistClasses
+  safelistClasses,
 }
 
-// Export for ES modules  
+// Export for ES modules
 module.exports.safelistClasses = safelistClasses
 
 // Named export for ES modules
@@ -498,10 +499,20 @@ export default safelistClasses
 `
   }
 
+  private formatClasses(classes: string[]): string {
+    if (classes.length === 0) {
+      return '[]'
+    }
+
+    return `[
+${classes.map(className => `  '${className.replaceAll('\\', '\\\\').replaceAll('\'', '\\\'')}',`).join('\n')}
+]`
+  }
+
   /**
    * 添加构建完成的钩子
    */
-  onBuildEnd(): void {
+  async onBuildEnd(): Promise<void> {
     if (!this.isEnabled) {
       return
     }
@@ -515,10 +526,7 @@ export default safelistClasses
       return
     }
 
-    // 延迟生成文件，确保所有转换都完成
-    setTimeout(() => {
-      this.generateSafelistFile()
-    }, 100)
+    await this.generateSafelistFile()
   }
 
   /**

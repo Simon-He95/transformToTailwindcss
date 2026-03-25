@@ -12,7 +12,7 @@ interface Options {
   collectClasses?: boolean
 }
 export async function transformJsx(code: string, options: Options = {}) {
-  const { filepath, globalCss, isRem, debug } = options
+  const { filepath, globalCss, isRem, debug, collectClasses } = options
   const ast = babelParse(code, {
     babelrc: false,
     comments: true,
@@ -50,22 +50,26 @@ export async function transformJsx(code: string, options: Options = {}) {
     ${css}
     </style>`
 
-  let vueTransfer = await transformVue(wrapperVue, {
+  const vueTransfer = await transformVue(wrapperVue, {
     isJsx: true,
     isRem,
     filepath,
     globalCss,
     debug,
+    collectClasses,
   })
-  vueTransfer = vueTransfer.replace(/class/g, 'className')
+  const templateMatch = vueTransfer.match(/<template>(.*)<\/template>/s)
+  const styleMatch = vueTransfer.match(/<style scoped>(.*)<\/style>/s)
   if (cssPath) {
-    const cssTransfer = vueTransfer.match(/<style scoped>(.*)<\/style>/s)![1]
-    fs.promises.writeFile(
+    await fs.promises.writeFile(
       cssPath.replace('.css', '.__unocss_transfer__.css'),
-      cssTransfer,
+      styleMatch?.[1] ?? '',
       'utf-8',
     )
   }
-  const jsxTransfer = vueTransfer.match(/<template>(.*)<\/template>/s)![1]
+  const jsxTransfer = (templateMatch?.[1] ?? jsxCode).replace(
+    /\bclass=/g,
+    'className=',
+  )
   return code.replace(jsxCode, jsxTransfer)
 }
