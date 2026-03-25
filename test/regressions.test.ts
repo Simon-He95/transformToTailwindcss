@@ -3,6 +3,7 @@ import os from 'node:os'
 import path from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { transformJsx } from '../src/transformJsx'
+import { transformVue } from '../src/transformVue'
 import { viteTransformToTailwindcss } from '../src/unplugin'
 
 describe('regressions', () => {
@@ -56,5 +57,20 @@ export default () => <div className="classification">hello</div>
     expect(html).toContain('text-[10px]')
     expect(svelte).toContain('text-[10px]')
     expect(astro).toContain('text-[10px]')
+  })
+
+  it('passes isV4 through plugin and vue transforms', async () => {
+    const plugin = viteTransformToTailwindcss({ isV4: true }) as any
+    const source =
+      '<template><div class="red">hello</div></template><style scoped>.red{translate:100% 100%;}</style>'
+
+    const html = await plugin.transform(
+      '<!DOCTYPE html><html><body><div class="red">hello</div></body><style>.red{translate:100% 100%;}</style></html>',
+      '/tmp/demo.html',
+    )
+    const vue = await transformVue(source, { isV4: true })
+
+    expect(html).toContain('translate-full')
+    expect(vue).toContain('translate-full')
   })
 })

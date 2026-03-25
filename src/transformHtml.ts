@@ -10,13 +10,15 @@ const styleReg = /\s*<style.*>(.*)<\/style>\s*/s
 
 interface Options {
   isRem?: boolean
+  isV4?: boolean
   filepath?: string
   globalCss?: string
   debug?: boolean
   collectClasses?: boolean
 }
 export async function transformHtml(code: string, options: Options = {}) {
-  const { filepath, globalCss, isRem, debug, collectClasses } = options || {}
+  const { filepath, globalCss, isRem, isV4, debug, collectClasses }
+    = options || {}
   const css = await getLinkCss(code, filepath!)
   const style = getStyleCss(code)
   const newCode = await generateNewCode(
@@ -24,6 +26,7 @@ export async function transformHtml(code: string, options: Options = {}) {
     style,
     code,
     isRem,
+    isV4,
     globalCss,
     debug,
     filepath,
@@ -68,6 +71,7 @@ async function generateNewCode(
   style: string,
   code: string,
   isRem?: boolean,
+  isV4?: boolean,
   globalCss?: string,
   debug?: boolean,
   filepath?: string,
@@ -81,6 +85,7 @@ async function generateNewCode(
     const transferCode = await transformVue(vue, {
       isJsx: true,
       isRem,
+      isV4,
       filepath,
       globalCss,
       debug,
@@ -100,6 +105,7 @@ async function generateNewCode(
       const transferCode = await transformVue(vue, {
         isJsx: true,
         isRem,
+        isV4,
         filepath,
         globalCss,
         debug,

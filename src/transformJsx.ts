@@ -8,11 +8,12 @@ interface Options {
   filepath?: string
   globalCss?: string
   isRem?: boolean
+  isV4?: boolean
   debug?: boolean
   collectClasses?: boolean
 }
 export async function transformJsx(code: string, options: Options = {}) {
-  const { filepath, globalCss, isRem, debug, collectClasses } = options
+  const { filepath, globalCss, isRem, isV4, debug, collectClasses } = options
   const ast = babelParse(code, {
     babelrc: false,
     comments: true,
@@ -53,6 +54,7 @@ export async function transformJsx(code: string, options: Options = {}) {
   const vueTransfer = await transformVue(wrapperVue, {
     isJsx: true,
     isRem,
+    isV4,
     filepath,
     globalCss,
     debug,

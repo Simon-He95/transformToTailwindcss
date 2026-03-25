@@ -10,11 +10,13 @@ interface Options {
   globalCss?: string
   type?: SuffixType
   isRem?: boolean
+  isV4?: boolean
   debug?: boolean
   collectClasses?: boolean
 }
 export async function transformCode(code: string, options: Options = {}) {
-  const { isRem, filepath, globalCss, type, debug, collectClasses } = options
+  const { isRem, isV4, filepath, globalCss, type, debug, collectClasses }
+    = options
   // 删除代码中的注释部分
   // code = code.replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, '')
   if (debug) {
@@ -25,6 +27,7 @@ export async function transformCode(code: string, options: Options = {}) {
       filepath,
       globalCss,
       isRem,
+      isV4,
       debug,
       collectClasses,
     })
@@ -34,6 +37,7 @@ export async function transformCode(code: string, options: Options = {}) {
       filepath,
       globalCss,
       isRem,
+      isV4,
       debug,
       collectClasses,
     })
@@ -43,6 +47,7 @@ export async function transformCode(code: string, options: Options = {}) {
       filepath,
       globalCss,
       isRem,
+      isV4,
       debug,
       collectClasses,
     })
@@ -52,6 +57,7 @@ export async function transformCode(code: string, options: Options = {}) {
       filepath,
       globalCss,
       isRem,
+      isV4,
       debug,
       collectClasses,
     })
@@ -62,6 +68,7 @@ export async function transformCode(code: string, options: Options = {}) {
     filepath,
     globalCss,
     isRem,
+    isV4,
     debug,
     collectClasses,
   })

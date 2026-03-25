@@ -12,6 +12,7 @@ export function transformInlineStyle(
   isRem?: boolean,
   debug?: boolean,
   collectClasses?: boolean,
+  isV4?: boolean,
 ): string {
   // code中提取template
   const match = code.match(templateReg)
@@ -32,6 +33,7 @@ export function transformInlineStyle(
       inlineStyle,
       isRem,
       debug,
+      isV4,
     )
 
     // 收集转换后的类名

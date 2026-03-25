@@ -6,11 +6,13 @@ interface Options {
   filepath?: string
   globalCss?: string
   isRem?: boolean
+  isV4?: boolean
   debug?: boolean
   collectClasses?: boolean
 }
 export async function transformAstro(code: string, options: Options) {
-  const { isRem, filepath, globalCss, debug, collectClasses } = options || {}
+  const { isRem, isV4, filepath, globalCss, debug, collectClasses }
+    = options || {}
   const match = code.match(/(---.*---)?(.*(?=<style>))(<style>.*<\/style>)?/s)
   if (!match)
     return code
@@ -21,6 +23,7 @@ export async function transformAstro(code: string, options: Options) {
   const vue = await transformVue(_template, {
     isJsx: true,
     isRem,
+    isV4,
     filepath,
     globalCss,
     debug,

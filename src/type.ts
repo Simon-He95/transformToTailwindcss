@@ -8,6 +8,7 @@ export interface Options {
   include?: FilterPattern
   exclude?: FilterPattern
   isRem?: boolean
+  isV4?: boolean
   debug?: boolean
   collectClasses?: boolean
   outputPath?: string

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type * as Monaco from 'monaco-editor'
 import gitForkVue from '@simon_he/git-fork-vue'
 import { AutoComplete } from 'ant-design-vue'
 import { copy, useFocus, useRaf } from 'lazy-js-utils'
@@ -25,14 +26,17 @@ const display = ref('')
 const styleReg = /<style.*>(.*)<\/style>/s
 const classReg = /(.*)\{/g
 const isChecked = ref(false)
+const isV4 = ref(false)
 const transform = computed(() => {
   try {
-    return toTailwindcss(input.value, isChecked.value)
+    return toTailwindcss(input.value, isChecked.value, isV4.value)
   }
   catch (err) {
     return ''
   }
 })
+
+let lastTransformKey = ''
 
 const editorInput = ref(`<template>
   <button>button</button>
@@ -61,30 +65,36 @@ const editorInput = ref(`<template>
 </style>
 `)
 
-const cssCompletionProvider = {
-  triggerCharacters: ['.', ':', '-'],
-  provideCompletionItems: (model, position) => {
-    const word = model.getWordUntilPosition(position)
-    const range = {
-      startLineNumber: position.lineNumber,
-      endLineNumber: position.lineNumber,
-      startColumn: word.startColumn,
-      endColumn: word.endColumn,
-    }
+function createCssCompletionProvider(monaco: typeof Monaco) {
+  return {
+    triggerCharacters: ['.', ':', '-'],
+    provideCompletionItems: (
+      model: Monaco.editor.ITextModel,
+      position: Monaco.Position,
+    ) => {
+      const word = model.getWordUntilPosition(position)
+      const range = {
+        startLineNumber: position.lineNumber,
+        endLineNumber: position.lineNumber,
+        startColumn: word.startColumn,
+        endColumn: word.endColumn,
+      }
 
-    return {
-      suggestions: cssSuggestions.map(prop => ({
-        label: prop,
-        kind: monaco.languages.CompletionItemKind.Property,
-        insertText: prop,
-        range,
-      })),
-    }
-  },
+      return {
+        suggestions: cssSuggestions.map(prop => ({
+          label: prop,
+          kind: monaco.languages.CompletionItemKind.Property,
+          insertText: prop,
+          range,
+        })),
+      }
+    },
+  }
 }
 
 const { createEditor, getEditorView } = useMonaco({
   onBeforeCreate(monaco) {
+    const cssCompletionProvider = createCssCompletionProvider(monaco)
     return [
       monaco.languages.registerCompletionItemProvider('html', {
         triggerCharacters: ['<', ' ', ':', '"', '\'', '.'],
@@ -261,6 +271,7 @@ const { createEditor, getEditorView } = useMonaco({
 
 const { createEditor: createEditor1, updateCode: updateCode1 } = useMonaco({
   onBeforeCreate(monaco) {
+    const cssCompletionProvider = createCssCompletionProvider(monaco)
     return [
       monaco.languages.registerCompletionItemProvider('html', {
         triggerCharacters: ['<', ' ', ':', '"', '\'', '.'],
@@ -468,17 +479,20 @@ onMounted(() => {
 const stop = useRaf(
   async () => {
     const newInput = getEditorView().getValue()
+    const transformKey = `${newInput}__${isChecked.value}__${isV4.value}`
     if (!newInput)
       return
     if (!editorResult.value)
       return
     let code
-    if ((!pre && newInput) || pre !== newInput) {
+    if (lastTransformKey !== transformKey) {
       pre = newInput
+      lastTransformKey = transformKey
 
       try {
         code = await transformVue(newInput, {
           isRem: isChecked.value,
+          isV4: isV4.value,
         })
       }
       catch (e) {
@@ -617,8 +631,13 @@ function onSelect(value: any) {
       @search="onSearch"
       @select="onSelect"
     />
-    <div flex items-center my3>
-      <input v-model="isChecked" type="checkbox" w4 h4 mr1> isRem
+    <div flex items-center gap-4 my3>
+      <label flex items-center>
+        <input v-model="isChecked" type="checkbox" w4 h4 mr1> isRem
+      </label>
+      <label flex items-center>
+        <input v-model="isV4" type="checkbox" w4 h4 mr1> isV4
+      </label>
     </div>
     <div min-h-20 flex items-center justify-center>
       <div v-if="transform" flex="~ gap-4" items-center>

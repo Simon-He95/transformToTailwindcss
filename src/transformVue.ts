@@ -11,12 +11,13 @@ interface Options {
   filepath?: string
   globalCss?: string
   isRem?: boolean
+  isV4?: boolean
   debug?: boolean
   collectClasses?: boolean
 }
 
 export async function transformVue(code: string, options?: Options) {
-  const { isRem, isJsx, filepath, globalCss, debug, collectClasses }
+  const { isRem, isV4, isJsx, filepath, globalCss, debug, collectClasses }
     = options || {}
   const { parse } = await getVueCompilerSfc()
   const {
@@ -27,7 +28,7 @@ export async function transformVue(code: string, options?: Options) {
   if (errors.length)
     return code
   // transform inline-style
-  code = transformInlineStyle(code, isJsx, isRem, debug, collectClasses)
+  code = transformInlineStyle(code, isJsx, isRem, debug, collectClasses, isV4)
 
   if (errors.length || !template)
     return code
@@ -36,6 +37,7 @@ export async function transformVue(code: string, options?: Options) {
     code,
     isJsx,
     isRem,
+    isV4,
     debug,
     collectClasses,
     filepath, // 传递 filepath 参数
@@ -71,6 +73,7 @@ export async function transformVue(code: string, options?: Options) {
           isJsx,
           filepath,
           isRem,
+          isV4,
           debug,
           collectClasses,
         })

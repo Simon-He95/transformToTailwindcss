@@ -18,6 +18,7 @@ export async function transformMedia(
   code: string,
   isJsx?: boolean,
   isRem?: boolean,
+  isV4?: boolean,
   debug?: boolean,
   collectClasses?: boolean,
   filepath?: string,
@@ -47,6 +48,7 @@ export async function transformMedia(
       const transfer = await transformCss(inner, result, `max-${value}`, {
         isJsx,
         isRem,
+        isV4,
         debug,
         collectClasses,
         filepath,
@@ -71,6 +73,7 @@ export async function transformMedia(
       await transformCss(inner, result, mapValue, {
         isJsx,
         isRem,
+        isV4,
         debug,
         collectClasses,
         filepath,
