@@ -15,7 +15,7 @@
     "vue-use-monaco": "^0.0.7"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^4.19.0",
+    "@antfu/eslint-config": "^6.0.0",
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
     "@iconify-json/carbon": "^1.2.14",
