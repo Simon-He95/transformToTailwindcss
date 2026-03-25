@@ -49,11 +49,13 @@ interface AllChange {
 }
 
 let isRem: boolean | undefined = false
+let isV4: boolean | undefined = false
 interface Options {
   isJsx?: boolean
   filepath?: string
   globalCss?: string
   isRem?: boolean
+  isV4?: boolean
   debug?: boolean
   collectClasses?: boolean
 }
@@ -96,6 +98,7 @@ export async function transformCss(
   const {
     isJsx,
     isRem: _isRem,
+    isV4: _isV4,
     filepath: _filepath,
     globalCss,
     debug,
@@ -104,6 +107,7 @@ export async function transformCss(
   // 在浏览器环境中使用空字符串或原始filepath
   const filepath = _filepath || (isNodeEnvironment() ? process.cwd() : '')
   isRem = _isRem
+  isV4 = _isV4
   if (debug) {
     console.log(
       `[transform-to-tailwindcss] Transforming CSS in ${filepath || 'unknown file'}`,
@@ -117,6 +121,7 @@ export async function transformCss(
     isJsx,
     debug,
     isRem,
+    isV4,
     globalCss,
   )) as string
   const { parse } = await getVueCompilerSfc()
@@ -146,6 +151,7 @@ export async function transformCss(
         before,
         isRem,
         debug,
+        isV4,
       )
       const { transfer, noTransfer } = normalizeTransferResult(
         before,
@@ -321,6 +327,7 @@ async function importCss(
   isJsx?: boolean,
   debug?: boolean,
   isRem?: boolean,
+  isV4?: boolean,
   globalCss?: string,
 ) {
   const originCode = code
@@ -349,6 +356,7 @@ async function importCss(
     const transfer = await transformVue(vue, {
       isJsx,
       isRem,
+      isV4,
       filepath,
       globalCss,
       debug,
@@ -671,7 +679,10 @@ async function getConflictClass(
       return `${key}:${value}`
     })
     .join(';')
-  const { transformedResult, newStyle } = transformStyleToTailwindPre(joinMap)
+  const { transformedResult, newStyle } = transformStyleToTailwindPre(
+    joinMap,
+    isV4,
+  )
   if (transformedResult) {
     // map 赋值新 newStyle
     map = newStyle.split(';').reduce(
@@ -699,7 +710,7 @@ async function getConflictClass(
           transferCss
             = normalizeTransferResult(
               rawStyle,
-              transformStyleToTailwindcss(rawStyle, isRem, debug)[0],
+              transformStyleToTailwindcss(rawStyle, isRem, debug, isV4)[0],
             ).transfer ?? ''
         }
         if (!transferCss)

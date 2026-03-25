@@ -47,7 +47,7 @@ catalog:
   simple-git-hooks: ^2.13.1
   stylus: ^0.63.0
   transform-to-tailwindcss: ^0.0.53
-  transform-to-tailwindcss-core: ^0.0.42
+  transform-to-tailwindcss-core: ^0.0.43
   tsdown: ^0.17.0
   tsx: ^3.14.0
   typescript: ^5.9.3
@@ -62,5 +62,5 @@ catalog:
   vue: ^3.5.24
   vue-i18n: ^9.14.5
   vue-router: ^4.6.3
-  vue-tsc: ^1.8.27
+  vue-tsc: ^3.2.6
   vue-use-monaco: ^0.0.7

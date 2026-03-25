@@ -6,11 +6,12 @@ interface Options {
   filepath?: string
   globalCss?: string
   isRem?: boolean
+  isV4?: boolean
   debug?: boolean
   collectClasses?: boolean
 }
 export async function transformSvelte(code: string, options: Options = {}) {
-  const { filepath, globalCss, isRem, debug, collectClasses } = options
+  const { filepath, globalCss, isRem, isV4, debug, collectClasses } = options
   const match = code.match(
     /(<script.*<\/script>)?(.*(?=<style>))(<style>.*<\/style>)?/s,
   )
@@ -23,6 +24,7 @@ export async function transformSvelte(code: string, options: Options = {}) {
   const vue = await transformVue(_template, {
     isJsx: true,
     isRem,
+    isV4,
     filepath,
     globalCss,
     debug,
