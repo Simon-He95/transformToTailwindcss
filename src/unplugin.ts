@@ -27,7 +27,7 @@ const unplugin = createUnplugin((options?: Options): any => {
         return filter(id)
       },
       async transform(code: string, id: string) {
-        let suffix!: 'vue' | 'tsx'
+        let suffix!: 'vue' | 'tsx' | 'html' | 'svelte' | 'astro'
         if (id.endsWith('.vue')) {
           suffix = 'vue'
         }
@@ -36,6 +36,15 @@ const unplugin = createUnplugin((options?: Options): any => {
         }
         else if (id.endsWith('.tsx')) {
           suffix = 'tsx'
+        }
+        else if (id.endsWith('.html')) {
+          suffix = 'html'
+        }
+        else if (id.endsWith('.svelte')) {
+          suffix = 'svelte'
+        }
+        else if (id.endsWith('.astro')) {
+          suffix = 'astro'
         }
 
         if (!suffix)
@@ -49,10 +58,10 @@ const unplugin = createUnplugin((options?: Options): any => {
           collectClasses: options?.collectClasses,
         })
       },
-      buildEnd() {
+      async buildEnd() {
         // 构建结束时生成safelist文件
         if (options?.collectClasses) {
-          classCollector.onBuildEnd()
+          await classCollector.onBuildEnd()
         }
       },
     },

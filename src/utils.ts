@@ -80,47 +80,66 @@ export function getStyleScoped(code: string) {
   return match[1]
 }
 
+function stripEmptyCssRules(css: string) {
+  let result = css
+  let previous = ''
+
+  while (result !== previous) {
+    previous = result
+    result = result
+      .replace(/^\s*[^@{}][^{}]*\{\s*\}\s*$/gm, '')
+      .replace(/^\s*@[^{}]+\{\s*\}\s*$/gm, '')
+      .replace(/\n{3,}/g, '\n\n')
+  }
+
+  return result.trim()
+}
+
+export function cleanupEmptyStyles(code: string) {
+  return code.replace(/<style([^>]*)>([\s\S]*?)<\/style>/g, (_, attrs, css) => {
+    const cleaned = stripEmptyCssRules(css)
+    if (!cleaned)
+      return `<style${attrs}></style>`
+    return `<style${attrs}>${cleaned}</style>`
+  })
+}
+
 export function getCssType(filename: string) {
   const ext = filename.split('.').pop()!
   const result = ext === 'styl' ? 'stylus' : ext
   return result as CssType
 }
 
-export function transformUnocssBack(code: string[]) {
+export async function transformUnocssBack(code: string[]) {
   const result: string[] = []
-  return new Promise((resolve) => {
-    createGenerator(
-      {},
-      {
-        presets: [presetUno()],
-      },
-    )
-      .generate(code || '')
-      .then((res: any) => {
-        const css = res.getLayers()
-        code.forEach((item) => {
-          try {
-            const reg = new RegExp(
-              `${item.replace(/([!()[\]*])/g, '\\\\$1')}{(.*)}`,
-            )
-            const match = css.match(reg)
-            if (!match)
-              return
-            const matcher = match[1]
+  const generator = await createGenerator(
+    {},
+    {
+      presets: [presetUno()],
+    },
+  )
+  const res = await generator.generate(code)
+  const css = res.getLayers()
 
-            result.push(
-              matcher
-                .split(';')
-                .filter((i: any) => /^\w[\w\-]*:/.test(i))[0]
-                .split(':')[0],
-            )
-          }
-          catch (error) {}
-        })
+  code.forEach((item) => {
+    try {
+      const reg = new RegExp(`${item.replace(/([!()[\]*])/g, '\\\\$1')}{(.*)}`)
+      const match = css.match(reg)
+      if (!match)
+        return
+      const matcher = match[1]
 
-        resolve(result)
-      })
+      result.push(
+        matcher
+          .split(';')
+          .filter((i: any) => /^\w[\w\-]*:/.test(i))[0]
+          .split(':')[0],
+      )
+    }
+    catch (error) {}
   })
+
+  return result
 }
 
 /**

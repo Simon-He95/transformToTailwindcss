@@ -147,5 +147,4 @@ const computedBg = computed(() => {
 }
 .avatar .unread-cnt.mute {
   background: #94a1b6;
-}
-</style>
+}</style>

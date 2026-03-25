@@ -356,8 +356,7 @@ export default {
   </div>
 </template>
 
-<style scoped>
-.vue-inspector-banner {text-decoration: none}
+<style scoped>.vue-inspector-banner {text-decoration:none}
 .vue-inspector-container:hover .vue-inspector-banner {
   display: block;
 }
@@ -371,5 +370,4 @@ export default {
   .vue-inspector-animated {
     transition: none !important;
   }
-}
-</style>
+}</style>

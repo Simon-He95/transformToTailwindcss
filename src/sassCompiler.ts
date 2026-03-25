@@ -238,7 +238,6 @@ export async function sassCompiler(
     console.error(
       `Error:\n transform-to-unocss(sassCompiler) ${error.toString()}`,
     )
-    // 返回原始 CSS 而不是 undefined，以便测试能够继续
-    return css
+    return undefined
   }
 }

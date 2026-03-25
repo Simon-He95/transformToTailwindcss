@@ -501,7 +501,7 @@ export default safelistClasses
   /**
    * 添加构建完成的钩子
    */
-  onBuildEnd(): void {
+  async onBuildEnd(): Promise<void> {
     if (!this.isEnabled) {
       return
     }
@@ -515,10 +515,7 @@ export default safelistClasses
       return
     }
 
-    // 延迟生成文件，确保所有转换都完成
-    setTimeout(() => {
-      this.generateSafelistFile()
-    }, 100)
+    await this.generateSafelistFile()
   }
 
   /**

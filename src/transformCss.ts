@@ -58,6 +58,35 @@ interface Options {
   collectClasses?: boolean
 }
 
+function normalizeTransferResult(
+  before: string,
+  transfer?: string,
+  noTransfer: string[] = [],
+) {
+  let nextTransfer = transfer
+  const nextNoTransfer = [...noTransfer]
+
+  if (nextTransfer) {
+    nextTransfer = nextTransfer.replace(/\bflex-grow\b/g, 'grow-1')
+  }
+
+  if (nextTransfer && /text-decoration\s*:\s*none/.test(before)) {
+    const filtered = nextTransfer
+      .split(/\s+/)
+      .filter(item => item && item !== 'none')
+      .join(' ')
+    if (filtered !== nextTransfer) {
+      nextTransfer = filtered || undefined
+      nextNoTransfer.push('text-decoration:none')
+    }
+  }
+
+  return {
+    transfer: nextTransfer,
+    noTransfer: nextNoTransfer,
+  }
+}
+
 export async function transformCss(
   style: string,
   code: string,
@@ -113,10 +142,15 @@ export async function transformCss(
 
       const originClassName = name
       const before = trim(value.replace(/\n\s*/g, ''))
-      const [transfer, noTransfer] = transformStyleToTailwindcss(
+      const [transferResult, noTransferResult] = transformStyleToTailwindcss(
         before,
         isRem,
         debug,
+      )
+      const { transfer, noTransfer } = normalizeTransferResult(
+        before,
+        transferResult,
+        noTransferResult,
       )
       const tailMatcher = name.match(tailReg)
 
@@ -185,9 +219,7 @@ export async function transformCss(
           }
           else {
             const index = parent.loc.start.offset + parent.tag.length + 1
-            const newIndex
-              = hasClass.value.loc.start.offset
-                + getCalculateOffset(updateOffsetMap, index)
+            const newIndex = index + getCalculateOffset(updateOffsetMap, index)
             const updateText = 'class="group" '
             parent.props.push({
               type: 6,
@@ -305,6 +337,9 @@ async function importCss(
     )
     const type = getCssType(url)
     const css = await compilerCss(content, type, url, style, debug)
+    if (css == null) {
+      return originCode
+    }
 
     const [_, beforeStyle] = code.match(/<style.*>(.*)<\/style>/s)!
     code = code.replace(beforeStyle, '')
@@ -335,7 +370,7 @@ async function importCss(
       return originCode
     }
 
-    fsp.writeFile(
+    await fsp.writeFile(
       url.replace(`.${type}`, `${TRANSFER_FLAG}.${type}`),
       restStyle,
       'utf-8',
@@ -658,14 +693,17 @@ async function getConflictClass(
       .reduce((result, key) => {
         const keys = key.split('|')
         let prefix = keys.length > 1 ? keys[0] : ''
-        let transferCss
-          = map[key][1] === skipTransformFlag
-            ? key
-            : transformStyleToTailwindcss(
-              `${key}:${map[key][1] as string}`,
-              isRem,
-              debug,
-            )[0]
+        let transferCss = key
+        if (map[key][1] !== skipTransformFlag) {
+          const rawStyle = `${key}:${map[key][1] as string}`
+          transferCss
+            = normalizeTransferResult(
+              rawStyle,
+              transformStyleToTailwindcss(rawStyle, isRem, debug)[0],
+            ).transfer ?? ''
+        }
+        if (!transferCss)
+          return result
 
         const match = transferCss.match(/(\S*)="\[([^\]]*)\]"/)
         if (match) {

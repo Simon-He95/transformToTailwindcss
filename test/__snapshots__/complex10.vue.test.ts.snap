@@ -89,7 +89,8 @@ function onButtonClick(action: any) {
 }
 .dialog-app .content .title .title-icon.warning {
   color: rgb(244, 173, 85);
-}.dialog-app .content .actions.between {
+}
+.dialog-app .content .actions.between {
   justify-content: space-between;
 }
 .dialog-app .button {
@@ -140,5 +141,4 @@ function onButtonClick(action: any) {
   width: fit-content;
   min-width: 56px;
   min-width: 56px;
-}
-</style>
+}</style>

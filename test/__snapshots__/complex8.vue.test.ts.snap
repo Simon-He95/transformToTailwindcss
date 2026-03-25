@@ -309,12 +309,10 @@ onUnmounted(() => {
 })
 </script>
 
-<style scoped>
-.mermaid :deep(svg) {
+<style scoped>.mermaid :deep(svg) {
   width: 100% !important;
   height: 100% !important;
   max-height: calc(100vh - 120px);
   object-fit: contain;
   will-change: transform;
-}
-</style>
+}</style>
