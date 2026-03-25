@@ -63,4 +63,4 @@ catalog:
   vue-i18n: ^9.14.5
   vue-router: ^4.6.3
   vue-tsc: ^3.2.6
-  vue-use-monaco: ^0.0.7
+  vue-use-monaco: ^0.0.33
