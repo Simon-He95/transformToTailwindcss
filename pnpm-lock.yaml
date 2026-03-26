@@ -124,8 +124,8 @@ catalogs:
       specifier: ^0.63.0
       version: 0.63.0
     transform-to-tailwindcss:
-      specifier: ^0.0.53
-      version: 0.0.53
+      specifier: ^0.0.56
+      version: 0.0.56
     transform-to-tailwindcss-core:
       specifier: ^0.0.43
       version: 0.0.43
@@ -269,7 +269,7 @@ importers:
         version: 0.63.0
       transform-to-tailwindcss:
         specifier: 'catalog:'
-        version: 0.0.53(less-plugin-module-resolver@1.0.3)(less@4.6.4)(rollup@4.60.0)(sass@1.98.0)(stylus@0.63.0)
+        version: 0.0.56(less-plugin-module-resolver@1.0.3)(less@4.6.4)(rollup@4.60.0)(sass@1.98.0)(stylus@0.63.0)
       tsdown:
         specifier: 'catalog:'
         version: 0.17.2(synckit@0.11.12)(typescript@5.9.3)
@@ -4285,18 +4285,13 @@ packages:
     resolution: {integrity: sha512-l7FvfAHlcmulp8kr+flpQZmVwtu7nfRV7NZujtN0OqES8EL4O4e0qqzL0DC5gAvx/ZC/9lk6rhcUwYvkBnBnYA==}
     engines: {node: '>=12'}
 
-  transform-to-tailwindcss-core@0.0.42:
-    resolution: {integrity: sha512-XbtMZUEuhuPWkIO0OwAluxy6n4BATyTnDBOYccReE9FcpFKwjhZbNKy3cz1X9ENg56R/q/cnJJdA7fvxzc7Oiw==}
-    engines: {node: '>=14.0.0'}
-    hasBin: true
-
   transform-to-tailwindcss-core@0.0.43:
     resolution: {integrity: sha512-J6IU53XnCwFaCwIknpXIJAkclsplzz6xv3nazzCAi3Jb8fQUCpKPSesWRswzyDlWwUzkFOCAjC1qE2SEeSBSmw==}
     engines: {node: '>=14.0.0'}
     hasBin: true
 
-  transform-to-tailwindcss@0.0.53:
-    resolution: {integrity: sha512-a/nnJySd4gXa2nKKYaQPVCsj7qhQfHEvtZi6QERX/L+58EvbzusuLVQoGkpRbBV38scHUjWurYa6ObKAgUdFEA==}
+  transform-to-tailwindcss@0.0.56:
+    resolution: {integrity: sha512-OgT/HIyNPu2rJNdJ25q2tAAoY/Eb7j7Rwz6+KbpRT3TXwW8bVNU4gGWxLjjsWHfrFes51LC+frYlwOTJxEkC+g==}
     hasBin: true
     peerDependencies:
       less: ^3.0.0 || ^4.0.0
@@ -9015,11 +9010,9 @@ snapshots:
     dependencies:
       punycode: 2.3.1
 
-  transform-to-tailwindcss-core@0.0.42: {}
-
   transform-to-tailwindcss-core@0.0.43: {}
 
-  transform-to-tailwindcss@0.0.53(less-plugin-module-resolver@1.0.3)(less@4.6.4)(rollup@4.60.0)(sass@1.98.0)(stylus@0.63.0):
+  transform-to-tailwindcss@0.0.56(less-plugin-module-resolver@1.0.3)(less@4.6.4)(rollup@4.60.0)(sass@1.98.0)(stylus@0.63.0):
     dependencies:
       '@babel/core': 7.29.0
       '@rollup/pluginutils': 5.3.0(rollup@4.60.0)
@@ -9029,7 +9022,7 @@ snapshots:
       '@vue/compiler-sfc': 3.5.31
       fast-glob: 3.3.3
       node-html-parser: 7.1.0
-      transform-to-tailwindcss-core: 0.0.42
+      transform-to-tailwindcss-core: 0.0.43
       unplugin: 2.3.11
     optionalDependencies:
       less: 4.6.4
