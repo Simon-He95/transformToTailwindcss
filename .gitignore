@@ -12,4 +12,6 @@ logs
 *-error.log
 .eslintcache
 tmp
+safelist-classes.js
+test/demo/index.__unocss_transfer__.css
 
