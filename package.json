@@ -107,7 +107,7 @@
     "less": "^3.0.0 || ^4.0.0",
     "less-plugin-module-resolver": "^1.0.0",
     "sass": "^1.0.0",
-    "stylus": "^0.50.0 || ^0.60.0"
+    "stylus": "^0.50.0 || ^0.60.0 || ^0.64.0"
   },
   "peerDependenciesMeta": {
     "less": {
