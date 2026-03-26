@@ -98,7 +98,7 @@
     "play:build": "pnpm run -C playground build",
     "preview": "pnpm run -C playground preview",
     "prepublishOnly": "npm run build",
-    "release": "bumpp && npm publish",
+    "release": "bumpp && pnpm publish",
     "start": "esno src/index.ts",
     "test": "vitest",
     "typecheck": "tsc --noEmit"
