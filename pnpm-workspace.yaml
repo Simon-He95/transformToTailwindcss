@@ -10,7 +10,7 @@ trustPolicyExclude:
 packages:
   - playground
 catalog:
-  '@antfu/eslint-config': ^6.7.3
+  '@antfu/eslint-config': ^7.0.0
   '@babel/core': ^7.29.0
   '@esbuild-plugins/node-globals-polyfill': ^0.2.3
   '@esbuild-plugins/node-modules-polyfill': ^0.2.2
