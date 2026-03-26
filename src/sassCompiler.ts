@@ -1,4 +1,5 @@
 import path from 'node:path'
+import process from 'node:process'
 
 /**
  * Sass 编译器 - 处理 SCSS/Sass 文件编译
@@ -129,7 +130,8 @@ export async function sassCompiler(
         // 启用现代 Sass API
         syntax: 'scss',
         // 支持 @use 和 @forward，让 Sass 使用默认的文件解析
-        loadPaths: [baseDir],
+        // 同时添加项目 src 目录到 loadPaths，方便解析 '@/...' 别名
+        loadPaths: [baseDir, path.resolve(process.cwd(), 'src')],
       }
 
       // 为现代版本的 Sass 添加兼容性配置
@@ -192,7 +194,10 @@ export async function sassCompiler(
         // 使用新的 API - 需要写入临时文件
         const fs = await import('node:fs')
         const os = await import('node:os')
-        const tempFilePath = `${os.tmpdir()}/transform-to-unocss-${Date.now()}.scss`
+        const tempDirPath = fs.mkdtempSync(
+          path.join(os.tmpdir(), 'transform-to-tailwindcss-'),
+        )
+        const tempFilePath = path.join(tempDirPath, 'input.scss')
 
         try {
           fs.writeFileSync(tempFilePath, result)
@@ -202,6 +207,12 @@ export async function sassCompiler(
           // 清理临时文件
           try {
             fs.unlinkSync(tempFilePath)
+          }
+          catch (e) {
+            // 忽略清理错误
+          }
+          try {
+            fs.rmdirSync(tempDirPath)
           }
           catch (e) {
             // 忽略清理错误

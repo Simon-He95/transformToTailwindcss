@@ -1,4 +1,5 @@
 import fsp from 'node:fs/promises'
+import os from 'node:os'
 import path from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { transformAstro } from '../src/transformAstro'
@@ -15,12 +16,85 @@ describe('accent', () => {
       "---
       export const prerender = true;
       ---
-        
-      	<main>
+      	
+      <main>
       		<h1 class="red text-[1.25rem]">hi </h1>
       	</main>
       "
     `,
     )
+  })
+
+  it('supports style lang="scss" and compiles SCSS in Astro files', async () => {
+    const dir = await fsp.mkdtemp(path.join(os.tmpdir(), 'transform-to-tailwindcss-astro-'))
+    const srcDir = path.join(dir, 'src')
+    await fsp.mkdir(path.join(srcDir, 'styles'), { recursive: true })
+    await fsp.writeFile(
+      path.join(srcDir, 'styles', '_tokens.scss'),
+      '$brand-color: red;',
+      'utf-8',
+    )
+
+    const code = `---
+export const prerender = true;
+---
+
+<main>
+  <h1 class="title">hi</h1>
+</main>
+
+<style lang="scss">
+@use "${srcDir.replace(/\\/g, '/')}/styles/tokens" as *;
+
+.title {
+  color: $brand-color;
+}
+</style>
+`
+
+    const result = await transformAstro(code, {
+      filepath: path.join(dir, 'pages', 'index.astro'),
+    })
+
+    expect(result).toContain('text-red')
+    expect(result).not.toContain('$brand-color')
+
+    await fsp.rm(dir, { recursive: true, force: true })
+  })
+
+  it('transforms style blocks that appear before the markup', async () => {
+    const code = `---
+export const prerender = true;
+---
+
+<style lang="scss">
+.title {
+  color: red;
+}
+</style>
+
+<main>
+  <h1 class="title">hi</h1>
+</main>
+`
+
+    const result = await transformAstro(code)
+
+    expect(result).toContain('text-red')
+  })
+
+  it('transforms inline styles even when no style block is present', async () => {
+    const code = `---
+export const prerender = true;
+---
+
+<main>
+  <h1 style="color: red;">hi</h1>
+</main>
+`
+
+    const result = await transformAstro(code)
+
+    expect(result).toContain('text-red')
   })
 })
