@@ -184,6 +184,21 @@ export async function sassCompiler(
         }
       }
 
+      // Normalize absolute Windows paths in @use/@import/@forward directives.
+      // On Windows, drive letters like C:/ are misinterpreted as URL schemes by
+      // Sass, so we extract the directory into loadPaths and rewrite the import
+      // to just the module name.
+      const winAbsPathRegex = /@(use|import|forward)\s+(['"])([A-Za-z]:[/\\][^'"]+)\2/g
+      result = result.replace(winAbsPathRegex, (match, kw, quote, absPath) => {
+        const nativePath = absPath.replace(/\//g, path.sep)
+        const dir = path.dirname(nativePath)
+        const basename = path.basename(nativePath)
+        if (!compileOptions.loadPaths.includes(dir)) {
+          compileOptions.loadPaths.push(dir)
+        }
+        return `@${kw} ${quote}${basename}${quote}`
+      })
+
       // 优先使用新的 compile API（如果可用），否则回退到 compileString
       let compiledResult: any
 
@@ -249,6 +264,6 @@ export async function sassCompiler(
     console.error(
       `Error:\n transform-to-unocss(sassCompiler) ${error.toString()}`,
     )
-    return undefined
+    return css
   }
 }

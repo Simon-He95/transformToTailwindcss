@@ -261,8 +261,8 @@ describe('sassCompiler', () => {
       undefined,
       true,
     )
-    // Should not throw, but return undefined and log error
-    expect(result).toBeUndefined()
+    // Should not throw, but return the original CSS and log error
+    expect(result).toBe(css)
   })
 })
 
