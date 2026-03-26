@@ -1,6 +1,6 @@
 /**
  * Auto-generated safelist classes for Tailwind CSS
- * Generated at: 2026-03-25T14:24:34.710Z
+ * Generated at: 2026-03-26T09:10:16.941Z
  * Total classes: 2
  * Skip if no changes: true
  *
@@ -23,7 +23,10 @@
  */
 
 // All collected classes from transform-to-tailwindcss
-const safelistClasses = ['bg-red-500', 'p-4']
+const safelistClasses = [
+  'bg-red-500',
+  'p-4',
+]
 
 // Export for CommonJS
 module.exports = {
