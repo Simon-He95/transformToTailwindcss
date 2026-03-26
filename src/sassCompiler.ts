@@ -264,6 +264,6 @@ export async function sassCompiler(
     console.error(
       `Error:\n transform-to-unocss(sassCompiler) ${error.toString()}`,
     )
-    return undefined
+    return css
   }
 }
