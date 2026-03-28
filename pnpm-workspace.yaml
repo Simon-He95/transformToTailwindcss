@@ -51,7 +51,7 @@ catalog:
   stylus: ^0.63.0
   transform-to-tailwindcss: ^0.0.53
   transform-to-tailwindcss-core: ^0.0.43
-  tsdown: ^0.17.2
+  tsdown: ^0.21.0
   tsx: ^3.14.0
   typescript: ^5.9.3
   unocss: ^0.65.4
