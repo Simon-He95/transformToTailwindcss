@@ -45,7 +45,7 @@ catalog:
   node-html-parser: ^7.1.0
   picocolors: ^1.1.1
   prettier: ^3.8.1
-  rollup-plugin-polyfill-node: ^0.12.0
+  rollup-plugin-polyfill-node: ^0.13.0
   sass: ^1.98.0
   simple-git-hooks: ^2.13.1
   stylus: ^0.63.0
