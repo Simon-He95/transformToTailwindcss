@@ -49,7 +49,7 @@ catalog:
   sass: ^1.98.0
   simple-git-hooks: ^2.13.1
   stylus: ^0.63.0
-  transform-to-tailwindcss: ^0.0.53
+  transform-to-tailwindcss: ^0.0.56
   transform-to-tailwindcss-core: ^0.0.43
   tsdown: ^0.17.2
   tsx: ^3.14.0
